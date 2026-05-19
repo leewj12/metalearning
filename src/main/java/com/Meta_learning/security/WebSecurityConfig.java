@@ -49,9 +49,9 @@ public class WebSecurityConfig {
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())  // CSRF 토큰을 쿠키로 처리
                         .ignoringRequestMatchers(
+                                "/main/**",
                                 "/api/admin/**", "/api/student/**",
-                                "/api/manager/**","/api/instr/**"
-                                // CSRF를 적용하지 않는 경로
+                                "/api/manager/**", "/api/instr/**"
                         )
                 )
 
