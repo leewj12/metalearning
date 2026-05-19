@@ -1,0 +1,27 @@
+services:
+  app:
+    build: .
+    container_name: p3-metalearning
+    ports:
+      - "9091:9091"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: mysql          # P2 네트워크 내 MySQL 서비스명
+      DB_PORT: 3306
+      DB_NAME: ${DB_NAME}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+      AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+      AWS_S3_BUCKET: ${AWS_S3_BUCKET}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+    networks:
+      - p2_network
+    restart: unless-stopped
+
+networks:
+  p2_network:
+    external: true
+    name: koslearn_default    # EC2에서 `docker network ls`로 실제 이름 확인 후 수정
