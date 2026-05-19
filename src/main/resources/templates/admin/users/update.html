@@ -113,7 +113,8 @@
                         <div class="col-md-4 text-center">
 
                             <img id="thumbnailPreview"
-                                 th:src="${user.userRole == 'ADMIN' ? '/KDT/profileimages/admin/' + user.userThumbnail :
+                                 th:src="${user.userThumbnail == null ? '/static/images/profile.png' :
+                                 user.userRole == 'ADMIN' ? '/KDT/profileimages/admin/' + user.userThumbnail :
                                  user.userRole == 'MANAGER' ? '/KDT/profileimages/manager/' + user.userThumbnail :
                                  user.userRole == 'INSTRUCTOR' ? '/KDT/profileimages/Instr/' + user.userThumbnail :
                                  user.userRole == 'STUDENT' ? '/KDT/profileimages/student/' + user.userThumbnail :
@@ -244,7 +245,7 @@
                     <button type="submit" class="btn btn-success">
                         <i class="bi bi-upload"></i> 수정하기
                     </button>
-                    <a th:href="@{'/admin/users/' + ${sessionsDetail.kdtSessionId}}" class="btn btn-secondary">
+                    <a th:href="${sessionsDetail != null ? '/admin/users/' + sessionsDetail.kdtSessionId : '/view/admin/users/list'}" class="btn btn-secondary">
                         <i class="bi bi-arrow-left-circle"></i>
                         뒤로 가기
                     </a>
