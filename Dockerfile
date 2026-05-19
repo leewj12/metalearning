@@ -1,3 +1,10 @@
+FROM node:20-alpine AS frontend
+WORKDIR /app
+COPY frontend/package*.json ./frontend/
+RUN cd frontend && npm ci
+COPY frontend/ ./frontend/
+RUN cd frontend && npm run build
+
 FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /app
 COPY gradlew .
@@ -5,6 +12,7 @@ COPY gradle gradle
 COPY build.gradle .
 COPY settings.gradle .
 COPY src src
+COPY --from=frontend /app/src/main/resources/static/view/ src/main/resources/static/view/
 RUN chmod +x gradlew && ./gradlew bootWar -x test --no-daemon
 
 FROM eclipse-temurin:17-jre-alpine
