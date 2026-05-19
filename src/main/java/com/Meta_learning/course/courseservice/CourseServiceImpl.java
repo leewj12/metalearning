@@ -267,7 +267,7 @@ public class CourseServiceImpl implements CourseService{
             // 강의 파일 삭제
             List<CourseFileEntity> courseFiles = courseFileRepository.findByCourseDetailIn(List.of(detail));
             for (CourseFileEntity file : courseFiles) {
-                deleteFileFromServer("tomcat/webapps/ROOT/WEB-INF/classes/course/uploads/course_files", file.getCourseFileUUID());
+                deleteFileFromServer("tomcat/webapps/ROOT/WEB-INF/classes/static/uploads/course_files", file.getCourseFileUUID());
             }
             courseFileRepository.deleteAll(courseFiles);
 
@@ -275,7 +275,7 @@ public class CourseServiceImpl implements CourseService{
             List<CourseVideoEntity> courseVideos = courseVideoRepository.findByCourseDetailIn(List.of(detail));
             for (CourseVideoEntity video : courseVideos) {
                 if(!video.getCourseVideoType().equals("url")) {
-                    deleteFileFromServer("tomcat/webapps/ROOT/WEB-INF/classes/course/uploads/course_videos", video.getCourseVideoUUID());
+                    deleteFileFromServer("tomcat/webapps/ROOT/WEB-INF/classes/static/uploads/course_videos", video.getCourseVideoUUID());
                 }
             }
             courseVideoRepository.deleteAll(courseVideos);
@@ -310,7 +310,7 @@ public class CourseServiceImpl implements CourseService{
         CourseDetailEntity courseDetail = courseVideo.getCourseDetail();
 
         if(!courseVideo.getCourseVideoType().equals("url")){
-            deleteFileFromServer("tomcat/webapps/ROOT/WEB-INF/classes/course/uploads/course_videos", courseVideo.getCourseVideoUUID());
+            deleteFileFromServer("tomcat/webapps/ROOT/WEB-INF/classes/static/uploads/course_videos", courseVideo.getCourseVideoUUID());
         }
 
         // 강의 영상 DB 삭제

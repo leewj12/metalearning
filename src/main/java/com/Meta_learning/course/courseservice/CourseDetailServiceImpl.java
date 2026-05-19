@@ -43,8 +43,8 @@ public class CourseDetailServiceImpl implements CourseDetailService {
     private final S3Client s3Client;
     private final Region awsRegion;
 
-    private static final String LOCAL_UPLOAD_DIR = "tomcat/webapps/ROOT/WEB-INF/classes/course/uploads/course_files";
-    private static final String LOCAL_UPLOAD_VIDEO_DIR = "tomcat/webapps/ROOT/WEB-INF/classes/course/uploads/course_videos";
+    private static final String LOCAL_UPLOAD_DIR = "tomcat/webapps/ROOT/WEB-INF/classes/static/uploads/course_files";
+    private static final String LOCAL_UPLOAD_VIDEO_DIR = "tomcat/webapps/ROOT/WEB-INF/classes/static/uploads/course_videos";
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket; // "my-bucket-name"만 포함
