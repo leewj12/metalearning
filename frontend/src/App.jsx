@@ -6,7 +6,7 @@ import AdminHeader from "./components/AdminHeader";
 import AdminSideBar from "./components/AdminSideBar";
 import Dashboard from "./pages/Dashboard";
 import UsersList from "./pages/admin/UsersList";
-import CourseList from "./pages/admin/CourseList";
+import CourseList from "./pages/admin/CourseLIst";
 import SessionList from "./pages/admin/SessionList";
 import SessionDetail from "./pages/admin/SessionDetail";
 import AttList from "./pages/admin/AttList"
