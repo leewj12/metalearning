@@ -144,16 +144,38 @@ docker compose up -d
 
 > **중요**: SCP 시 파일명을 반드시 `app.war`로 지정해야 합니다 (`Dockerfile`이 `COPY app.war`를 기대합니다).
 
-### 재배포
+### 재배포 (수동)
 
 ```bash
 # 로컬에서 빌드 후 EC2로 전송
-./gradlew bootWar
+./gradlew bootWar -x test
 scp build/libs/*.war ubuntu@<EC2_IP>:~/metalearning/app.war
 
 # EC2에서 컨테이너 재시작
-docker compose up -d --force-recreate
+docker compose up -d --build
 ```
+
+---
+
+## CI/CD (GitHub Actions)
+
+`main` 브랜치에 푸시하면 자동으로 빌드 → EC2 배포가 실행됩니다.
+
+### GitHub Secrets 설정
+
+GitHub 레포 → Settings → Secrets and variables → Actions에서 아래 3개를 등록합니다.
+
+| 키 | 값 |
+|----|-----|
+| `EC2_HOST` | EC2 퍼블릭 IP 또는 도메인 |
+| `EC2_USER` | `ubuntu` |
+| `EC2_SSH_KEY` | EC2 접속용 `.pem` 파일 내용 전체 (`-----BEGIN RSA PRIVATE KEY-----` 포함) |
+
+### 동작 방식
+
+1. GitHub Actions 러너에서 `./gradlew bootWar` 빌드
+2. 빌드된 WAR을 EC2의 `~/metalearning/app.war`로 SCP
+3. SSH로 `docker compose up -d --build` 실행
 
 ---
 
