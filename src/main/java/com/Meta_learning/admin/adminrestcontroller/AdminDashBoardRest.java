@@ -37,13 +37,7 @@ public class AdminDashBoardRest {
 
             List<UserSignUpDTO> userall = userService.userall(); // 유저 정보 가져오기
 
-            // 유저 정보가 없으면 실패 메시지와 함께 OK 응답 반환
-            if (userall.isEmpty()) {
-                ResponseMessage response = new ResponseMessage("failure", "회원 정보가 없습니다!");
-                return ResponseEntity.status(HttpStatus.OK).body(response); // 200 OK 응답
-            }
-
-            return ResponseEntity.status(HttpStatus.OK).body(userall); // 200 OK 응답
+            return ResponseEntity.ok(userall);
 
         } catch (Exception e) {
             // 예외 발생 시 에러 메시지와 함께 500 내부 서버 오류 응답 반환
