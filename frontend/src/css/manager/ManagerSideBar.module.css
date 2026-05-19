@@ -1,0 +1,156 @@
+/* 사이드바 컨테이너 */
+.sidebar {
+  position: fixed; /* 화면에 고정 */
+  height: 100%;
+  top: 80px;
+  left: 0; /* 사이드바를 왼쪽에 고정 */
+  width: 230px; /* 사이드바 너비 */
+  background-color: #f4c0725c; /* 다크 배경 */
+  color: #000000; /* 텍스트 색상 */
+  overflow-y: auto; /* 스크롤 가능 */
+  display: flex; /* 플렉스 레이아웃 */
+  flex-direction: column; /* 세로 정렬 */
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+}
+
+/* 링크 섹션 컨테이너 */
+.sidebarSection {
+  margin-bottom: 50px; /* 섹션 간 간격 */
+}
+
+/* 링크 스타일 */
+.link {
+  display: flex; /* 아이콘과 텍스트 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  padding: 15px 20px; /* 링크 패딩 */
+  color: #000000; /* 기본 텍스트 색상 */
+  text-decoration: none; /* 밑줄 제거 */
+  transition: background 0.3s, color 0.3s; /* 부드러운 색상 전환 */
+}
+
+/* 링크 호버 효과 */
+.link:hover {
+  background-color: #fac19291; /* 호버 시 배경색 */
+  color: white; /* 호버 시 텍스트 색상 */
+}
+
+.hlink{
+  color: #000000; /* 기본 텍스트 색상 */
+  text-decoration: none; /* 밑줄 제거 */
+  transition: background 0.3s, color 0.3s; /* 부드러운 색상 전환 */
+}
+
+/* 링크 호버 효과 */
+.hlink:hover {
+  color: white; /* 호버 시 텍스트 색상 */
+}
+
+/* 활성화된 링크 스타일 */
+.link.active {
+  background-color:  #e76f51; /* 활성화된 링크 배경 */
+  color: white; /* 활성화된 링크 텍스트 */
+}
+
+.link i {
+  margin-right: 10px; /* 아이콘과 텍스트 간격 */
+  font-size: 1.2rem; /* 아이콘 크기 */
+}
+
+/* 부모 메뉴 (드롭다운) */
+.dropdown {
+  position: relative; /* 부모 요소를 기준으로 하위 메뉴 위치 지정 */
+  cursor: pointer;
+}
+
+/* 하위 메뉴 */
+.subMenu {
+  display: none;
+  background-color: rgba(244, 192, 114, 0.4); /* 하위 메뉴 배경색 */
+  padding: 10px 0; /* 내부 여백 */
+  flex-direction: column;
+  position: absolute; /* 부모 요소의 흐름을 따라 위치 */
+  top: 100%; /* 부모 요소 아래로 배치 */
+  left: 0; /* 부모와 같은 왼쪽 정렬 */
+  width: 100%; /* 부모와 동일한 너비로 확장 */
+  z-index: 100; /* 상위 레이어 */
+  overflow-y: auto; /* 스크롤 가능 */
+}
+
+/* 드롭다운 활성화 상태 */
+.dropdown:hover .subMenu {
+  display: flex; /* 마우스를 올리면 보이도록 설정 */
+}
+
+
+/* 세 번째 드롭다운에만 적용 */
+.sidebarSection .dropdown:nth-child(5):hover + .link {
+  margin-top: 200px; /* 원하는 높이로 조정 */
+  transition: margin 0.3s ease, opacity 0.3s ease;
+}
+
+.sidebarSection .dropdown:nth-child(6):hover + .link {
+  margin-top: 120px; /* 원하는 높이로 조정 */
+  transition: margin 0.3s ease, opacity ease;
+}
+.sidebarSection .dropdown:nth-child(7):hover + .link {
+  margin-top: 160px; /* 원하는 높이로 조정 */
+  transition: margin 0.3s ease, opacity ease;
+}
+
+/* 하위 메뉴 링크 */
+.subLink {
+  padding: 10px 20px; /* 하위 메뉴 여백 */
+  color: #3c3c3c;
+  text-decoration: none;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* 하위 메뉴 호버 효과 */
+.subLink:hover {
+  background-color: #e76f51; /* 하위 메뉴 호버 배경색 */
+  color: #fff;
+}
+
+.boardlink {
+  display: flex; /* 아이콘과 텍스트 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  padding: 15px 20px; /* 링크 패딩 */
+  color: #000000; /* 기본 텍스트 색상 */
+  text-decoration: none; /* 밑줄 제거 */
+  transition: background 0.3s, color 0.3s; /* 부드러운 색상 전환 */
+}
+
+.boardlink i {
+  margin-right: 10px; /* 아이콘과 텍스트 간격 */
+  font-size: 1.2rem; /* 아이콘 크기 */
+}
+
+.boarddropdown {
+  position: relative; /* 부모 요소를 기준으로 하위 메뉴 위치 지정 */
+  cursor: pointer;
+}
+.boarddropdown:hover .boardsubMenu {
+  display: flex; /* 마우스를 올리면 보이도록 설정 */
+}
+.boarddropdown:hover + .boardlink {
+  margin-top: 250px; /* 드롭다운 높이만큼 밀어냄 */
+  transition: margin ease, opacity ease;  /* 부드러운 전환 효과 */
+}
+
+.boardsubMenu {
+  display: none;
+  background-color: rgba(244, 192, 114, 0.4); /* 하위 메뉴 배경색 */
+  padding: 10px 0; /* 내부 여백 */
+  flex-direction: column;
+  position: absolute; /* 부모 요소의 흐름을 따라 위치 */
+  top: 100%; /* 부모 요소 아래로 배치 */
+  left: 0; /* 부모와 같은 왼쪽 정렬 */
+  width: 100%; /* 부모와 동일한 너비로 확장 */
+  overflow-y: auto; /* 스크롤 가능 */
+}
+.boardsubLink {
+  padding: 10px 20px; /* 하위 메뉴 여백 */
+  color: #3c3c3c;
+  text-decoration: none;
+  transition: background 0.3s, color 0.3s;
+}

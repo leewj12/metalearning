@@ -50,6 +50,11 @@ src/main/resources/static/assets/
 # tomcat 런타임/빌드 산출물 전체 제외
 tomcat/
 
+# frontend 빌드 산출물 (npm run build 결과)
+frontend/node_modules/
+frontend/dist/
+src/main/resources/static/view/
+
 # 사용자 업로드 파일 (동영상, 이미지, 강의 자료)
 src/main/resources/course/uploads/
 src/main/resources/static/images/uploads/

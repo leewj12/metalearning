@@ -1,0 +1,56 @@
+.chartContainer {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #1f2937;
+  }
+  
+  .filterContainer {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+  
+  .datePicker {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .datePicker label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #4b5563;
+  }
+  
+  .filterButton {
+    padding: 10px 15px;
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .filterButton:hover {
+    background-color: #4338ca;
+  }
+  
+  .errorMessage {
+    color: #ef4444;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+  }
+  

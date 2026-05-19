@@ -51,14 +51,7 @@ public class ManagerRestController {
             // 해당 사용자의 국비 과정 리스트를 불러오는 서비스 호출
             List<KDTCourseDTO> courseList = managerService.getCoursesByUser(userId);  // ManagerService에서 과정 리스트 호출
 
-            // 회차 정보가 없으면 실패 메시지와 함께 OK 응답 반환
-            if (courseList.isEmpty()) {
-                ResponseMessage response = new ResponseMessage("failure", "회차 정보가 없습니다.");
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response); // 200 OK 응답
-            }
-
-            // 회차 정보가 있으면 성공 메시지와 함께 회차 리스트 반환
-            return ResponseEntity.status(HttpStatus.OK).body(courseList); // 200 OK 응답
+            return ResponseEntity.ok(courseList);
 
         } catch (Exception e) {
             // 예외 발생 시 에러 메시지와 함께 응답 반환
@@ -83,14 +76,7 @@ public class ManagerRestController {
             // courseId와 userId로 관련된 세션 목록 가져오기
             List<KDTSessionDTO> sessions = kdtService.getManagerSessionsByCourseId(courseId, userId);
 
-            // 세션 목록이 비어있다면 회차 정보가 없다는 메시지 반환
-            if (sessions.isEmpty()) {
-                ResponseMessage response = new ResponseMessage("failure", "회차 정보가 없습니다.");
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
-            }
-
-            // 세션 정보가 있으면 성공 메시지와 함께 세션 리스트 반환
-            return ResponseEntity.status(HttpStatus.OK).body(sessions);
+            return ResponseEntity.ok(sessions);
 
         } catch (Exception e) {
             // 예외 발생 시 에러 메시지와 함께 반환
@@ -235,14 +221,7 @@ public class ManagerRestController {
             // 세션에 해당하는 참가자 리스트 조회
             List<UserPartDTO> userPartDTO = kdtPartservice.userpartall(sessionId);
 
-            if (userPartDTO == null || userPartDTO.isEmpty()) {
-                // 참가자 리스트가 없을 경우
-                ResponseMessage response = new ResponseMessage("failure", "조회한 정보가 없습니다.");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response); // 404 Not Found 응답
-            } else {
-                // 참가자 리스트가 있을 경우
-                return ResponseEntity.status(HttpStatus.OK).body(userPartDTO); // 200 OK와 함께 반환
-            }
+            return ResponseEntity.ok(userPartDTO != null ? userPartDTO : List.of());
         } catch (Exception e) {
             // 예외 발생 시
             ResponseMessage response = new ResponseMessage("error", "오류가 발생했습니다: " + e.getMessage());

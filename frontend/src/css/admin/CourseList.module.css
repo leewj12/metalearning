@@ -1,0 +1,117 @@
+/* 컨테이너 스타일 */
+.courselistcontainer {
+    font-family: "Roboto", sans-serif; /* 기본 폰트 */
+    background-color: #f9f9f9; /* 전체 배경 */
+    border-radius: 10px; /* 테두리 둥글게 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    padding: 20px;
+    overflow: hidden; /* 내용 넘침 방지 */
+    
+    
+  }
+  
+  /* 테이블 스타일 */
+  .courselisttable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white; /* 테이블 배경 */
+    border-radius: 8px; /* 테두리 둥글게 */
+    overflow: hidden; /* 내용 넘침 방지 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    text-overflow: ellipsis; /* 텍스트 말줄임 */
+  }
+  
+  .courselisttable th,
+  .courselisttable td {
+    padding: 14px 10px; /* 셀 간격 */
+    text-align: center; /* 가운데 정렬 */
+    border-bottom: 1px solid #ddd; /* 셀 구분선 */
+    font-size: 14px; /* 폰트 크기 */
+    overflow: hidden; /* 내용 넘침 방지 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    text-overflow: ellipsis; /* 텍스트 말줄임 */
+  }
+
+  .courselisttable td:nth-child(2) { 
+    max-width: 200px;
+  }
+
+  .courselisttable td:nth-child(4) {
+    text-align: center;
+    overflow: hidden; /* 내용 넘침 방지 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    text-overflow: ellipsis; /* 텍스트 말줄임 */
+    max-width: 120px;
+  }
+  
+  
+  /* 테이블 헤더 스타일 */
+  .courselisttable th {
+    background-color: #ff7700; 
+    color: white; /* 텍스트 색상 */
+    text-transform: uppercase; /* 대문자 */
+    font-weight: bold;
+  }
+
+  
+  /* 짝수행 배경색 */
+  .courselisttable tr:nth-child(even) {
+    background-color: #f4f6f8;
+  }
+  
+  /* 행 호버 효과 */
+  .courselisttable tr:hover {
+    background-color: #eef3fc;
+  }
+  
+  /* 링크 스타일 */
+  .courselisttable td a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .courselisttable td a:hover {
+    text-decoration: underline;
+  }
+  
+  /* 버튼 스타일 */
+  .editbtn {
+    background-color: #ffc107; /* 노란색 */
+    color: white;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    text-decoration: none;
+  }
+
+  .editbtn:hover {
+    background-color: #e0a800;
+  }
+  
+  .deletebtn {
+    background-color: #dc3545; /* 빨간색 */
+    color: white;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+  }
+  
+  .deletebtn:hover {
+    background-color: #c82333;
+  }
+  
+  /* 에러 메시지 스타일 */
+  .errorMessage {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  

@@ -43,12 +43,6 @@ public class ManagerKyRestController {
         // 특정 회차의 모든 훈련일지 가져오기
         List<KDTTrainDTO> kdtTrainDTOS = kdtTrainService.findKdtTrainListBySessionId(kdtSessionId);
 
-        // 회차 정보가 없으면 실패 메시지와 함께 OK 응답 반환
-        if (kdtTrainDTOS == null || kdtTrainDTOS.isEmpty()) {
-            ResponseMessage response = new ResponseMessage("failure", "훈련일지 정보가 없습니다.");
-            return ResponseEntity.status(HttpStatus.OK).body(response); // 200 OK 응답
-        }
-
         KDTSessionDTO kdtSessionDTO = kdtSessionService.findKdtSessionDTOById(kdtSessionId);
 
         // 응답에 포함할 Map 생성

@@ -1,0 +1,266 @@
+.attLogContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f9;
+  border-radius: 8px;
+}
+
+.attLogTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.attLogTable th,
+.attLogTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  width: 150px; /* 기본 셀 너비 설정 */
+  box-sizing: border-box; /* 패딩 포함 크기 설정 */
+}
+.filterContainer{
+  margin-bottom: 10px;
+}
+.attLogTable th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+/* 수정/삭제 열의 크기 고정 */
+.updateth, .deleteth, .updatetd, .deletetd {
+  width: 180px; /* 수정 및 삭제 열 고정 너비 */
+  text-align: center;
+}
+/* 입력 필드 크기 고정 */
+.attLogTable input[type="time"],
+.attLogTable select {
+  width: 100%; /* 셀에 맞게 너비 조정 */
+  max-width: 120px; /* 최대 너비 제한 */
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.attLogTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.exportButton,
+.printButton {
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.exportButton:hover,
+.printButton:hover {
+  background-color: #0056b3;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modalContent h3 {
+  margin-bottom: 20px;
+}
+
+.modalContent label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.modalContent input,
+.modalContent select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modalContent button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modalContent button:nth-child(1) {
+  background-color: #007bff;
+  color: white;
+}
+
+.modalContent button:nth-child(2) {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modalContent span {
+  color: red;
+  margin-right: 5px;
+  position: relative;
+  top: 3px; /* 값을 조정하여 원하는 만큼 아래로 내림 */
+}
+
+/* 전체 요소를 기본적으로 숨김 */
+@media print {
+  body * {
+    visibility: hidden; /* 모든 요소 숨김 */
+  }
+
+  /* 출력하고자 하는 영역만 보이게 설정 */
+  .attLogContainer {
+    visibility: visible;
+    position: absolute; /* 위치를 페이지 중앙에 고정 */
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .attLogContainer * {
+    visibility: visible; /* 내부 자식 요소 표시 */
+  }
+
+  .exportButton,
+  .printButton,
+  .createbtn,
+  .deletebtn,
+  .update,
+  .savebtn,
+  .cancelbtn,
+  .deleteth,
+  .updateth,
+  .deletetd,
+  .updatetd,
+  .filterContainer
+  {
+  display: none;
+  }
+}
+
+.deletebtn {
+  background-color: #f44336; /* 빨간색 */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.deletebtn:hover {
+  background-color: #d32f2f; /* hover 효과 */
+}
+
+/* 수정 버튼 스타일 */
+.editbtn {
+  background-color: #4CAF50; /* 초록색 */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  width: 65px; /* 고정된 버튼 너비 */
+}
+
+.editbtn:hover {
+  background-color: #45a049; /* hover 효과 */
+}
+
+/* 추가(+) 버튼 스타일 */
+.createbtn {
+  background-color: #007BFF; /* 파란색 */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.createbtn:hover {
+  background-color: #0056b3; /* hover 효과 */
+}
+
+
+
+/* 저장/취소 버튼 컨테이너 */
+.updatediv {
+  display: flex; /* 버튼 가로 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  justify-content: space-between; /* 버튼 간격 균등 */
+  width: 140px; /* 고정된 너비 설정 */
+}
+
+
+/* 저장 버튼 스타일 */
+.savebtn {
+  background-color: #4CAF50; /* 초록색 */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-right: 8px; /* 오른쪽 간격 */
+  width: 65px; /* 고정된 버튼 너비 */
+}
+
+.savebtn:hover {
+  background-color: #45a049; /* hover 효과 */
+}
+
+/* 취소 버튼 스타일 */
+.cancelbtn {
+  background-color: #f44336; /* 빨간색 */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.cancelbtn:hover {
+  background-color: #d32f2f; /* hover 효과 */
+}
+
+.backButtonContainer {
+  display: flex; /* 가로 정렬 */
+
+}

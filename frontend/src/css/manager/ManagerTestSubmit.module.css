@@ -1,0 +1,75 @@
+/* 전체 컨테이너 */
+.container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: "Arial", sans-serif;
+}
+
+/* 제목 */
+h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
+  border-bottom: 2px solid #4caf50;
+  padding-bottom: 10px;
+}
+
+/* 테이블 스타일 */
+.submitTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.submitTable th,
+.submitTable td {
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.submitTable th {
+  background-color: #e18c1d;
+  color: white;
+  text-transform: uppercase;
+}
+
+.submitTable td {
+  border-bottom: 1px solid #ddd;
+}
+
+.submitTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.submitTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* 페이지당 항목 선택 */
+.itemsPerPageSelector {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.itemsPerPageSelector label {
+  margin-right: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.dropdown {
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+

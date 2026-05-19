@@ -1,0 +1,99 @@
+/* 전체 컨테이너 스타일 */
+.attDetailContainer {
+  padding: 30px;
+  font-family: 'Roboto', Arial, sans-serif;
+  background-color: #f4f6f9; /* 부드러운 회색 배경 */
+  border-radius: 8px;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between; /* 양쪽 정렬 */
+  align-items: center; /* 수직 정렬 */
+  margin-bottom: 20px; /* 아래 간격 */
+}
+/* 상세보기와 백 버튼 컨테이너 */
+.headerActions {
+  display: flex; /* 가로 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  gap: 20px; /* 버튼 간 간격 */
+}
+
+/* 학생 정보 섹션 */
+.sessionInfo {
+  background-color: #ffffff; /* 흰색 배경 */
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #007bff; /* LMS 스타일 강조 */
+}
+
+.sessionInfo h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 10px;
+}
+.sessiontitle {
+  font-size: 20px; /* 글씨 크기 */
+  font-weight: 600; /* 굵기 */
+  color: #343a40; /* 텍스트 색상 */
+  display: inline-block; /* 줄바꿈 방지 */
+  margin: 0; /* 여백 제거 */
+}
+
+.sessionInfo p {
+  font-size: 16px;
+  color: #6c757d;
+  margin: 10px 0; /* 위아래 간격 추가 */
+}
+.sessionInfo .attendance-stats {
+  display: flex; /* 플렉스박스 사용으로 정렬 */
+  flex-wrap: wrap; /* 텍스트가 넘치면 줄바꿈 */
+  gap: 100px; /* 항목 간의 간격 추가 */
+}
+
+.sessionInfo .attendance-stats span {
+  font-weight: 500; /* 강조 텍스트 */
+  color: #495057; /* 약간 어두운 텍스트 */
+}
+
+/* 출석 기록 섹션 */
+.calendarContainer {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 25px;
+  margin-bottom: 30px;
+}
+
+.calendarContainer h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 20px;
+  text-align: center;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+/* 로딩 및 에러 메시지 */
+.loading,
+.error {
+  font-size: 18px;
+  text-align: center;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.loading {
+  background-color: #e9f7f9;
+  color: #17a2b8; /* 부드러운 청록색 */
+}
+
+.error {
+  background-color: #fbe3e4;
+  color: #dc3545; /* 강렬한 빨간색 */
+}

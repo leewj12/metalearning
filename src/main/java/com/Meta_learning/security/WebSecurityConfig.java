@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -35,8 +36,16 @@ public class WebSecurityConfig {
     // 스태틱 리소스는 인증 없이 접근할 수 있도록 설정
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/static/**","/static/images/**","/static/images/course/**"
-        ,"/static/uploads/course/**");
+        return (web) -> web.ignoring()
+                .requestMatchers(new AntPathRequestMatcher("/static/**"))
+                .requestMatchers(new AntPathRequestMatcher("/static/images/**"))
+                .requestMatchers(new AntPathRequestMatcher("/static/images/course/**"))
+                .requestMatchers(new AntPathRequestMatcher("/static/uploads/course/**"))
+                .requestMatchers(new AntPathRequestMatcher("/view/assets/**"))
+                .requestMatchers(new AntPathRequestMatcher("/view/logo.png"))
+                .requestMatchers(new AntPathRequestMatcher("/view/*.png"))
+                .requestMatchers(new AntPathRequestMatcher("/view/*.ico"))
+                .requestMatchers(new AntPathRequestMatcher("/view/*.svg"));
     }
 
     @Bean
@@ -57,8 +66,10 @@ public class WebSecurityConfig {
 
                 // 요청 URL에 대한 권한 설정
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(WHITE_LIST).permitAll() // 화이트리스트는 모두 허용
-                        .requestMatchers("/admin/**", "/api/admin/**", "/view/admin/**").hasRole("ADMIN") // ADMIN 역할만 허용
+                        .requestMatchers(WHITE_LIST).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/view/assets/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/view/logo.png")).permitAll()
+                        .requestMatchers("/admin/**", "/api/admin/**", "/view/admin/**").hasRole("ADMIN")
                         .requestMatchers("/managers/**", "/api/manager/**", "/view/manager/**").hasAnyRole("ADMIN", "MANAGER") // ADMIN 또는 MANAGER 역할만 허용
                         .requestMatchers("/instr/**", "api/instr/**", "view/instr/**").hasAnyRole("INSTRUCTOR", "ADMIN") // INSTRUCTOR 역할만 허용
                         .requestMatchers("/student/**", "/api/student/KDT/**", "view/student/**").hasAnyRole("STUDENT", "ADMIN") // INSTRUCTOR 역할만 허용

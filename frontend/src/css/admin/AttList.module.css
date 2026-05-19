@@ -1,0 +1,62 @@
+.attListContainer {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sessionInfo {
+    margin-bottom: 20px;
+  }
+  
+  .attendanceTable {
+    width: 100%;
+    background-color: #fff;
+    border-collapse: collapse;
+    text-align: center;
+  }
+  
+  .attendanceTable th,
+  .attendanceTable td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .attendanceTable th {
+    background-color: #2c3e50;
+    color: white;
+  }
+  
+  .attendanceTable tr:nth-child(even) {
+    background-color: #f4f6f8;
+  }
+  
+  .attendanceTable tr:hover {
+    background-color: #eef3fc;
+  }
+  
+  .dateSelector{
+    width :200px;
+    margin-bottom: 20px;
+  }
+
+  
+.backButtonContainer {
+  padding: 10px 15px;
+}
+
+.sessionheader{
+  display: flex;
+  justify-content: space-between; /* 양쪽 정렬 */
+
+}
+
+.noResults {
+  text-align: center !important; 
+  padding: 20px !important;
+  font-size: 16px !important;
+  color: red !important; /* 🔥 텍스트를 빨간색으로 변경 */
+  font-weight: bold !important;
+  background-color: #fff !important; /* 배경색을 유지 */
+  pointer-events: none !important; /* ❌ 마우스 이벤트 제거 (호버 효과 방지) */
+}

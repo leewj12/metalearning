@@ -1,0 +1,35 @@
+
+  
+  /* 사이드바 고정 */
+  .sidebar {
+    position: fixed;
+    left: 0;
+    width: 250px;
+    height: calc(100vh - 55px); /* 화면 높이에서 Navbar 높이를 제외 */
+    background-color: #343a40;
+    color: white;
+    overflow-y: auto;
+    z-index: 1000;
+  }
+  
+  /* Navbar 고정 */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1100;
+  }
+
+/* 사이드바와 콘텐츠 영역을 분리 */
+.container {
+  margin-left: 100px; /* Sidebar의 너비만큼 여백 */
+  margin-top: 55px; /* Navbar의 높이만큼 여백 */
+}
+  
+  /* 메인 콘텐츠 */
+  .flex-grow-1 {
+    margin-left: 230px; /* Sidebar 에서 왼쪽으로 얼마만큼 떨어지는지 조절 */
+    margin-top: 50px; /* header 쪽에서 아래쪽으로 얼마만큼 떨어지는지 조절 */
+    padding: 20px; /* 내부 패딩 */
+  }

@@ -9,6 +9,7 @@ import com.Meta_learning.KDT.KDTrepository.KDTCourseVideoRepository.KDTCourseVid
 import com.Meta_learning.KDT.KDTrepository.KDTSessionRepository.KDTSessionRepository;
 import com.Meta_learning.KDT.KDTservice.outline.KdtCourseOutlineService;
 import com.Meta_learning.KDT.KDTservice.video.KdtCourseVideoService;
+import com.Meta_learning.s3.service.S3VideoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +26,7 @@ public class AdminCourseOutlineRestController {
     private final KDTCourseOutlineRepository kdtCourseOutlineRepository;
     private final KDTCourseVideoRepository kdtCourseVideoRepository;
     private final KdtCourseVideoService kdtCourseVideoService;
+    private final S3VideoService s3VideoService;
 
     @DeleteMapping("/api/admin/KDT/{kdtSessionId}/courseoutline/delete/{kdtCourseOutlineId}")
     public ResponseEntity<String> deleteKdtCourseOutline(
@@ -66,9 +68,7 @@ public class AdminCourseOutlineRestController {
         KDTCourseVideoEntity videoEntity = kdtCourseVideoRepository.findById(kdtCourseVideoId)
                 .orElseThrow(() -> new IllegalArgumentException("Detail not found for id: " + kdtCourseVideoId));
 
-        kdtCourseVideoService.deleteKdtCourseVideo(kdtCourseVideoId);
-        // 이전 S3용 삭제 주석처리
-//        s3VideoService.deleteKdtCourseVideoWithDB(kdtCourseVideoId);
+        s3VideoService.deleteKdtCourseVideoWithDB(kdtCourseVideoId);
     }
 
 

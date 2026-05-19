@@ -1,0 +1,73 @@
+.dashboardContainer {
+    font-family: "Arial", sans-serif;
+    padding: 20px;
+    display: flex;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+  }
+  
+  .singleCard {
+    background-color: #ffffff; /* 밝고 깔끔한 흰색 배경 */
+    color: #1f2937; /* 다크 그레이 텍스트 */
+    padding: 20px;
+    width: 450px;
+    border-radius: 16px; /* 둥근 모서리 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-left: 5px solid #2563eb; /* 파란색 포인트 */
+  }
+  
+  .singleCard:hover {
+    transform: translateY(-5px); /* 살짝 떠오르는 효과 */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* 강조된 그림자 */
+  }
+  
+  .cardTitle {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e5e7eb; /* 가벼운 구분선 */
+    padding-bottom: 10px;
+    color: #2563eb; /* 파란색 포인트 */
+  }
+  
+  .total {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #1f2937; /* 강조된 다크 그레이 */
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .column {
+    flex: 1;
+  }
+  
+  .column p {
+    font-size: 1rem;
+    margin: 10px 0;
+    font-weight: 500;
+    color: #4b5563; /* 중간 그레이 */
+  }
+  
+  .textCenter {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  /* 반응형: 화면 크기가 작아질 때 */
+  @media (max-width: 768px) {
+    .singleCard {
+      width: 100%;
+    }
+  
+    .row {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+  

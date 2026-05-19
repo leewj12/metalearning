@@ -18,6 +18,7 @@ import com.Meta_learning.admin.dto.request.KDTCourseOutlineCreateRequest;
 import com.Meta_learning.admin.dto.request.KDTCourseOutlineUpdateRequest;
 import com.Meta_learning.admin.dto.request.KDTCourseVideoCreateRequest;
 import com.Meta_learning.admin.dto.request.KDTCourseVideoUpdateRequest;
+import com.Meta_learning.s3.service.S3VideoService;
 import com.Meta_learning.s3.service.request.VideoUpdateRequest;
 import com.Meta_learning.s3.service.request.VideoUploadRequest;
 import com.Meta_learning.user.userentity.UserEntity;
@@ -45,6 +46,7 @@ public class AdminCourseOutlineController {
 
     private final KdtCourseOutlineService kdtCourseOutlineService;
     private final KdtCourseVideoService kdtCourseVideoService;
+    private final S3VideoService s3VideoService;
     private final KDTSessionRepository kdtSessionRepository;
     private final KDTCourseOutlineRepository kdtCourseOutlineRepository;
     private final KDTCourseVideoRepository kdtCourseVideoRepository;
@@ -216,8 +218,7 @@ public class AdminCourseOutlineController {
         if (serviceRequest.isFileUpload()) {
             if(serviceRequest.getFile().getSize() < maxFileSize.toBytes()){
                 // 파일 업로드
-                kdtCourseVideoService.saveVideoFile(serviceRequest);
-                //savedVideoId = s3VideoService.uploadAndSaveVideo(serviceRequest);
+                s3VideoService.uploadAndSaveVideo(serviceRequest);
             }else{
                 model.addAttribute("msg", "영상의 크기가 너무 큽니다. 최대 용량을 확인하세요.");
                 model.addAttribute("loc", "/admin/KDT/" + kdtSessionId + "/courseoutline/" + kdtCourseOutlineId + "/coursevideo");
@@ -319,7 +320,7 @@ public class AdminCourseOutlineController {
             return "utility/message";  // 메시지를 표시할 페이지로 리턴
         }
         // 4. 서비스 호출
-        kdtCourseVideoService.updateCourseVideo(serviceRequest);
+        s3VideoService.updateCourseVideo(serviceRequest);
 
         // 5. 리스트 페이지로 리다이렉트
         return "redirect:/admin/KDT/" + kdtSessionId + "/courseoutline/" + kdtCourseOutlineId + "/coursevideo/" + kdtCourseVideoId;

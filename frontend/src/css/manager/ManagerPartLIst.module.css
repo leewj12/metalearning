@@ -1,0 +1,237 @@
+.tableContainer {
+  font-family: "Roboto", sans-serif; /* LMS 폰트 */
+  background-color: #f9f9f9;
+  border-radius: 10px; /* 테두리 둥글게 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 외곽 그림자 */
+  padding: 20px;
+}
+
+.tableContainer table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white; /* 테이블 배경 */
+  border-radius: 8px;
+  overflow: hidden; /* 테두리 밖 요소 잘림 방지 */
+  table-layout: fixed; /* 셀 크기 고정 */
+}
+
+.tableContainer th, 
+.tableContainer td {
+  padding: 12px 15px; /* 셀 간격 조정 */
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px; /* 폰트 크기 */
+  white-space: nowrap; /* 줄바꿈 방지 */
+}
+.tableContainer th:nth-child(1), 
+.tableContainer td:nth-child(1) {
+  width: 50px; /* 번호 */
+}
+.tableContainer th:nth-child(2), 
+.tableContainer td:nth-child(2) {
+  width: 180px; /* 이메일 */
+}
+
+.tableContainer th:nth-child(3), 
+.tableContainer td:nth-child(3) {
+  width: 100px; /* 이름 */
+}
+
+.tableContainer th:nth-child(4), 
+.tableContainer td:nth-child(4) {
+  width: 80px; /* 성별 */
+}
+
+.tableContainer th:nth-child(5), 
+.tableContainer td:nth-child(5) {
+  width: 110px; /* 생년월일 */
+}
+
+.tableContainer th:nth-child(6), 
+.tableContainer td:nth-child(6) {
+  width: 140px; /* 전화번호 */
+}
+
+.tableContainer th:nth-child(7), 
+.tableContainer td:nth-child(7) {
+  width: 80px; /* 등급 */
+}
+.tableContainer th:nth-child(8), 
+.tableContainer td:nth-child(8) {
+  width: 80px; /* 상태 */
+}
+
+.tableContainer th:nth-child(9), 
+.tableContainer td:nth-child(9) {
+  width: 100px; /* 취업여부 */
+}
+
+.tableContainer th:nth-child(10), 
+.tableContainer td:nth-child(10) {
+  width: 100px; /* 상세보기 */
+}
+
+.tableContainer th:nth-child(11), 
+.tableContainer td:nth-child(11) {
+  width: 80px; /* 수정정 */
+}
+
+.tableContainer th:nth-child(12), 
+.tableContainer td:nth-child(12) {
+  width: 80px; /* 삭제 */
+}
+
+.tableContainer th {
+  background-color: #f3ac14; /* 테이블 헤더 배경 */
+  color: white; /* 헤더 텍스트 색상 */
+  font-weight: bold;
+  text-transform: uppercase; /* 텍스트 대문자 */
+}
+
+.tableContainer tr:nth-child(even) {
+  background-color: #f4f6f8; /* 짝수 행 배경 */
+}
+
+.tableContainer tr:hover {
+  background-color: #eef3fc; /* 행 호버 효과 */
+}
+
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.searchSelect {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.searchInput {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  width:20%;
+}
+
+.searchInput::placeholder {
+  color: #aaa;
+}
+
+.searchButton {
+  background-color: #4c5202; /* 기본 파란색 */
+  color: white;
+  border: none;
+  padding: 8px 16px; /* 여백 추가 */
+  font-size: 14px; /* 폰트 크기 */
+  font-weight: bold; /* 굵은 글씨 */
+  border-radius: 5px; /* 둥근 테두리 */
+}
+
+
+.godetail {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.godetail:hover {
+  text-decoration: underline;
+}
+
+/* 목록 개수 선택 드롭다운 */
+.usersPerPageSelector {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.usersPerPageSelector label {
+  margin-right: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.usersPerPageSelector select {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.editButton {
+  background-color: #007bff; /* 파란색 */
+  color: #ffffff; /* 흰색 텍스트 */
+  border: none; /* 테두리 제거 */
+  padding: 8px 12px; /* 버튼 내부 여백 */
+  border-radius: 4px; /* 둥근 모서리 */
+  font-size: 14px; /* 폰트 크기 */
+  cursor: pointer; /* 커서 모양 변경 */
+  transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.editButton:hover {
+  background-color: #0056b3; /* 호버 시 더 어두운 파란색 */
+}
+.saveButton {
+  background-color: #24ca24; /* 파란색 */
+  color: #ffffff; /* 흰색 텍스트 */
+  border: none; /* 테두리 제거 */
+  padding: 8px 12px; /* 버튼 내부 여백 */
+  border-radius: 4px; /* 둥근 모서리 */
+  font-size: 14px; /* 폰트 크기 */
+  cursor: pointer; /* 커서 모양 변경 */
+  transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.saveButton:hover {
+  background-color: #108438e9; /* 호버 시 더 어두운 파란색 */
+}
+
+.deleteButton {
+  background-color: #dc3545; /* 부트스트랩 기본 빨간색 */
+  color: #ffffff; /* 흰색 텍스트 */
+  border: none; /* 테두리 제거 */
+  padding: 8px 12px; /* 버튼 내부 여백 */
+  border-radius: 4px; /* 둥근 모서리 */
+  font-size: 14px; /* 폰트 크기 */
+  cursor: pointer; /* 커서 모양 변경 */
+  transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.deleteButton:hover {
+  background-color: #a71d2a; /* 호버 시 더 어두운 빨간색 */
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.createButton {
+  background-color: #303437;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.noResults {
+  text-align: center !important; 
+  padding: 20px !important;
+  font-size: 16px !important;
+  color: red !important; /* 🔥 텍스트를 빨간색으로 변경 */
+  font-weight: bold !important;
+  background-color: #fff !important; /* 배경색을 유지 */
+  pointer-events: none !important; /* ❌ 마우스 이벤트 제거 (호버 효과 방지) */
+}

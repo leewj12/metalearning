@@ -1,0 +1,101 @@
+/* 기본 Navbar 스타일 */
+.navbar {
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 80px;
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: space-between; /* 좌우 정렬 */
+  }
+  
+  .leftSection {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+  
+  
+  /* 오른쪽 섹션 (사용자 정보) */
+  .rightSection {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+ 
+  
+  .userName {
+    margin-right: 20px; /* 이름과 버튼 간 간격 */
+    color: #000000; /* 텍스트 색상 */
+    font-weight: 16px;
+  }
+  
+  .logoutButton {
+    background-color: #dc3545; /* 빨간색 */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .logoutButton:hover {
+    background-color: #c82333; /* hover 색상 */
+  }
+
+  /* 화면 너비가 768px 이하일 때 */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap; /* 줄바꿈 허용 */
+    height: auto; /* 높이를 자동으로 조정 */
+    padding: 10px; /* 좁은 화면에서 패딩 줄임 */
+  }
+
+  .leftSection {
+    margin-bottom: 10px; /* 왼쪽 섹션과 오른쪽 섹션 간격 */
+    justify-content: center; /* 중앙 정렬 */
+    margin-left: 0; /* 여백 제거 */
+  }
+
+  .brand {
+    font-size: 1.2rem; /* 폰트 크기 줄임 */
+  }
+
+  .rightSection {
+    justify-content: center; /* 오른쪽 섹션도 중앙 정렬 */
+    margin-right: 0; /* 여백 제거 */
+    flex-wrap: wrap; /* 작은 화면에서 아이템 줄바꿈 */
+  }
+
+  .userName {
+    margin-right: 10px; /* 이름과 버튼 간 간격 줄임 */
+    font-size: 0.9rem; /* 폰트 크기 줄임 */
+  }
+
+  .logoutButton {
+    font-size: 0.8rem; /* 버튼 폰트 크기 줄임 */
+    padding: 5px 8px; /* 버튼 패딩 줄임 */
+  }
+}
+
+/* 화면 너비가 480px 이하일 때 */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 5px; /* 더욱 좁은 패딩 */
+  }
+
+  .brand {
+    font-size: 1rem; /* 폰트 크기 더 줄임 */
+  }
+
+  .userName {
+    display: none; /* 사용자 이름 숨김 */
+  }
+
+  .logoutButton {
+    font-size: 0.7rem; /* 버튼 크기 더 줄임 */
+    padding: 4px 6px; /* 버튼 패딩 줄임 */
+  }
+}

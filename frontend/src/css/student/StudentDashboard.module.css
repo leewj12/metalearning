@@ -1,0 +1,26 @@
+.dashboardOverview {
+    display: flex; /* Flexbox를 사용하여 가로 정렬 */
+    gap: 20px; /* 카드 간의 간격 */
+    align-items: center; /* 카드 높이 정렬 */
+    padding: 20px; /* 컨테이너 여백 */
+  }
+  .studentgraph{
+    display: flex; /* Flexbox를 사용하여 가로 정렬 */
+    margin-left: 20px;
+    gap: 20px; /* 그래프와 TaskStatus 사이 간격 */
+  }
+
+  /* 그래프 크기를 조정 */
+.graphContainer {
+/* 그래프의 크기를 조정 가능하게 설정 */
+ width: 800px;
+}
+
+/* TaskStatus 크기 조정 */
+.taskStatusContainer {
+    width: 760px;
+}
+
+.taskStatus1{
+    margin-bottom: 30px;
+}

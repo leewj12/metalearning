@@ -43,14 +43,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         boolean isStudent = authentication.getAuthorities().stream()
                 .anyMatch(authority -> authority.getAuthority().equals("ROLE_STUDENT"));
 
-        if (isAdmin) { //리다이렉트임
-            response.sendRedirect("/view/admin/dashboard");  // 관리자 대시보드로 리디렉션
+        if (isAdmin) {
+            response.sendRedirect("/view/admin/dashboard");
         } else if (isManager) {
-            response.sendRedirect("/managers/main/mypage");  // 매니저 대시보드로 리디렉션
+            response.sendRedirect("/view/manager/dashboard");
         } else if (isInstructor) {
-            response.sendRedirect("/instr/main/mypage");  // 인스트럭터 대시보드로 리디렉션
+            response.sendRedirect("/view/instr/dashboard");
         } else {
-            response.sendRedirect("/");  // 기본 홈으로 리디렉션
+            response.sendRedirect("/");
         }
     }
 }
