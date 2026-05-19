@@ -20,6 +20,7 @@ services:
     volumes:
       - profile_images:/app/tomcat/webapps/ROOT/WEB-INF/classes/KDT/profileimages
       - course_images:/app/tomcat/webapps/ROOT/WEB-INF/classes/static/images
+      - course_uploads:/app/tomcat/webapps/ROOT/WEB-INF/classes/static/uploads
     networks:
       - p2_network
     restart: unless-stopped
@@ -27,6 +28,7 @@ services:
 volumes:
   profile_images:
   course_images:
+  course_uploads:
 
 networks:
   p2_network:

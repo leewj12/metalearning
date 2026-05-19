@@ -11,7 +11,13 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**", "/KDT/**", "/course/**")
-                .addResourceLocations("classpath:/static/", "classpath:/KDT/", "classpath:/course/");
+                .addResourceLocations(
+                        "file:tomcat/webapps/ROOT/WEB-INF/classes/static/",
+                        "file:tomcat/webapps/ROOT/WEB-INF/classes/KDT/",
+                        "classpath:/static/",
+                        "classpath:/KDT/",
+                        "classpath:/course/"
+                );
 
 //// 카페24의 public_html 경로에 업로드된 이미지를 매핑
 //        registry.addResourceHandler("/static/images/course/**")
