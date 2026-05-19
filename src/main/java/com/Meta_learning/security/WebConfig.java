@@ -50,11 +50,5 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
 
-    //리액트 할 경우 열어줘야함
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        // 모든 "/view/**" 요청을 리액트의 index.html로 전달
-        registry.addViewController("view/**").setViewName("forward:/index.html");
-    }
 
 }

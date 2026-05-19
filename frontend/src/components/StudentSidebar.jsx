@@ -1,10 +1,12 @@
 import React , { useEffect,useState } from "react";
 import axios from "axios";
 import styles from "../css/student/StudentSideBar.module.css";
+import ComingSoonToast from "./ComingSoonToast";
 
 const StudentSideBar = () => {
   const [showSubMenu, setShowSubMenu] = useState(false);
   const [kdtsessionId, setKdtsessionId] = useState(null); // kdtsessionId 상태 관리
+  const [toastVisible, setToastVisible] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -27,6 +29,7 @@ const StudentSideBar = () => {
   }, []);
 
   return (
+    <>
     <div className={`${styles.sidebar} sb-sidenav accordion sb-sidenav-dark`}>
       <div className="sb-sidenav-menu">     
         {/* Interface Section */}
@@ -93,8 +96,9 @@ const StudentSideBar = () => {
           */}
           
           {/* 강의목록 */}
-          <a className={`${styles.link} sidebar-link`} href="#">
-          <i className="bi bi-person-workspace"></i> 
+          <a className={`${styles.link} sidebar-link`} href="#"
+            onClick={e => { e.preventDefault(); setToastVisible(true); }}>
+          <i className="bi bi-person-workspace"></i>
           강의 목록 조회
           </a>
           
@@ -135,6 +139,8 @@ const StudentSideBar = () => {
         </div>
       </div>
     </div>
+    <ComingSoonToast visible={toastVisible} onHide={() => setToastVisible(false)} />
+    </>
   );
 };
 
