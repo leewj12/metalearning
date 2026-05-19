@@ -17,9 +17,16 @@ services:
       MAIL_HOST: ${MAIL_HOST}
       MAIL_USERNAME: ${MAIL_USERNAME}
       MAIL_PASSWORD: ${MAIL_PASSWORD}
+    volumes:
+      - profile_images:/app/tomcat/webapps/ROOT/WEB-INF/classes/KDT/profileimages
+      - course_images:/app/tomcat/webapps/ROOT/WEB-INF/classes/static/images
     networks:
       - p2_network
     restart: unless-stopped
+
+volumes:
+  profile_images:
+  course_images:
 
 networks:
   p2_network:
