@@ -22,14 +22,13 @@ jobs:
 
       - name: Deploy to EC2
         env:
-          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
           EC2_USER: ${{ secrets.EC2_USER }}
         run: |
-          echo "$SSH_KEY" > key.pem
-          chmod 600 key.pem
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts 2>/dev/null
           WAR=$(find build/libs -name "*.war" | head -1)
-          scp -i key.pem -o StrictHostKeyChecking=no "$WAR" "$EC2_USER@$EC2_HOST:~/metalearning/app.war"
-          ssh -i key.pem -o StrictHostKeyChecking=no "$EC2_USER@$EC2_HOST" \
-            "cd ~/metalearning && docker compose up -d --build"
-          rm -f key.pem
+          scp "$WAR" "$EC2_USER@$EC2_HOST:~/metalearning/app.war"
+          ssh "$EC2_USER@$EC2_HOST" "cd ~/metalearning && docker compose up -d --build"
