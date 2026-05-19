@@ -41,6 +41,7 @@ public class WebSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/static/images/**"))
                 .requestMatchers(new AntPathRequestMatcher("/static/images/course/**"))
                 .requestMatchers(new AntPathRequestMatcher("/static/uploads/course/**"))
+                .requestMatchers(new AntPathRequestMatcher("/uploads/**"))
                 .requestMatchers(new AntPathRequestMatcher("/view/assets/**"))
                 .requestMatchers(new AntPathRequestMatcher("/view/logo.png"))
                 .requestMatchers(new AntPathRequestMatcher("/view/*.png"))
