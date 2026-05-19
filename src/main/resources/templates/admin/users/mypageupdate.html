@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <title>메타러닝 관리자 개인 정보 수정</title>
+  <link rel="icon" href="/static/images/logo.png" type="image/png">
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <link rel="stylesheet" href="/static/css/admindashboard.css">
+  <link rel="stylesheet" href="/static/css/header/adminsidebar.css">
+  <link rel="stylesheet" href="/static/css/header/adminheader.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    .img-thumbnail {
+        width: 150px;
+        height: 200px;
+        object-fit: fill;
+    }
+    .card .list-unstyled li {
+        margin-bottom: 10px;
+        line-height: 1.8;
+    }
+    .card .row div {
+        margin-bottom: 15px;
+    }
+    .form-control {
+        border-radius: 0.25rem;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+  </style>
+
+  <script>
+    function previewThumbnail(input) {
+        const file = input.files[0];
+        const preview = document.getElementById('thumbnailPreview');
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function searchAddress(postcodeId, addressId, detailAddressId) {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                let addr = '';
+                let extraAddr = '';
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }
+                if (data.userSelectedType === 'R') {
+                    if (data.bname && /[동|로|가]$/g.test(data.bname)) {
+                        extraAddr += data.bname;
+                    }
+                    if (data.buildingName && data.apartment === 'Y') {
+                        extraAddr += (extraAddr ? ', ' + data.buildingName : data.buildingName);
+                    }
+                }
+                document.getElementById(postcodeId).value = data.zonecode;
+                document.getElementById(addressId).value = addr;
+                if (detailAddressId) {
+                    document.getElementById(detailAddressId).focus();
+                }
+            }
+        }).open();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const postcodeButton = document.getElementById('searchPostcodeBtn');
+        if (postcodeButton) {
+            postcodeButton.addEventListener('click', () => {
+                searchAddress('userPostcode', 'userAddress', 'userAddressDetail');
+            });
+        }
+    });
+  </script>
+</head>
+<body>
+<!-- Header -->
+<div th:replace="~{fragments/adminheader :: adminheader}"></div>
+
+<div class="content-container">
+  <!-- Sidebar -->
+  <div th:replace="~{fragments/adminsidebar :: adminsidebar}"></div>
+
+  <!-- Main Content -->
+  <div class="main-content py-4">
+    <div class="container">
+      <form th:action="@{/admin/mypage/update}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+        <!-- Card Header -->
+        <div class="card bg-dark text-white mb-4">
+          <div class="card-body d-flex align-items-center">
+            <i class="bi bi-person-circle me-3" style="font-size: 2rem;"></i>
+            <h5 class="mb-0"><strong>회원 정보 수정</strong></h5>
+          </div>
+        </div>
+
+        <!-- Photo and Basic Info -->
+        <div class="card mb-4">
+          <div class="row g-3 p-4">
+            <div class="col-md-4 text-center">
+              <img id="thumbnailPreview"
+                   th:src="${userAdmin.userThumbnail != null ? '/KDT/profileimages/admin/' + userAdmin.userThumbnail : '/static/images/profile.png'}"
+                   alt="썸네일 이미지"
+                   class="img-thumbnail mb-3"
+                   onerror="this.src='/static/images/null.png'; this.alt='이미지 없음';" />
+              <div style="margin-top:18px;">
+                <!--                                <label for="fileInput" class="form-label"><strong>사진 업로드:</strong></label>-->
+                <input type="file" name="file" class="form-control" id="fileInput" accept="image/*" onchange="previewThumbnail(this)" />
+              </div>
+              <!-- 기존 썸네일 데이터를 히든 필드로 유지 -->
+              <input type="hidden" th:value="${userAdmin.userThumbnail != null ? userAdmin.userThumbnail : ''}" name="existingThumbnail" />
+            </div>
+
+            <div class="col-md-8">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="name" class="form-label"><i class="bi bi-person"></i> <strong>이름</strong></label>
+                  <input type="text" name="name" th:value="${userAdmin.name}" class="form-control" id="name" />
+                </div>
+                <div class="col-md-6">
+                  <label for="userRole" class="form-label"><i class="bi bi-shield"></i> <strong>등급</strong></label>
+                  <select name="userRole" class="form-select" id="userRole">
+                    <option value="ADMIN" th:selected="${userAdmin.userRole == 'ADMIN'}">관리자</option>
+                    <option value="STUDENT" th:selected="${userAdmin.userRole == 'STUDENT'}">학생</option>
+                    <option value="MANAGER" th:selected="${userAdmin.userRole == 'MANAGER'}">매니저</option>
+                    <option value="INSTRUCTOR" th:selected="${userAdmin.userRole == 'INSTRUCTOR'}">강사</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="userGender" class="form-label"><i class="bi bi-gender-ambiguous"></i> <strong>성별</strong></label>
+                  <select name="userGender" class="form-select" id="userGender">
+                    <option value="M" th:selected="${userAdmin.userGender == 'M'}">남자</option>
+                    <option value="F" th:selected="${userAdmin.userGender == 'F'}">여자</option>
+                    <option value="" th:selected="${userAdmin.userGender == null}">정보 없음</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="userEmail" class="form-label"><i class="bi bi-envelope"></i> <strong>이메일</strong></label>
+                  <input type="email" name="userEmail" th:value="${userAdmin.userEmail}" class="form-control" id="userEmail" readonly />
+                </div>
+                <div class="col-md-6">
+                  <label for="userPhone" class="form-label"><i class="bi bi-telephone"></i> <strong>전화번호</strong></label>
+                  <input type="text" name="userPhone" th:value="${userAdmin.userPhone}" class="form-control" id="userPhone" />
+                </div>
+                <div class="col-md-6">
+                  <label for="userBirth" class="form-label"><i class="bi bi-calendar"></i> <strong>생년월일</strong></label>
+                  <input type="date" name="userBirth" th:value="${userAdmin.userBirth != null ? userAdmin.userBirth.toString() : ''}" class="form-control" id="userBirth" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Address Section -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="userPostcode" class="form-label"><strong>우편번호:</strong></label>
+                <div class="input-group">
+                  <input type="text" id="userPostcode" name="userPostcode" th:value="${userAdmin.userPostcode}" class="form-control" />
+                  <button type="button" class="btn btn-primary" id="searchPostcodeBtn">우편번호 찾기</button>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="userAddress" class="form-label"><strong>주소:</strong></label>
+                <input type="text" id="userAddress" name="userAddress" th:value="${userAdmin.userAddress}" class="form-control" />
+              </div>
+              <div class="col-md-6">
+                <label for="userAddressDetail" class="form-label"><strong>상세주소:</strong></label>
+                <input type="text" id="userAddressDetail" name="userAddressDetail" th:value="${userAdmin.userAddressDetail}" class="form-control" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 상태 및 학력 -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="form-group mb-3">
+              <label for="userEduLevel" class="form-label"><i class="bi bi-book"></i> <strong>학력</strong></label>
+              <select name="userEduLevel" class="form-select" id="userEduLevel">
+                <option value="중학교 졸업" th:selected="${userAdmin.userEduLevel == '중학교 졸업'}">중학교 졸업</option>
+                <option value="고등학교 졸업" th:selected="${userAdmin.userEduLevel == '고등학교 졸업'}">고등학교 졸업</option>
+                <option value="대학교 졸업" th:selected="${userAdmin.userEduLevel == '대학교 졸업'}">대학교 졸업</option>
+                <option value="석사" th:selected="${userAdmin.userEduLevel == '석사'}">석사</option>
+                <option value="박사" th:selected="${userAdmin.userEduLevel == '박사'}">박사</option>
+                <option value="기타" th:selected="${userAdmin.userEduLevel == '기타'}">기타</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="userStatus" class="form-label"><strong>상태</strong></label>
+              <select name="userStatus" class="form-select" id="userStatus">
+                <option value="ACTIVE" th:selected="${userAdmin.userStatus == 'ACTIVE'}">활성</option>
+                <option value="INACTIVE" th:selected="${userAdmin.userStatus == 'INACTIVE'}">비활성</option>
+                <option value="SUSPENDED" th:selected="${userAdmin.userStatus == 'SUSPENDED'}">정지</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 개인정보 및 마케팅 동의 -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="userPrivacyAgree" th:checked="${userAdmin.userPrivacyAgree}" id="privacyAgree">
+                  <label class="form-check-label" for="privacyAgree">개인정보 처리방침에 동의합니다</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="userMarketingAgree" th:checked="${userAdmin.userMarketingAgree}" id="marketingAgree">
+                  <label class="form-check-label" for="marketingAgree">마케팅 정보 수신에 동의합니다</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 저장 버튼 -->
+        <div class="d-flex justify-content-center mt-4 gap-3">
+          <button type="submit" class="btn btn-success">
+            <i class="bi bi-upload"></i> 관리자 개인정보 수정하기
+          </button>
+          <a th:href="@{/admin/mypage}" class="btn btn-secondary">
+            <i class="bi bi-list"></i> 뒤로 가기
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>메타러닝 권한 없음</title>
+  <link rel="icon" href="/static/images/logo.png" type="image/png">
+  <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #ff9e3d, #ff6a13); /* 밝은 주황색 그라디언트 배경 */
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        text-align: center;
+        overflow: hidden;
+        animation: backgroundMove 15s ease-in-out infinite; /* 배경을 부드럽게 움직이게 */
+    }
+
+    @keyframes backgroundMove {
+        0% { background-position: 0 0; }
+        50% { background-position: 100% 0; }
+        100% { background-position: 0 0; }
+    }
+
+    .message {
+        background-color: #fff;
+        color: #ff4500;  /* 밝은 주황색 */
+        padding: 50px 60px;
+        border-radius: 30px;
+        border: 2px solid #ffcc00; /* 노란색 테두리 */
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        animation: zoomIn 0.7s ease-out, popUp 1s ease-out; /* 확장되고 팝업 애니메이션 */
+        max-width: 600px;
+        width: 100%;
+        transform: scale(0.95);
+    }
+
+    @keyframes zoomIn {
+        0% {
+            transform: scale(0);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes popUp {
+        0% {
+            transform: translateY(50px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .message h2 {
+        font-size: 40px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #ff4500;
+        text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2); /* 텍스트 그림자 */
+        animation: fadeInText 1s ease-out;
+    }
+
+    @keyframes fadeInText {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .message p {
+        font-size: 22px;
+        margin-bottom: 30px;
+        color: #ff6347;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .message a {
+        display: inline-block;
+        background-color: #ff6a13;
+        color: #fff;
+        padding: 14px 28px;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .message a:hover {
+        background-color: #ff4500;
+        transform: scale(1.1);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* 버튼 호버 시 확대 효과 */
+    }
+
+    /* 반응형 디자인 */
+    @media (max-width: 768px) {
+        .message {
+            padding: 35px 45px;
+        }
+        .message h2 {
+            font-size: 30px;
+        }
+        .message p {
+            font-size: 18px;
+        }
+    }
+  </style>
+</head>
+<body>
+<div class="message">
+  <h2>배움의 시작! 메타러닝</h2>
+  <p>이 페이지에 접근할 수 있는 권한이 없습니다. <br>관리자에게 문의하세요.</p>
+  <a href="/">홈으로 돌아가기</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메타러닝 시험 답안 보기</title>
+    <link rel="icon" href="/static/images/logo.png" type="image/png">
+    <!-- 헤더 CSS, JS(head에 적당히) -->
+    <link rel="stylesheet" href="/static/css/admindashboard.css">
+    <link rel="stylesheet" href="/static/css/header/instrsidebar.css">
+    <link rel="stylesheet" href="/static/css/header/instrheader.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+<div class="app-container">
+    <!-- Header -->
+    <div th:replace="~{fragments/instrheader :: instrheader}"></div>
+    <div class="content-container">
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/instrsidebar :: instrsidebar}"></div>
+        <!-- Main Content -->
+        <div class="main-content">
+
+            <div class="d-flex flex-column justify-content-center align-items-center">
+
+            <h1>시험 답안 보기</h1>
+            <h2 th:text="${KDTSessionDTO.kdtSessionTitle}"></h2>
+            <form method="POST" id="testForm">
+                <!-- CSRF 토큰 추가 -->
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="hidden" name="kdtSessionId" th:value="${KDTSessionDTO.kdtSessionId}" />
+                <input type="hidden" name="kdtTestId" th:value="${KDTTestDTO.kdtTestId}" />
+
+                <label for="kdtTestStartDate">시작 날짜/시간:</label>
+                <input type="datetime-local" id="kdtTestStartDate" name="kdtTestStartDate" th:value="${KDTTestDTO.kdtTestStartDate}" readonly /> <br>
+
+                <label for="kdtTestEndDate">종료 날짜/시간:</label>
+                <input type="datetime-local" id="kdtTestEndDate" name="kdtTestEndDate" th:value="${KDTTestDTO.kdtTestEndDate}" readonly /> <br>
+
+                <label for="kdtTestTitle">시험 제목:</label>
+                <input type="text" id="kdtTestTitle" name="kdtTestTitle" th:value="${KDTTestDTO.kdtTestTitle}" readonly /> <br>
+
+                <h5><span th:if="${KDTTestGradingDTOs != null and KDTTestGradingDTOs.size() > 0 and totalScore != 0}"
+                      th:text="${studentScore + ' / ' + totalScore+' 점'}"></span></h5> <br>
+                <div class="text-center d-flex justify-content-center gap-3 mt-3">
+
+                    <!-- 채점수정 -->
+                    <a th:href="@{/instr/KDT/{sessionId}/test/grading/update/{kdtTestId}/{kdtPartId}(sessionId=${KDTSessionDTO.kdtSessionId}, kdtTestId=${KDTTestDTO.kdtTestId}, kdtPartId=${KDTTestSubmitDTOs[0].kdtPartId})}"
+                       class="btn btn-warning">
+                        채점수정
+                    </a>
+
+                    <!-- 목차 -->
+                    <a th:href="@{/view/instr/KDT/{sessionId}/test/submit/{kdtTestId}/list(sessionId=${KDTSessionDTO.kdtSessionId}, kdtTestId=${KDTTestDTO.kdtTestId})}"
+                       class="btn btn-secondary">
+                        목차
+                    </a>
+                </div>
+
+                <table id="testItem">
+                    <tr th:each="item, iterStat : ${KDTTestItemDTOs}">
+                        <td>
+                            <br>
+                            <hr>
+                            <br>
+
+                            <span th:if="${KDTTestGradingDTOs != null and KDTTestGradingDTOs.size() > 0}"
+                                  th:class="${KDTTestGradingDTOs[iterStat.index].kdtTestGradingScore == 0 ? 'text-danger' :
+                                    KDTTestGradingDTOs[iterStat.index].kdtTestGradingScore < item.kdtTestItemScore ? 'text-warning' :
+                                    (KDTTestGradingDTOs[iterStat.index].kdtTestGradingScore == item.kdtTestItemScore ? 'text-success' : '')}"
+                                  th:text="${KDTTestGradingDTOs[iterStat.index].kdtTestGradingScore == 0 ? '오답' :
+                                    KDTTestGradingDTOs[iterStat.index].kdtTestGradingScore < item.kdtTestItemScore ? '부분정답' :
+                                    (KDTTestGradingDTOs[iterStat.index].kdtTestGradingScore == item.kdtTestItemScore ? '정답' : '')}"></span>
+                            <br>
+
+                            <span th:text="${(iterStat.index + 1) + '번 문제: ' + item.kdtTestItemCategory + ' (' +
+                                (KDTTestGradingDTOs != null and KDTTestGradingDTOs.size() > 0 ?
+                                 KDTTestGradingDTOs[iterStat.index].kdtTestGradingScore + '/' : '') +
+                                item.kdtTestItemScore + '점)'}"></span>
+
+
+                            <input type="hidden" name="kdtTestItemId" th:value="${item.kdtTestItemId}"><br>
+
+                            <textarea name="kdtTestItemQuest" th:text="${item.kdtTestItemQuest}" readonly></textarea><br>
+
+
+                            <span type="text" name="kdtTestSubmitAnswer" th:text="${'정답 : ' + item.kdtTestItemAnswer + ' / 학생이 선택한 답 : '+ KDTTestSubmitDTOs[iterStat.index].kdtTestSubmitAnswer}"></span><br><br>
+
+                            <!-- 라디오 버튼들, 문제마다 다른 name을 동적으로 할당 -->
+                            <!-- 문제의 제출된 답안과 비교하여 선택된 라벨에 스타일을 적용 -->
+
+                            <label th:class="${KDTTestSubmitDTOs[iterStat.index].kdtTestSubmitAnswer == 1 ? 'selected-answer' : ''}">
+                                <input type="radio" th:name="'answer_' + ${iterStat.index}" value="1" style="display:none;" />
+                                ①: <span th:text="${item.kdtTestItemAnsw1}"></span>
+                            </label><br>
+
+                            <label th:class="${KDTTestSubmitDTOs[iterStat.index].kdtTestSubmitAnswer == 2 ? 'selected-answer' : ''}">
+                                <input type="radio" th:name="'answer_' + ${iterStat.index}" value="2" style="display:none;" />
+                                ②: <span th:text="${item.kdtTestItemAnsw2}"></span>
+                            </label><br>
+
+                            <label th:class="${KDTTestSubmitDTOs[iterStat.index].kdtTestSubmitAnswer == 3 ? 'selected-answer' : ''}">
+                                <input type="radio" th:name="'answer_' + ${iterStat.index}" value="3" style="display:none;" />
+                                ③: <span th:text="${item.kdtTestItemAnsw3}"></span>
+                            </label><br>
+
+                            <label th:class="${KDTTestSubmitDTOs[iterStat.index].kdtTestSubmitAnswer == 4 ? 'selected-answer' : ''}">
+                                <input type="radio" th:name="'answer_' + ${iterStat.index}" value="4" style="display:none;" />
+                                ④: <span th:text="${item.kdtTestItemAnsw4}"></span>
+                            </label><br>
+                            <br>
+
+                            <span th:if="${KDTTestGradingDTOs != null and KDTTestGradingDTOs.size() > 0 and KDTTestGradingDTOs[iterStat.index].kdtTestGradingComment != null and KDTTestGradingDTOs[iterStat.index].kdtTestGradingComment != ''}"
+                                  th:text="${'코멘트: ' + KDTTestGradingDTOs[iterStat.index].kdtTestGradingComment}"><br></span>
+
+                        </td>
+                    </tr>
+                </table>
+                <br><hr><br>
+                <div class="text-center d-flex justify-content-center gap-3 mt-3">
+
+                    <!-- 채점수정 -->
+                    <a th:href="@{/instr/KDT/{sessionId}/test/grading/update/{kdtTestId}/{kdtPartId}(sessionId=${KDTSessionDTO.kdtSessionId}, kdtTestId=${KDTTestDTO.kdtTestId}, kdtPartId=${KDTTestSubmitDTOs[0].kdtPartId})}"
+                       class="btn btn-warning">
+                        채점수정
+                    </a>
+
+                    <!-- 목차 -->
+                    <a th:href="@{/view/instr/KDT/{sessionId}/test/submit/{kdtTestId}/list(sessionId=${KDTSessionDTO.kdtSessionId}, kdtTestId=${KDTTestDTO.kdtTestId})}"
+                       class="btn btn-secondary">
+                        목차
+                    </a>
+                </div>
+
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 스타일 추가 -->
+<style>
+    .selected-answer {
+        font-weight: bold;
+        background-color: #f0f0f0;
+    }
+</style>
+
+<script>
+    function addClassToInputs() {
+document.querySelectorAll('input').forEach(input => {
+    input.classList.add('form-control');
+});
+
+document.querySelectorAll('form').forEach(form => {
+form.style.width = '40%';      // 폼의 너비를 부모 요소의 40%로 설정
+form.style.maxWidth = '500px'; // 폼의 최대 너비를 500px로 제한
+});
+
+document.querySelectorAll('textarea').forEach(textarea=> {
+    textarea.classList.add('form-control');
+    textarea.style.overflow = 'hidden'; // 스크롤바 숨김
+    textarea.style.resize = 'none'; // 사용자가 크기 조정 불가
+
+    // 초기 높이를 설정
+    textarea.style.height = textarea.scrollHeight + 'px';
+
+    // 입력 이벤트에 따라 높이 조정
+    textarea.addEventListener('input', () => {
+    textarea.style.height = 'auto'; // 높이를 초기화
+    textarea.style.height = textarea.scrollHeight + 'px'; // 텍스트에 맞는 높이 설정
+    });
+});
+
+document.querySelectorAll('table').forEach(table=> {
+    table.style.width = '100%';
+});
+
+document.querySelectorAll('button').forEach(button => {
+    if (button.textContent.trim() === '삭제') {
+        // Bootstrap 삭제 버튼 클래스 추가
+        button.classList.add('btn', 'btn-danger');
+    }
+
+    if (button.textContent.trim() === '+ 추가') {
+        // Bootstrap 삭제 버튼 클래스 추가
+        button.classList.add('btn', 'btn-primary');
+    }
+
+    if (button.textContent.trim() === '등록하기') {
+        // Bootstrap 삭제 버튼 클래스 추가
+        button.classList.add('btn', 'btn-success');
+    }
+});
+}
+
+window.onload = function() {
+addClassToInputs(); // 페이지 로드 후 실행
+};
+</script>
+
+</body>
+</html>

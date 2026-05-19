@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <!-- CSRF Token -->
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+  <title>메타러닝 강사 신청 목록</title>
+  <link rel="icon" href="/static/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="/static/css/admindashboard.css">
+  <link rel="stylesheet" href="/static/css/header/adminsidebar.css">
+  <link rel="stylesheet" href="/static/css/header/adminheader.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<!-- CSRF Token -->
+<input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+<div class="app-container">
+  <!-- Header -->
+  <div th:replace="~{fragments/adminheader :: adminheader}"></div>
+  <div class="content-container">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/adminsidebar :: adminsidebar}"></div>
+    <!-- Main Content -->
+    <div class="main-content container mt-4">
+      <h1 class="text-center mb-4"><i class="bi bi-person-badge"></i> 강사 신청 목록</h1>
+
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle text-center">
+          <thead class="table-dark">
+          <tr>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>소속</th>
+            <th>소개</th>
+            <th>수락</th>
+            <th>거절</th>
+          </tr>
+          </thead>
+          <tbody id="instrBody">
+          <!-- AJAX로 데이터 렌더링 -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // CSRF Token 가져오기
+  const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+  const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+  // 강사 신청 목록 가져오기
+  async function fetchInstrRequests() {
+    try {
+      const response = await fetch('/api/admin/instr');
+      if (response.ok) {
+        const instrList = await response.json();
+        const tableBody = document.getElementById('instrBody');
+        tableBody.innerHTML = '';
+
+        if (!Array.isArray(instrList) || instrList.length === 0) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center text-muted" style="color: red !important; font-weight: bold;">
+                        신청인이 없습니다.
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        instrList.forEach(instr => {
+          const row = `
+            <tr>
+              <td>${instr.name}</td>
+              <td>${instr.userEmail}</td>
+              <td>${instr.instrCompany}</td>
+              <td>
+                <span title="${instr.instrDescript}">
+                  ${instr.instrDescript.length > 50 ? instr.instrDescript.substring(0, 50) + '...' : instr.instrDescript}
+                </span>
+              </td>
+              <td>
+                <button class="btn btn-success btn-sm" onclick="approveInstr('${instr.userEmail}')">
+                  <i class="bi bi-check-circle"></i> 수락
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-danger btn-sm" onclick="rejectInstr('${instr.userEmail}')">
+                  <i class="bi bi-x-circle"></i> 거절
+                </button>
+              </td>
+            </tr>
+          `;
+          tableBody.innerHTML += row;
+        });
+      } else {
+        console.error('강사 신청 목록을 가져오는 데 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('오류 발생:', error);
+    }
+  }
+
+  // 강사 수락
+  async function approveInstr(email) {
+    if (!confirm('해당 강사를 수락하시겠습니까?')) return;
+
+    try {
+      const response = await fetch('/api/admin/instr/approve', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          [csrfHeader]: csrfToken,
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        alert('강사가 수락되었습니다.');
+        fetchInstrRequests();
+      } else {
+        alert('강사 수락에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('수락 중 오류 발생:', error);
+    }
+  }
+
+  // 강사 거절
+  async function rejectInstr(email) {
+    if (!confirm('해당 강사를 거절하시겠습니까?')) return;
+
+    try {
+      const response = await fetch('/api/admin/instr/reject', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          [csrfHeader]: csrfToken,
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        alert('강사가 거절되었습니다.');
+        fetchInstrRequests();
+      } else {
+        alert('강사 거절에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('거절 중 오류 발생:', error);
+    }
+  }
+
+  // 페이지 로드 시 강사 신청 목록 가져오기
+  document.addEventListener('DOMContentLoaded', fetchInstrRequests);
+</script>
+</body>
+</html>

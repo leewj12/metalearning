@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메타러닝 로그아웃 자동</title>
+    <script>
+        window.onload = function() {
+          document.getElementById("autoLogoutForm").submit();
+        }
+    </script>
+</head>
+<body>
+
+<form id="autoLogoutForm" action="/logout" method="POST" sec:authorize="isAuthenticated()" style="display: inline;">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <button type="submit" class="btn btn-link text-white text-decoration-none p-0 m-0" style="display:none;">
+        <i class="bi bi-box-arrow-right"></i> 로그아웃
+    </button>
+</form>
+
+</body>
+</html>

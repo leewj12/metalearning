@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <link rel="icon" href="/static/images/logo.png" type="image/png">
+    <header class="header header-expand" th:fragment="studentheader">
+        <div class="leftSection">
+
+        </div>
+        <div class="rightSection">
+
+        <div sec:authorize="isAuthenticated()" class="userInfo">
+ <span>
+    환영합니다! <span th:text="${#authentication.principal.name}"></span>
+    (<span th:each="auth : ${#authentication.authorities}">
+        <!-- Check the role and replace with a custom label -->
+        <span th:if="${auth.authority == 'ROLE_STUDENT'}">학생</span>
+      <span th:if="${auth.authority == 'ROLE_ADMIN'}">관리자</span>
+        <span th:if="${auth.authority != 'ROLE_STUDENT'}" th:text="${auth.authority.substring(5)}"></span> <!-- Remove 'ROLE_' prefix -->
+    </span>)
+    <span>
+        <i class="bi bi-person-fill text-purple"></i> 로그인중
+    </span>
+</span>
+
+            </span>
+        </div>
+
+            <form action="/logout" method="POST" sec:authorize="isAuthenticated()" class="logoutForm">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit" class="logoutButton">
+                    <i class="bi bi-box-arrow-right"></i> 로그아웃
+                </button>
+            </form>
+
+        </div>
+    </header>

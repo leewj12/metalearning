@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>메타러닝 수강생 CSV 등록</title>
+  <link rel="icon" href="/static/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/css/admindashboard.css">
+  <link rel="stylesheet" href="/static/css/header/managersidebar.css">
+  <link rel="stylesheet" href="/static/css/header/managerheader.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/managerheader :: managerheader}"></div>
+
+<div class="content-container">
+  <!-- Sidebar -->
+  <div th:replace="~{fragments/managersidebar :: managersidebar}"></div>
+
+  <!-- Main Content -->
+  <div class="main-content container">
+
+    <div class="container mt-4">
+      <!-- 상단 헤더 -->
+      <div class="row mb-4 align-items-center">
+        <div class="col-md-8">
+          <h1 class="mb-0"><i class="bi bi-file-earmark-person-fill"></i> 수강생 CSV 등록</h1>
+        </div>
+      </div>
+
+
+      <!-- 국비회차 정보 카드 -->
+      <div class="card mb-4">
+        <div class="card-header bg-warning text-white d-flex align-items-center">
+          <i class="bi bi-info-circle-fill me-2"></i>
+          <h4 class="mb-0">국비회차 정보</h4>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <p><strong><i class="bi bi-pencil"></i> 국비 회차 제목:</strong> <span th:text="${sessionsDetail.kdtSessionTitle}"></span></p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <p><strong><i class="bi bi-pencil"></i> 회차:</strong> <span th:text="${sessionsDetail.kdtSessionNum}"></span></p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <p><strong><i class="bi bi-calendar-date"></i> 기간:</strong>
+                <span th:text="'시작일: ' + ${sessionsDetail.kdtSessionStartDate} + ' ~ 종료일: ' + ${sessionsDetail.kdtSessionEndDate}"></span>
+              </p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <p><strong><i class="bi bi-clock"></i> 시간:</strong>
+                <span th:text="'시작시간: ' + ${sessionsDetail.kdtSessionStartTime} + ' ~ 종료시간: ' + ${sessionsDetail.kdtSessionEndTime}"></span>
+              </p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <p><strong><i class="bi bi-person-plus"></i> 참여 가능한 인원:</strong>
+                <span th:text="${sessionsDetail.kdtSessionMaxCapacity} + ' 명'"></span>
+              </p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <p><strong><i class="bi bi-person-fill"></i> 현재 등록된 인원 수:</strong>
+                <span th:text="${studentCount.studentCount} + ' 명'"></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CSV 파일 업로드 카드 -->
+      <div class="card mb-4" style="width:40%;">
+        <div class="card-header bg-success text-white d-flex align-items-center">
+          <i class="bi bi-upload me-2"></i>
+          <h5 class="mb-0">CSV 파일 업로드</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <p class="mb-2"><i class="bi bi-file-earmark-spreadsheet-fill me-2"></i> 학생 정보를 포함한 CSV 파일을 선택하세요.</p>
+              <input type="file" id="csvFile" class="form-control" accept=".csv">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- 테이블로 CSV 내용 표시 -->
+    <table class="table table-bordered table-striped" id="studentsTable">
+      <thead>
+      <tr>
+        <th><input type="checkbox" id="selectAllCheckbox" /> 전체</th>
+        <th>번호</th>
+        <th>이름</th>
+        <th>성별</th>
+        <th>이메일</th>
+        <th>연락처</th>
+        <th>최종 학력</th>
+        <th>내일배움카드 발급 현황</th>
+        <th>상담진행 상태</th>
+        <th>삭제</th> <!-- 삭제 버튼 추가 -->
+      </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <!-- 학생 등록 폼 -->
+    <form th:action="@{/managers/KDT/{sessionId}/part(sessionId=${sessionsDetail.kdtSessionId})}" method="post" class="mb-4" id="studentForm">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <input type="hidden" name="kdtSessionId" th:value="${sessionsDetail.kdtSessionId}" />
+
+      <!-- 제출 버튼 -->
+      <div class="d-flex justify-content-center mt-4 gap-3">
+        <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">수강생 등록</button>
+        <a th:href="@{'/managers/KDT/' + ${sessionsDetail.kdtSessionId} + '/part'}" class="btn btn-secondary btn-lg">
+          <i class="bi bi-arrow-left-circle"></i> 뒤로 가기
+        </a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const csvFileInput = document.getElementById('csvFile');
+      const studentsTableBody = document.querySelector('#studentsTable tbody');
+      const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+
+      // CSV 파일 읽고 테이블에 표시
+      csvFileInput.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file && file.type === 'text/csv') {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const text = e.target.result;
+            const rows = text.split('\n');
+
+            // 첫 번째 행은 헤더이므로 건너뛰기
+            const dataRows = rows.slice(1); // 첫 번째 행 제외
+            studentsTableBody.innerHTML = ''; // 테이블 초기화
+
+            // CSV의 각 행을 테이블에 추가
+            dataRows.forEach((row) => {
+              if (row.trim()) {
+                const cells = row.split(',');
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                  <td><input type="checkbox" name="userIds" value="${cells[0]}" class="studentCheckbox" /></td>
+                  <td>${cells[0]}</td>
+                  <td>${cells[1]}</td>
+                  <td>${cells[2]}</td>
+                  <td>${cells[3]}</td>
+                  <td>${cells[4]}</td>
+                  <td>${cells[5]}</td>
+                  <td>${cells[6]}</td>
+                  <td>${cells[7]}</td>
+                  <td><button type="button" class="btn btn-danger btn-sm deleteRowBtn">삭제</button></td>
+                `;
+                studentsTableBody.appendChild(tr);
+              }
+            });
+
+            // 삭제 버튼 기능 추가
+            const deleteButtons = document.querySelectorAll('.deleteRowBtn');
+            deleteButtons.forEach((btn) => {
+              btn.addEventListener('click', function () {
+                if (confirm('정말로 이 학생을 삭제하시겠습니까?')) {
+                  const row = btn.closest('tr');
+                  row.remove();
+                }
+              });
+            });
+          };
+          reader.readAsText(file);
+        } else {
+          alert('CSV 파일만 업로드 가능합니다.');
+        }
+      });
+
+      // 전체 선택/해제 기능
+      selectAllCheckbox.addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('.studentCheckbox');
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = selectAllCheckbox.checked;
+        });
+      });
+
+      // 개별 체크박스가 변경될 때 전체 선택 체크박스 상태 동기화
+      studentsTableBody.addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('.studentCheckbox');
+        const allChecked = Array.from(checkboxes).every((checkbox) => checkbox.checked);
+        selectAllCheckbox.checked = allChecked;
+      });
+
+      // 폼 제출 시 체크된 학생 데이터만 전송
+      document.getElementById('studentForm').addEventListener('submit', function (event) {
+        const checkboxes = document.querySelectorAll('.studentCheckbox:checked');
+
+        if (checkboxes.length === 0) {
+          event.preventDefault();
+          alert('학생을 선택해주세요.');
+        } else {
+          const userIds = Array.from(checkboxes).map((checkbox) => checkbox.value);
+
+          const inputUserIds = document.createElement('input');
+          inputUserIds.type = 'hidden';
+          inputUserIds.name = 'userIds';
+          inputUserIds.value = userIds.join(',');
+          document.getElementById('studentForm').appendChild(inputUserIds);
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

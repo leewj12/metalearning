@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메타러닝 게시글 목록</title>
+    <link rel="icon" href="/static/images/logo.png" type="image/png">
+    <link rel="stylesheet" href="/static/css/admindashboard.css">
+    <link rel="stylesheet" href="/static/css/header/instrsidebar.css">
+    <link rel="stylesheet" href="/static/css/header/instrheader.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        /* 뒤로가기 버튼 스타일 */
+        .btn-back {
+            background-color: #ff6f00; /* 주황색 배경 */
+            color: white; /* 텍스트 색상: 흰색 */
+            border: 1px solid #ff6f00; /* 주황색 테두리 */
+            font-size: 14px; /* 글자 크기 줄이기 */
+            padding: 6px 12px; /* 버튼 크기 줄이기 */
+            display: flex;
+            align-items: center; /* 아이콘과 텍스트 정렬 */
+            gap: 6px; /* 아이콘과 텍스트 사이 여백 줄이기 */
+            transition: background-color 0.3s, transform 0.3s; /* 효과 추가 */
+        }
+
+        .btn-back:hover {
+            background-color: #e65c00; /* 호버 시 색상 변경 */
+            transform: translateY(-2px); /* 호버 시 살짝 위로 올라가는 효과 */
+        }
+
+        .btn-back:focus {
+            outline: none; /* 포커스 시 기본 테두리 제거 */
+        }
+
+        .btn-back i {
+            font-size: 16px; /* 아이콘 크기 줄이기 */
+        }
+
+
+    </style>
+
+
+
+</head>
+<body>
+<div class="app-container">
+    <!-- Header -->
+    <div th:replace="~{fragments/instrheader :: instrheader}"></div>
+    <div class="content-container">
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/instrsidebar :: instrsidebar}"></div>
+        <!-- Main Content -->
+        <div class="main-content p-4">
+            <h2><i class="bi bi-info-circle"></i> 회차정보</h2>
+
+            <!-- 회차 정보 출력 -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <p class="mb-0 me-3">
+                    <p><i class="bi bi-pencil"></i> 회차 제목: <span th:text="${sessionsDetail.kdtSessionTitle}"></span></p>
+                    </p>
+                    <p class="mb-0">
+                        <i class="bi bi-list-ol"></i> 회차 번호: <span th:text="${sessionsDetail.kdtSessionNum}"></span>
+                    </p>
+                </div>
+                <!-- 뒤로가기 버튼을 오른쪽 끝에 배치 -->
+                <div class="mb-3">
+                    <button class="btn btn-back" onclick="window.history.back()">
+                        <i class="bi bi-arrow-left-circle"></i> 뒤로가기
+                    </button>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <p class="mb-0 me-3">
+                    <i class="bi bi-calendar-date"></i> 회차 시작일: <span th:text="${sessionsDetail.kdtSessionStartDate}"></span>
+                </p>
+                <p class="mb-0">
+                    <i class="bi bi-calendar-date-fill"></i> 회차 종료일: <span th:text="${sessionsDetail.kdtSessionEndDate}"></span>
+                </p>
+            </div>
+
+
+
+            <h2><i class="bi bi-clipboard-plus"></i> 강의 자료실</h2>
+
+            <!-- 검색 폼 -->
+            <!-- 검색 폼 -->
+            <div class="d-flex justify-content-center align-items-center" style="margin: auto;">
+                <form action="#" th:action="@{'/instr/KDT/' + ${sessionsDetail.kdtSessionId} + '/board/materiallist'}" method="get" class="mb-4" style="width: 100%; max-width: 800px;">
+
+                    <!-- 검색어 입력과 검색 옵션 일렬로 배치 -->
+                    <div class="d-flex mb-3 w-100">
+
+                        <!-- 검색 옵션: 제목, 이름, 전체 -->
+                        <select name="searchType" class="form-control mx-2" style="height: 40px; font-size: 14px; flex-shrink: 0; width: 120px;">
+                            <option value="" th:selected="${searchType == ''}">전체</option>
+                            <option value="title" th:selected="${searchType == 'title'}">제목</option>
+                            <option value="name" th:selected="${searchType == 'name'}">이름</option>
+
+                        </select>
+
+                        <!-- 검색어 입력 필드 -->
+                        <input type="text" name="searchValue" class="form-control" placeholder="검색어 입력" th:value="${searchValue}" style="height: 40px; font-size: 16px; flex-grow: 1;" />
+
+                        <!-- 검색 버튼 -->
+                        <button type="submit" class="btn btn-primary" style="height: 40px; font-size: 16px; margin-left: 10px; flex-shrink: 0;">
+                            <i class="bi bi-search"></i> 검색
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+
+
+
+            <!-- 게시글 목록 -->
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                    <th>생성일</th>
+                    <!--                    <th>수정일</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 게시글 리스트 반복 -->
+                <tr th:each="board : ${boardviewList}">
+                    <td th:text="${board.kdtBoardId}">ID</td>
+                    <!-- 게시글 제목을 클릭하면 상세 페이지로 이동 -->
+                    <td>
+                        <a th:href="@{'/instr/KDT/' + ${sessionsDetail.kdtSessionId} + '/board/' + ${board.kdtBoardId}}"
+                           th:text="${board.kdtBoardTitle}">제목</a>
+                    </td>
+                    <td th:text="${board.name}">작성자</td>
+                    <td th:text="${board.kdtBoardView}">조회수</td>
+                    <td th:text="${board.formattedCreatedAt}">생성일</td>
+                    <!--                    <td th:text="${board.formattedUpdatedAt}">수정일</td>-->
+                </tr>
+                </tbody>
+            </table>
+
+
+            <!-- 페이징 블록 -->
+            <div th:if="${!noResults}" class="pagination-container mt-4">
+                <ul class="pagination justify-content-center">
+                    <!-- 처음 페이지 링크 -->
+                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                        <a class="page-link"
+                           th:href="${currentPage == 1} ? 'javascript:void(0)' : @{|/instr/KDT/${sessionsDetail.kdtSessionId}/board/materiallist?page=1&searchName=${searchName != null ? searchName : ''}&searchType=${searchType != null ? searchType : ''}|}"
+                           aria-label="First">
+                            처음
+                        </a>
+                    </li>
+
+                    <!-- 이전 페이지 링크 -->
+                    <li class="page-item" th:classappend="${!hasPrevious} ? 'disabled' : ''">
+                        <a class="page-link"
+                           th:href="${currentPage == 1} ? 'javascript:void(0)' : @{|/instr/KDT/${sessionsDetail.kdtSessionId}/board/materiallist?page=${blockStart - 1}&searchName=${searchName != null ? searchName : ''}&searchType=${searchType != null ? searchType : ''}|}"
+                           aria-label="Previous">
+                            <<
+                        </a>
+                    </li>
+
+
+                    <!-- 페이지 번호 -->
+                    <li class="page-item" th:each="i : ${#numbers.sequence(blockStart, blockEnd)}">
+                        <a class="page-link"
+                           th:href="@{|/instr/KDT/${sessionsDetail.kdtSessionId}/board/materiallist?page=${i}&searchName=${searchName != null ? searchName : ''}&searchType=${searchType != null ? searchType : ''}|}"
+                           th:text="${i}"
+                           th:classappend="${i == currentPage ? 'active' : ''}"></a>
+                    </li>
+
+                    <!-- 다음 페이지 링크 -->
+                    <li class="page-item" th:classappend="${!hasNext} ? 'disabled' : ''">
+                        <a class="page-link"
+                           th:href="${currentPage == totalPages} ? 'javascript:void(0)' : @{|/instr/KDT/${sessionsDetail.kdtSessionId}/board/materiallist?page=${blockEnd + 1}&searchName=${searchName != null ? searchName : ''}&searchType=${searchType != null ? searchType : ''}|}"
+                           aria-label="Next">
+                            >>
+                        </a>
+                    </li>
+
+                    <!-- 마지막 페이지 링크 -->
+                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
+                        <a class="page-link"
+                           th:href="${currentPage == totalPages} ? 'javascript:void(0)' : @{|/instr/KDT/${sessionsDetail.kdtSessionId}/board/materiallist?page=${totalPages}&searchName=${searchName != null ? searchName : ''}&searchType=${searchType != null ? searchType : ''}|}"
+                           aria-label="Last">
+                            마지막
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 검색 결과가 없을 경우 -->
+            <div th:if="${noResults}" class="no-results mt-3 text-center text-danger">
+                <i class="bi bi-exclamation-triangle"></i> 검색 결과가 없습니다.
+            </div>
+
+            <!-- 자료실 작성 링크 -->
+            <div class="d-flex justify-content-center mt-4 gap-3">
+                <a th:href="@{'/instr/KDT/' + ${sessionsDetail.kdtSessionId} + '/board'}" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> 자료 업로드
+                </a>
+                <a th:href="@{'/view/instr/KDT/session/' + ${sessionsDetail.kdtSessionId}}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-circle"></i> 목차
+                </a>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

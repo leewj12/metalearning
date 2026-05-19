@@ -1,0 +1,56 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+# src/main/resources/application-dev.yml 파일을 Git에서 무시
+/src/main/resources/application-dev.yml
+/src/main/resources/application-prod.yml
+
+
+# static 디렉토리 내 index.html 무시
+src/main/resources/static/index.html
+
+# static 디렉토리 내 assets 디렉토리와 그 하위 파일 무시
+src/main/resources/static/assets/
+
+# tomcat 런타임/빌드 산출물 전체 제외
+tomcat/
+
+# 사용자 업로드 파일 (동영상, 이미지, 강의 자료)
+src/main/resources/course/uploads/
+src/main/resources/static/images/uploads/
+src/main/resources/static/images/test/

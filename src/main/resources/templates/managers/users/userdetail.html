@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>메타러닝 유저 개인 정보</title>
+    <link rel="icon" href="/static/images/logo.png" type="image/png">
+    <link rel="stylesheet" href="/static/css/admindashboard.css">
+    <link rel="stylesheet" href="/static/css/header/managersidebar.css">
+    <link rel="stylesheet" href="/static/css/header/managerheader.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        /* 프로필 사진 크기 고정 */
+        .img-thumbnail {
+            width: 150px; /* 고정 너비 */
+            height: 200px; /* 고정 높이 */
+            object-fit: fill; /* 이미지 비율 유지 */
+        }
+
+        /* 글자 간격 조정 */
+        .card .list-unstyled li {
+            margin-bottom: 10px; /* 항목 간격 조정 */
+            line-height: 2; /* 줄 간격 */
+        }
+
+        .card .row div {
+            margin-bottom: 15px; /* 상세 정보 항목 간격 */
+        }
+    </style>
+
+</head>
+<body>
+<!-- Header -->
+<div th:replace="~{fragments/managerheader :: managerheader}"></div>
+
+<div class="content-container">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/managersidebar :: managersidebar}"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+
+            <!-- Card Header -->
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body d-flex align-items-center">
+                    <i class="bi bi-person-circle me-3" style="font-size: 2rem;"></i>
+                    <h5 class="mb-0"><strong th:text="${user.userEmail} + '님의 정보 입니다'">User Info</strong></h5>
+                </div>
+            </div>
+
+            <!-- Photo and Basic Info -->
+            <div class="card mb-4">
+                <div class="row g-3 p-4">
+                    <div class="col-md-3 text-center">
+                        <img id="thumbnailPreview"
+                             th:src="${user.userRole == 'ADMIN' ? '/KDT/profileimages/admin/' + user.userThumbnail :
+             user.userRole == 'MANAGER' ? '/KDT/profileimages/manager/' + user.userThumbnail :
+             user.userRole == 'INSTRUCTOR' ? '/KDT/profileimages/Instr/' + user.userThumbnail :
+             user.userRole == 'STUDENT' ? '/KDT/profileimages/student/' + user.userThumbnail :
+             '/static/images/profile.png'}"
+                             alt="썸네일 이미지"
+                             class="img-thumbnail mb-3"
+                             onerror="this.src='/static/images/null.png'; this.alt='이미지 없음';" />
+                    </div>
+                    <div class="col-md-9">
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-person"></i> <strong>이름:</strong> <span th:text="${user.name}"></span></li>
+                            <li><i class="bi bi-shield"></i>
+                                <strong>등급:</strong>
+                                <span th:text="${user.userRole == 'manager' ? '관리자' :
+                                                (user.userRole == 'STUDENT' ? '학생' :
+                                                (user.userRole == 'MANAGER' ? '매니저' :
+                                                (user.userRole == 'INSTRUCTOR' ? '강사' : '기타')))}">
+                                </span>
+                            </li>
+                            <li><i class="bi bi-gender-ambiguous"></i> <strong>성별:</strong>
+                                <span th:text="${user.userGender == 'M' ? '남자' : (user.userGender == 'F' ? '여자' : user.userGender)}"></span>
+                            </li>
+                            <li><i class="bi bi-envelope"></i> <strong>이메일:</strong> <span th:text="${user.userEmail}"></span></li>
+                            <li><i class="bi bi-telephone"></i> <strong>전화번호:</strong> <span th:text="${user.userPhone}"></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Info -->
+            <div class="card mb-4">
+                <div class="row g-3 p-4">
+                    <div class="col-md-6"><i class="bi bi-book"></i> <strong>학력:</strong> <span th:text="${user.userEduLevel}"></span></div>
+                    <div class="col-md-6"><i class="bi bi-person-check"></i> <strong>회원 활동 상태:</strong> <span th:text="${user.userStatus}"></span></div>
+                    <div class="col-md-6"><i class="bi bi-geo-alt"></i> <strong>우편번호:</strong> <span th:text="${user.userPostcode}"></span></div>
+                    <div class="col-md-6"><i class="bi bi-house"></i> <strong>주소:</strong> <span th:text="${user.userAddress}"></span></div>
+                    <div class="col-md-6"><i class="bi bi-pencil"></i> <strong>상세 주소:</strong> <span th:text="${user.userAddressDetail}"></span></div>
+                    <div class="col-md-6"><i class="bi bi-calendar"></i> <strong>가입일:</strong>
+                        <span th:text="${user.formatUserCreatedAt()}"></span> <!-- userCreatedAt -->
+                    </div>
+                    <div class="col-md-6"><i class="bi bi-clock"></i> <strong>정보 수정일:</strong>
+                        <span th:text="${user.formatUserUpdatedAt()}"></span> <!-- userUpdatedAt -->
+                    </div>
+                    <div class="col-md-6"><i class="bi bi-door-open"></i> <strong>마지막 로그인:</strong>
+                        <span th:text="${user.formatUserLastLogin()}"></span> <!-- userLastLogin -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <a th:href="@{/view/manager/users/list}" class="btn btn-secondary">
+                    <i class="bi bi-list"></i> 목차
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>메타러닝 동영상 수정</title>
+  <link rel="icon" href="/static/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="/static/css/admindashboard.css">
+  <link rel="stylesheet" href="/static/css/header/managersidebar.css">
+  <link rel="stylesheet" href="/static/css/header/managerheader.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="app-container">
+  <!-- Header -->
+  <div th:replace="~{fragments/managerheader :: managerheader}"></div>
+  <div class="content-container">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/managersidebar :: managersidebar}"></div>
+    <!-- Main Content -->
+    <div class="main-content">
+      <h1 class="mb-4"><i class="bi bi-pencil-square"></i> 동영상 수정</h1>
+
+      <form th:action="@{/managers/KDT/{kdtSessionId}/courseoutline/{kdtCourseOutlineId}/coursevideo/update/{kdtCourseVideoId}(kdtSessionId=${kdtSessionId}, kdtCourseOutlineId=${kdtCourseOutlineId}, kdtCourseVideoId=${video.kdtCourseVideoId})}"
+            method="post" enctype="multipart/form-data" class="p-3 border rounded shadow-sm"
+            onsubmit="return validateForm()">
+
+        <!-- CSRF Token -->
+        <input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+        <!-- 국비 회차 ID -->
+        <input type="hidden" name="kdtSessionId" th:value="${kdtSessionId}" />
+
+        <!-- 국비 과정 세부 ID -->
+        <input type="hidden" name="kdtCourseOutlineId" th:value="${kdtCourseOutlineId}" />
+
+        <!-- 동영상 ID -->
+        <input type="hidden" name="kdtCourseVideoId" th:value="${video.kdtCourseVideoId}" />
+
+        <!-- 동영상 카테고리 -->
+        <div class="mb-3">
+          <label for="category" class="form-label"><i class="bi bi-list-ul"></i> 카테고리:<span style="color:red;">*</span></label>
+          <input type="text" id="category" name="category" class="form-control"
+                 th:value="${video.kdtCourseVideoCategory}" placeholder="카테고리를 입력하세요" />
+        </div>
+
+        <!-- 동영상 제목 -->
+        <div class="mb-3">
+          <label for="title" class="form-label"><i class="bi bi-text-paragraph"></i> 제목:<span style="color:red;">*</span></label>
+          <input type="text" id="title" name="title" class="form-control"
+                 th:value="${video.kdtCourseVideoTitle}" placeholder="제목을 입력하세요" />
+        </div>
+
+        <!-- 업로드 방식 선택 -->
+        <div class="mb-3">
+          <label class="form-label">강의 영상 수정</label>
+          <div>
+            <input type="radio" id="nonEdit" name="uploadType" value="none" checked>
+            <label for="nonEdit">수정하지 않음</label>
+
+            <input type="radio" id="uploadFile" name="uploadType" value="file">
+            <label for="uploadFile">파일 업로드</label>
+
+            <input type="radio" id="embedVideo" name="uploadType" value="embed">
+            <label for="embedVideo">동영상 임베드</label>
+          </div>
+        </div>
+
+        <!-- 파일 업로드 영역 -->
+        <div class="mb-3 upload-section" id="fileUploadDiv">
+          <label for="file" class="form-label">
+            <i class="bi bi-upload"></i> 파일 업로드 <span style="color:red;">*</span><br>
+            (동영상 : .mp4, .avi, .mov, .mkv, .flv, .wmv / 최대 용량: <span th:text="${maxFileSize}"></span>MB 지원)
+          </label>
+          <input type="file" id="file"
+                 name="file" class="form-control"
+                 accept="video/*">
+          <small class="text-muted">* 새 파일을 업로드하지 않으면 기존 파일이 유지됩니다.</small>
+        </div>
+
+        <!-- 동영상 URL 입력 영역 (기본 숨김) -->
+        <div class="mb-3 upload-section" id="videoEmbedDiv" style="display: none;">
+          <label for="videoUrl" class="form-label">
+            <i class="bi bi-youtube"></i> 유튜브 동영상 URL 입력<span style="color:red;">*</span>
+          </label>
+          <input type="text" id="videoUrl"
+                 name="videoUrl" class="form-control"
+                 placeholder="youtube embed url 주소를 입력바랍니다.">
+          <small class="text-muted">* 새 주소를 입력하지 않으면 기존 파일이 유지됩니다.</small>
+        </div>
+
+        <!-- 에러 메시지 표시 -->
+        <div th:if="${errors}" class="alert alert-danger">
+          <ul class="mb-0">
+            <li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
+          </ul>
+        </div>
+
+
+        <!-- 동영상 재생 -->
+        <div id="playZone" name="playZone" class="card mb-4">
+          <div class="card-header bg-success text-white">
+            <h4>강의 영상</h4>
+          </div>
+          <div class="card-body text-center">
+
+            <!-- 유튜브 영상이면 iframe으로 표시 -->
+            <div th:if="${video.kdtCourseVideoUUID.contains('youtube.com') or video.kdtCourseVideoUUID.contains('youtu.be')}">
+              <iframe width="800" height="450"
+                      th:src="${video.kdtCourseVideoUUID}"
+                      frameborder="0"
+                      allowfullscreen>
+              </iframe>
+            </div>
+
+            <!-- 유튜브가 아닐 경우 (S3 등) HTML5 video 태그로 재생 -->
+            <div th:if="!(${video.kdtCourseVideoUUID.contains('youtube.com')} or ${video.kdtCourseVideoUUID.contains('youtu.be')})">
+              <video controls width="800" height="450">
+                <source th:src="${video.kdtCourseVideoUUID}" type="video/mp4" />
+                동영상 재생을 지원하지 않는 브라우저입니다.
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <!-- 버튼 그룹 -->
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> 수정</button>
+          <a th:href="@{/managers/KDT/{kdtSessionId}/courseoutline/{kdtCourseOutlineId}/coursevideo/list(kdtSessionId=${kdtSessionId}, kdtCourseOutlineId=${kdtCourseOutlineId})}"
+             class="btn btn-secondary"><i class="bi bi-arrow-left-circle"></i> 뒤로가기</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      const form = document.querySelector("form");
+      const uploadFileRadio = document.getElementById("uploadFile");
+      const embedVideoRadio = document.getElementById("embedVideo");
+      const nonEditRadio = document.getElementById("nonEdit");
+      const playZone = document.getElementById("playZone");
+      const fileUploadDiv = document.getElementById("fileUploadDiv");
+      const videoEmbedDiv = document.getElementById("videoEmbedDiv");
+
+      function toggleUploadType() {
+          if(nonEditRadio.checked){
+              fileUploadDiv.style.display = "none";
+              videoEmbedDiv.style.display = "none";
+              playZone.style.display = "block";
+              form.setAttribute("enctype", "none");  // 수정 없음
+          } else if (uploadFileRadio.checked) {
+              fileUploadDiv.style.display = "block";
+              videoEmbedDiv.style.display = "none";
+              playZone.style.display = "none";
+              form.setAttribute("enctype", "multipart/form-data");  // 파일 업로드 설정
+          } else if (embedVideoRadio.checked) {
+              fileUploadDiv.style.display = "none";
+              videoEmbedDiv.style.display = "block";
+              playZone.style.display = "none";
+              form.setAttribute("enctype", "application/x-www-form-urlencoded");  // URL 전송 설정
+          }
+      }
+
+      // 초기 상태 설정
+      toggleUploadType();
+
+      // 라디오 버튼 변경 시 이벤트 바인딩
+      nonEditRadio.addEventListener("change", toggleUploadType);
+      uploadFileRadio.addEventListener("change", toggleUploadType);
+      embedVideoRadio.addEventListener("change", toggleUploadType);
+  });
+
+  function validateForm() {
+      const uploadFileRadio = document.getElementById("uploadFile");
+      const embedVideoRadio = document.getElementById("embedVideo");
+      const fileInput = document.getElementById("file");
+      const videoUrlInput = document.getElementById("videoUrl");
+
+      const maxFileSize = [[${maxFileSize}]] * 1024 * 1024; // MB -> Bytes로 변환
+      if (uploadFileRadio.checked) {
+      if (!fileInput.files || fileInput.files.length === 0) {
+                    alert("파일을 선택해야 합니다.");
+                    return false;
+                }
+
+                const fileSize = fileInput.files[0].size; // 파일 크기 (바이트 단위)
+
+                // 파일 크기가 maxFileSize보다 큰 경우
+                if (fileSize > maxFileSize) {
+                    alert(`파일 크기는 ${maxFileSize / 1024 / 1024}MB를 초과할 수 없습니다.`);
+                    return false;
+                }
+      }
+
+      if (embedVideoRadio.checked && (!videoUrlInput.value.trim())) {
+          alert("유효한 동영상 URL을 입력해야 합니다.");
+          return false;
+      }
+
+      return true; // 모든 조건이 통과되면 폼 제출 허용
+  }
+</script>
+</body>
+</html>

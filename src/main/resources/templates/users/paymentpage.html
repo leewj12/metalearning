@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>메타러닝 결제하기</title>
+  <link rel="icon" href="/static/images/logo.png" type="image/png">
+  <!-- 포트원 결제 -->
+  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</head>
+
+<body>
+<h1 id="title">상품명</h1>
+<button id="payment">구매하기</button> <!-- 결제하기 버튼 생성 -->
+
+<script>
+  // 서버에서 제공된 구매자 정보 (Thymeleaf 예시)
+  const user_email = "[[${user.email}]]";
+  const username = "[[${user.name}]]";
+
+  // 버튼에 클릭 이벤트 추가
+  const buyButton = document.getElementById('payment');
+  buyButton.addEventListener('click', function () {
+      kakaoPay(user_email, username);
+  });
+
+  var IMP = window.IMP;
+
+  // 주문 고유번호 생성
+  var today = new Date();
+  var hours = today.getHours();
+  var minutes = today.getMinutes();
+  var seconds = today.getSeconds();
+  var milliseconds = today.getMilliseconds();
+  var makeMerchantUid = `${hours}${minutes}${seconds}${milliseconds}`;
+
+  function kakaoPay(useremail, username) {
+    if (confirm("구매 하시겠습니까?")) {
+        IMP.init("imp31321421"); // 포트원 가맹점 식별코드
+        IMP.request_pay({
+            pg: 'kakaopay.TC0ONETIME',
+            pay_method: 'card',
+            merchant_uid: "IMP" + makeMerchantUid,
+            name: '상품명',
+            amount: 100,
+            buyer_email: useremail,
+            buyer_name: username,
+        }, function (rsp) {
+            if (rsp.success) {
+                alert('결제 완료!');
+                console.log(rsp);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/payment/complete",
+                    data: JSON.stringify(rsp),
+                    contentType: "application/json",
+                    success: function (response) {
+                        alert('결제 정보 저장 완료');
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        alert(`결제는 성공했지만, 정보 저장에 실패했습니다.\n관리자에게 문의하세요.`);
+                    }
+                });
+
+            } else {
+                alert(`결제 실패: ${rsp.error_msg}`);
+            }
+        });
+    } else {
+        return false;
+    }
+}
+
+</script>
+</body>
+
+</html>

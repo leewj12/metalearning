@@ -1,0 +1,11 @@
+﻿시험 문제,정답(번호),답안1,답안2,답안3,답안4,점수,카테고리
+HTML에서 웹 페이지의 제목을 정의하는 태그는 무엇인가요?,1,<title>,<head>,<h1>,<header>,10,HTML
+HTML에서 이미지 파일을 삽입하는 태그는 무엇인가요?,1,<img>,<image>,<src>,<picture>,10,HTML
+HTML에서 링크를 만들 때 사용하는 태그는 무엇인가요?,3,<link>,<href>,<a>,<url>,10,HTML
+HTML에서 목록을 만들 때 사용되는 태그는 무엇인가요?,3,<ls>,<list>,<ul>,<sort>,10,HTML
+HTML에서 줄바꿈을 만드는 태그는 무엇인가요?,1,<br>,<hr>,<break>,<p>,10,HTML
+HTML에서 표를 만드는 태그는 무엇인가요?,2,<div>,<table>,<form>,<chart>,10,HTML
+HTML에서 폼의 데이터를 서버로 전송하는 방식은 무엇인가요?,3,GET,PUT,POST,PUT,10,HTML
+HTML에서 meta 태그는 무엇을 설정하는 데 사용되나요?,3,페이지의 스타일,페이지의 제목,페이지의 문자 인코딩을 설정,페이지의 링크를 설정,10,HTML
+HTML에서 스타일을 적용하는 태그는 무엇인가요?,1,<style>,<css>,<script>,<link>,10,HTML
+HTML에서 페이지에 하이퍼링크를 추가할 때 사용하는 속성은 무엇인가요?,2,src,href,link,url,10,HTML

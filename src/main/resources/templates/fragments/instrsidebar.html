@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="icon" href="/static/images/logo.png" type="image/png">
+<head>
+</head>
+<body>
+<div class="sidebar sb-sidenav accordion sb-sidenav-dark" th:fragment="instrsidebar">
+  <div class="sb-sidenav-menu">
+    <div class="sidebarSection">
+      <!-- Home -->
+      <a class="link sidebar-link" href="/">
+        <i class="bi bi-house-door me-2"></i>Home
+      </a>
+      <!-- 개인정보 -->
+      <a class="link sidebar-link" href="/instr/mypage">
+        <i class="bi bi-person-circle me-2"></i> 개인정보
+      </a>
+      <!-- 통계관리 -->
+<!--      <div class="link dropdown">-->
+<!--        <i class="bi bi-bar-chart me-2"></i>-->
+<!--&lt;!&ndash;        <a class="hlink sidebar-link" href="/view/instr/statistics">&ndash;&gt;-->
+<!--&lt;!&ndash;          통계관리&ndash;&gt;-->
+<!--&lt;!&ndash;        </a>&ndash;&gt;-->
+<!--        <a class="hlink sidebar-link" href="#">-->
+<!--          통계관리-->
+<!--        </a>-->
+<!--        <div class="subMenu statM">-->
+<!--&lt;!&ndash;          <a href="/view/instr/studentchart" class="subLink">학생 증감율</a>&ndash;&gt;-->
+<!--          <a href="#" class="subLink">학생 증감율</a>-->
+<!--&lt;!&ndash;          <a href="/view/instr/coursechart" class="subLink">강의증감율</a>&ndash;&gt;-->
+<!--          <a href="#" class="subLink">강의증감율</a>-->
+<!--&lt;!&ndash;          <a href="/view/instr/paychart" class="subLink">결제 통계</a>&ndash;&gt;-->
+<!--          <a href="#" class="subLink">결제 통계</a>-->
+<!--        </div>-->
+<!--      </div>-->
+
+      <!-- 국비관리 -->
+      <a class="link sidebar-link" href="/view/instr/KDT/list">
+        <i class="bi bi-book me-2"></i> 국비 과정 조회
+      </a>
+
+      <!-- 강의관리 -->
+      <div class="link dropdown">
+        <i class="bi bi-person-workspace"></i>
+        <a class="hlink sidebar-link" href="/instr/course/list/approved">강의관리</a>
+        <div class="subMenu courseM">
+          <a href="/instr/course" class="subLink">강의 등록</a>
+          <a href="/instr/course/list/approved" class="subLink">강의 목록 조회</a>
+        </div>
+      </div>
+      <!-- 리뷰관리 -->
+<!--      <div class="link dropdown">-->
+<!--        <i class="bi bi-star"></i>-->
+<!--&lt;!&ndash;        <a class="hlink sidebar-link" href="/instr/course/review/list">리뷰관리</a>&ndash;&gt;-->
+<!--        <a class="hlink sidebar-link" href="#">리뷰관리</a>-->
+<!--        <div class="subMenu reviewM">-->
+<!--&lt;!&ndash;          <a href="/instr/course/review/list" class="subLink">국비 리뷰 목록 조회</a>&ndash;&gt;-->
+<!--          <a href="#" class="subLink">국비 리뷰 목록 조회</a>-->
+<!--&lt;!&ndash;          <a href="/instr/instr/review/list" class="subLink">강사 리뷰 목록 조회</a>&ndash;&gt;-->
+<!--          <a href="#" class="subLink">강사 리뷰 목록 조회</a>-->
+<!--        </div>-->
+<!--      </div>-->
+      <!-- 결제관리 -->
+<!--      <a class="link sidebar-link" href="/instr/pay/list">-->
+<!--      <a class="link sidebar-link" href="#">-->
+<!--        <i class="bi bi-credit-card"></i> 결제관리-->
+<!--      </a>-->
+    </div>
+  </div>
+</div>
+</body>
+</html>

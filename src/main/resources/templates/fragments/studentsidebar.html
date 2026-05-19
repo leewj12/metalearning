@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="icon" href="/static/images/logo.png" type="image/png">
+</head>
+<body>
+<div class="sidebar sb-sidenav accordion sb-sidenav-dark" th:fragment="studentsidebar">
+  <div class="sb-sidenav-menu">
+    <div class="sidebarSection">
+      <!-- Home -->
+      <a class="link sidebar-link" href="/">
+        <i class="bi bi-house-door me-2"></i>Home
+      </a>
+      <!-- 개인정보 -->
+      <a class="link sidebar-link" href="/student/mypage">
+        <i class="bi bi-person-circle me-2"></i> 개인정보
+      </a>
+
+      <!-- 국비관리 -->
+      <div class="link dropdown" th:if="${hasSessions}">
+        <i class="bi bi bi-book"></i>
+        <a class="hlink sidebar-link" href="/student/KDT/list">국비 과정 조회</a>
+        <div class="subMenu boardM">
+          <a th:href="@{/view/student/KDT/{sessionId}/att/detail(sessionId=${sessionId})}" class="subLink">출석부</a>
+          <a th:href="@{/student/KDT/{sessionId}/courseoutline/list(sessionId=${sessionId})}" class="subLink">강의 영상</a>
+          <a th:href="@{/student/KDT/{sessionId}/board/materiallist(sessionId=${sessionId})}" class="subLink">자료실</a>
+          <a th:href="@{/student/KDT/{sessionId}/test/list(sessionId=${sessionId})}" class="subLink">시험</a>
+        </div>
+      </div>
+
+
+      <!-- 게시판관리 -->
+<!--      <div class="link dropdown">-->
+<!--        <i class="bi bi-card-list"></i>-->
+<!--        <a class="hlink sidebar-link" href="#">게시판관리</a>-->
+<!--        <div class="subMenu boardM">-->
+<!--          <a href="#" class="subLink">게시글 작성</a>-->
+<!--          <a href="#" class="subLink">게시판 목록 조회</a>-->
+<!--        </div>-->
+<!--      </div>-->
+
+      <!-- 강의관리 -->
+<!--      <a class="link sidebar-link" href="/student/course/list/{status}">-->
+      <a class="link sidebar-link" href="#">
+        <i class="bi-person-workspace me-2"></i> 강의 목록 조회
+      </a>
+
+      <!-- 리뷰관리 -->
+<!--      <div class="link dropdown">-->
+<!--        <i class="bi bi-star"></i>-->
+<!--        <a class="hlink sidebar-link" href="#">리뷰관리</a>-->
+<!--        <div class="subMenu reviewM">-->
+<!--          <a href="#" class="subLink">국비 리뷰 목록 조회</a>-->
+<!--          <a href="#" class="subLink">강사 리뷰 목록 조회</a>-->
+<!--        </div>-->
+<!--      </div>-->
+
+      <!-- 장바구니 -->
+      <a class="link sidebar-link" href="/user/cart">
+        <i class="bi bi-cart"></i> 장바구니
+      </a>
+
+      <!-- 결제관리 -->
+<!--      <a class="link sidebar-link" href="/student/pay/list">-->
+<!--      <a class="link sidebar-link" href="#">-->
+<!--        <i class="bi bi-credit-card"></i> 구매 내역-->
+<!--      </a>-->
+    </div>
+  </div>
+</div>
+</body>
+</html>

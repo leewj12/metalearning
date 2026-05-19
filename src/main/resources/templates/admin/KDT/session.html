@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>메타러닝 회차 등록</title>
+    <link rel="icon" href="/static/images/logo.png" type="image/png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/admindashboard.css">
+    <link rel="stylesheet" href="/static/css/header/adminsidebar.css">
+    <link rel="stylesheet" href="/static/css/header/adminheader.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+<body>
+<!-- Header -->
+<div th:replace="~{fragments/adminheader :: adminheader}"></div>
+
+<div class="content-container">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/adminsidebar :: adminsidebar}"></div>
+
+    <!-- Main Content -->
+    <div class="main-content container">
+        <h2 class="text-center mb-4">회차 등록하기</h2>
+
+        <!-- 세션 등록 폼 -->
+        <form th:action="@{/admin/KDT/session}" method="post" enctype="multipart/form-data" class="p-4 border rounded shadow-sm">
+            <!-- CSRF token -->
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+            <!-- 과정명 (드롭다운) -->
+            <div class="form-group mb-3">
+                <label for="courseTitle" class="form-label">
+                    <i class="bi bi-book"></i> 과정명<span style="color:red;">*</span>
+                </label>
+                <select id="courseTitle" name="kdtCourseId" class="form-select" required>
+                    <option value="">과정명을 선택해주세요</option>
+                    <th:block th:each="course : ${courseall}">
+                        <option th:value="${course.kdtCourseId}" th:text="${course.kdtCourseTitle}"></option>
+                    </th:block>
+                </select>
+            </div>
+
+            <!-- 세션 회차 -->
+            <div class="form-group mb-3">
+                <label for="sessionNum" class="form-label">
+                    <i class="bi bi-hash"></i> 회차<span style="color:red;">*</span>
+                </label>
+                <input type="number" id="sessionNum" name="kdtSessionNum" class="form-control" required readonly>
+            </div>
+
+            <!-- 세션 제목 -->
+            <div class="form-group mb-3">
+                <label for="sessionTitle" class="form-label">
+                    <i class="bi bi-journal-text"></i> 제목<span style="color:red;">*</span>
+                </label>
+                <input type="text" id="sessionTitle" name="kdtSessionTitle" class="form-control" required>
+            </div>
+
+            <!-- 세션 설명 -->
+            <div class="form-group mb-3">
+                <label for="sessionDescript" class="form-label">
+                    <i class="bi bi-pencil-square"></i> 설명
+                </label>
+                <textarea id="sessionDescript" name="kdtSessionDescript" class="form-control" rows="3"></textarea>
+            </div>
+
+            <!-- 세션 날짜 -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="sessionStartDate" class="form-label">
+                        <i class="bi bi-calendar-event"></i> 시작 날짜<span style="color:red;">*</span>
+                    </label>
+                    <input type="date" id="sessionStartDate" name="kdtSessionStartDate" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="sessionEndDate" class="form-label">
+                        <i class="bi bi-calendar-event"></i> 종료 날짜<span style="color:red;">*</span>
+                    </label>
+                    <input type="date" id="sessionEndDate" name="kdtSessionEndDate" class="form-control" required>
+                </div>
+            </div>
+
+            <!-- 세션 시간 -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="sessionStartTime" class="form-label">
+                        <i class="bi bi-clock"></i> 시작 시간<span style="color:red;">*</span>
+                    </label>
+                    <input type="time" id="sessionStartTime" name="kdtSessionStartTime" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="sessionEndTime" class="form-label">
+                        <i class="bi bi-clock"></i> 종료 시간<span style="color:red;">*</span>
+                    </label>
+                    <input type="time" id="sessionEndTime" name="kdtSessionEndTime" class="form-control" required>
+                </div>
+            </div>
+
+            <!-- 세션 카테고리 -->
+            <!-- 세션 카테고리 -->
+            <div class="form-group mb-3">
+                <label for="sessionCategory" class="form-label">
+                    <i class="bi bi-tags"></i> 카테고리<span style="color:red;">*</span>
+                </label>
+                <select id="sessionCategory" name="kdtSessionCategory" class="form-select" required onchange="toggleOtherCategoryInput()">
+                    <option value="">선택하세요.</option>
+                    <option value="IT">IT</option>
+                    <option value="클라우드">클라우드</option>
+                    <option value="데이터 분석">데이터 분석</option>
+                    <option value="디자인">디자인</option>
+                    <option value="마케팅">마케팅</option>
+                    <option value="기타">기타(직접입력)</option>
+                </select>
+
+                <!-- 기타 항목 입력 필드 -->
+                <div id="otherCategoryInput" style="display:none; margin-top: 10px;">
+                    <label for="otherCategory" class="form-label">기타 카테고리 입력</label>
+                    <input type="text" id="otherCategory" name="otherCategory" class="form-control" placeholder="기타 카테고리를 입력하세요">
+                </div>
+            </div>
+
+            <!-- 세션 최대 수용 인원 -->
+            <div class="form-group mb-3">
+                <label for="sessionMaxCapacity" class="form-label">
+                    <i class="bi bi-people"></i> 최대 수용 인원<span style="color:red;">*</span>
+                </label>
+                <input type="number" id="sessionMaxCapacity" name="kdtSessionMaxCapacity" class="form-control" required>
+            </div>
+
+            <!-- 세션 썸네일 -->
+            <div class="form-group mb-3">
+                <label for="files" class="form-label">
+                    <i class="bi bi-image"></i> 썸네일
+                </label>
+                <input type="file" id="files" name="files" class="form-control" accept="image/*">
+            </div>
+
+            <!-- 우편번호 -->
+            <div class="form-group mb-3">
+                <label for="sessionPostcode" class="form-label">
+                    <i class="bi bi-geo-alt"></i> 우편번호<span style="color:red;">*</span>
+                </label>
+                <div class="input-group">
+                    <input type="text" id="sessionPostcode" name="kdtSessionPostcode" class="form-control" placeholder="우편번호 입력">
+                    <button type="button" id="searchPostcodeBtn" class="btn btn-primary">
+                        <i class="bi bi-search"></i> 우편번호 찾기
+                    </button>
+                </div>
+            </div>
+
+            <!-- 세션 주소 -->
+            <div class="form-group mb-3">
+                <label for="sessionAddress" class="form-label">
+                    <i class="bi bi-geo"></i> 주소<span style="color:red;">*</span>
+                </label>
+                <input type="text" id="sessionAddress" name="kdtSessionAddress" class="form-control" required>
+            </div>
+
+            <!-- 세션 상세 주소 -->
+            <div class="form-group mb-3">
+                <label for="sessionAddressDetail" class="form-label">
+                    <i class="bi bi-geo-fill"></i> 상세 주소<span style="color:red;">*</span>
+                </label>
+                <input type="text" id="sessionAddressDetail" name="kdtSessionAddressDetail" class="form-control">
+            </div>
+
+            <!-- 세션 온라인 여부 -->
+            <div class="form-group mb-3">
+                <label for="sessionOnline">온/오프라인 구분<span style="color:red;">*</span> </label>
+                <select id="sessionOnline" name="kdtSessionOnline" class="form-control">
+                    <option value="true">온라인 강의</option>
+                    <option value="false">오프라인 강의</option>
+                </select>
+            </div>
+
+            <!-- 총 교육일수 -->
+            <div class="form-group mb-3">
+                <label for="sessionTotalDay" class="form-label">
+                    <i class="bi bi-calendar-check"></i> 교육일수<span style="color:red;">*</span>
+                </label>
+                <input type="number" id="sessionTotalDay" name="kdtSessionTotalDay" class="form-control" required>
+            </div>
+
+            <!-- 하루 교육시간 -->
+            <div class="form-group mb-3">
+                <label for="sessionOnedayTime" class="form-label">
+                    <i class="bi bi-clock-history"></i> 일별 교육시간<span style="color:red;">*</span>
+                </label>
+                <input type="number" id="sessionOnedayTime" name="kdtSessionOnedayTime" class="form-control" required>
+            </div>
+
+            <!-- 총 교육시간 -->
+            <div class="form-group mb-3">
+                <label for="sessionTotalTime" class="form-label">
+                    <i class="bi bi-hourglass"></i> 총 교육시간<span style="color:red;">*</span>
+                </label>
+                <input type="number" id="sessionTotalTime" name="kdtSessionTotalTime" class="form-control" required readonly>
+            </div>
+
+            <!-- 상태 -->
+            <div class="form-group mb-3">
+                <label for="sessionStatus" class="form-label">
+                    <i class="bi bi-box"></i> 상태<span style="color:red;">*</span>
+                </label>
+                <select id="sessionStatus" name="kdtSessionStatus" class="form-select" required>
+                    <option value="WAITING">대기</option>
+                    <option value="ONGOING">진행중</option>
+                    <option value="FINISHED">종료</option>
+                </select>
+            </div>
+
+            <!-- 제출 버튼 -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-success px-5 py-2">
+                    <i class="bi bi-cloud-upload"></i> 회차 등록
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<!--
+<script type="text/javascript">
+    // 주소검색 함수 정의
+    function searchAddress(postcodeId, addressId, detailAddressId) {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                let addr = ''; // 도로명/지번 주소
+                let extraAddr = ''; // 참고항목
+
+                // 사용자 선택 타입에 따른 주소 결정
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress; // 도로명 주소
+                } else {
+                    addr = data.jibunAddress; // 지번 주소
+                }
+
+                // 참고항목 설정 (도로명 주소일 경우)
+                if (data.userSelectedType === 'R') {
+                    if (data.bname && /[동|로|가]$/g.test(data.bname)) {
+                        extraAddr += data.bname; // 법정동 추가
+                    }
+                    if (data.buildingName && data.apartment === 'Y') {
+                        extraAddr += (extraAddr ? ', ' + data.buildingName : data.buildingName); // 건물명 추가
+                    }
+                }
+
+                // 우편번호와 주소 필드 채우기
+                document.getElementById(postcodeId).value = data.zonecode; // 우편번호
+                document.getElementById(addressId).value = addr; // 도로명 또는 지번 주소
+
+                // 상세주소 입력란에 포커스
+                if (detailAddressId) {
+                    document.getElementById(detailAddressId).focus();
+                }
+            }
+        }).open(); // 팝업 열기
+    }
+
+    // DOM이 준비된 후 이벤트 설정
+    document.addEventListener('DOMContentLoaded', () => {
+        const postcodeButton = document.getElementById('searchPostcodeBtn');
+        if (postcodeButton) {
+            postcodeButton.addEventListener('click', () => {
+                searchAddress('sessionPostcode', 'sessionAddress', 'sessionAddressDetail');
+            });
+        } else {
+            console.error('우편번호 찾기 버튼을 찾을 수 없습니다.');
+        }
+    });
+</script>
+
+<script>
+    // 세션 번호와 제목 자동 채우기
+    async function getSessionNum(courseId) {
+        try {
+            const response = await fetch(`/api/admin/KDT/session/getSessionNum?courseId=${courseId}`);
+            if (!response.ok) {
+                throw new Error('서버 오류');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            alert('세션 정보를 가져오는 데 실패했습니다. 오류 메시지: ' + error.message);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const courseSelect = document.getElementById('courseTitle');
+        const sessionNumInput = document.getElementById('sessionNum');
+        const sessionTitleInput = document.getElementById('sessionTitle');
+
+        courseSelect.addEventListener('change', async () => {
+            const courseId = courseSelect.value;
+            if (courseId) {
+                const sessionInfo = await getSessionNum(courseId);
+                if (sessionInfo) {
+                    sessionNumInput.value = sessionInfo.sessionNum || '';
+                    sessionTitleInput.value = sessionInfo.courseTitle || '';
+                }
+            } else {
+                sessionNumInput.value = '';
+                sessionTitleInput.value = '';
+            }
+        });
+    });
+
+     document.addEventListener('DOMContentLoaded', () => {
+        const sessionTotalDayInput = document.getElementById('sessionTotalDay');
+        const sessionOnedayTimeInput = document.getElementById('sessionOnedayTime');
+        const sessionTotalTimeInput = document.getElementById('sessionTotalTime');
+
+        // 입력값이 변경될 때마다 총 교육시간 계산
+        function calculateTotalTime() {
+            const totalDays = parseInt(sessionTotalDayInput.value) || 0; // 입력값이 없으면 0으로 처리
+            const oneDayTime = parseInt(sessionOnedayTimeInput.value) || 0; // 입력값이 없으면 0으로 처리
+            const totalTime = totalDays * oneDayTime;
+
+            // 총 교육시간을 입력 필드에 표시
+            sessionTotalTimeInput.value = totalTime;
+        }
+
+        // 총 교육일수나 하루 교육시간이 변경될 때마다 계산
+        sessionTotalDayInput.addEventListener('input', calculateTotalTime);
+        sessionOnedayTimeInput.addEventListener('input', calculateTotalTime);
+    });
+
+
+</script>-->
+<script>
+    // Daum 우편번호 API 동적 로드
+    function loadDaumPostcodeAPI() {
+        if (!window.daum) {
+            const script = document.createElement('script');
+            script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+            script.async = true;
+            script.onload = () => {
+                console.log('Daum Postcode API 로드 완료');
+                searchAddress('sessionPostcode', 'sessionAddress', 'sessionAddressDetail');
+            };
+            document.body.appendChild(script);
+        } else {
+            searchAddress('sessionPostcode', 'sessionAddress', 'sessionAddressDetail');
+        }
+    }
+
+    // 주소 검색 함수
+    function searchAddress(postcodeId, addressId, detailAddressId) {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                let addr = '';
+                let extraAddr = '';
+
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }
+
+                if (data.userSelectedType === 'R') {
+                    if (data.bname && /[동|로|가]$/g.test(data.bname)) {
+                        extraAddr += data.bname;
+                    }
+                    if (data.buildingName && data.apartment === 'Y') {
+                        extraAddr += (extraAddr ? ', ' + data.buildingName : data.buildingName);
+                    }
+                }
+
+                document.getElementById(postcodeId).value = data.zonecode;
+                document.getElementById(addressId).value = addr;
+
+                if (detailAddressId) {
+                    document.getElementById(detailAddressId).focus();
+                }
+            }
+        }).open();
+    }
+
+    // 세션 번호 가져오기
+    async function getSessionNum(courseId) {
+        try {
+            const response = await fetch(`/api/admin/KDT/session/getSessionNum?courseId=${courseId}`);
+            if (!response.ok) {
+                throw new Error('서버 오류');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            alert('세션 정보를 가져오는 데 실패했습니다. 오류 메시지: ' + error.message);
+        }
+    }
+
+    // DOMContentLoaded 이벤트 핸들러
+    document.addEventListener('DOMContentLoaded', () => {
+        // 주소 검색 버튼 이벤트 설정
+        const postcodeButton = document.getElementById('searchPostcodeBtn');
+        if (postcodeButton) {
+            postcodeButton.addEventListener('click', loadDaumPostcodeAPI);
+        } else {
+            console.error('우편번호 찾기 버튼을 찾을 수 없습니다.');
+        }
+
+        // 과정 선택 시 세션 번호와 제목 자동 채우기
+        const courseSelect = document.getElementById('courseTitle');
+        const sessionNumInput = document.getElementById('sessionNum');
+        const sessionTitleInput = document.getElementById('sessionTitle');
+        if (courseSelect) {
+            courseSelect.addEventListener('change', async () => {
+                const courseId = courseSelect.value;
+                if (courseId) {
+                    const sessionInfo = await getSessionNum(courseId);
+                    if (sessionInfo) {
+                        sessionNumInput.value = sessionInfo.sessionNum || '';
+                        sessionTitleInput.value = sessionInfo.courseTitle || '';
+                    }
+                } else {
+                    sessionNumInput.value = '';
+                    sessionTitleInput.value = '';
+                }
+            });
+        }
+
+        // 총 교육시간 자동 계산
+        const sessionTotalDayInput = document.getElementById('sessionTotalDay');
+        const sessionOnedayTimeInput = document.getElementById('sessionOnedayTime');
+        const sessionTotalTimeInput = document.getElementById('sessionTotalTime');
+        if (sessionTotalDayInput && sessionOnedayTimeInput && sessionTotalTimeInput) {
+            const calculateTotalTime = () => {
+                const totalDays = parseInt(sessionTotalDayInput.value) || 0;
+                const oneDayTime = parseInt(sessionOnedayTimeInput.value) || 0;
+                sessionTotalTimeInput.value = totalDays * oneDayTime;
+            };
+
+            sessionTotalDayInput.addEventListener('input', calculateTotalTime);
+            sessionOnedayTimeInput.addEventListener('input', calculateTotalTime);
+        }
+    });
+
+     function toggleOtherCategoryInput() {
+        var selectBox = document.getElementById('sessionCategory');
+        var otherCategoryInputDiv = document.getElementById('otherCategoryInput');
+
+        // "기타" 항목 선택 시 텍스트 입력 필드를 보이게 하고, 그 외에는 숨김
+        if (selectBox.value === '기타') {
+            otherCategoryInputDiv.style.display = 'block';  // '기타' 선택 시 입력 필드 보이기
+        } else {
+            otherCategoryInputDiv.style.display = 'none';   // '기타' 이외의 값 선택 시 입력 필드 숨기기
+        }
+    }
+
+</script>
+</body>
+</html>

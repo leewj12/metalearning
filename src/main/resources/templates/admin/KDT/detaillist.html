@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>메타러닝 국비 상세 목록</title>
+  <link rel="icon" href="/static/images/logo.png" type="image/png">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>국비 상세 목록</h1>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>번호</th>
+    <th>회차 ID</th>
+    <th>담당자</th>
+    <th>내용</th>
+    <th>작성일</th>
+    <th>수정</th>
+    <th>삭제</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="detail, iterStat : ${kdtDetails}">
+    <td th:text="${iterStat.index + 1}">1</td>
+    <td th:text="${detail.kdtSessionEntity.kdtSessionId}">KDTSessionId</td>
+    <td th:text="${detail.userEntity.name}">담당자 이름</td>
+    <td th:text="${detail.kdtDetailContent}">내용</td>
+    <td th:text="${#dates.format(detail.kdtDetailCreatedAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
+    <td>
+      <a th:href="@{/admin/KDT/{sessionId}/detail/update/{detailId}(sessionId=${detail.kdtSessionEntity.kdtSessionId}, detailId=${detail.kdtDetailId})}">
+        <button>수정</button>
+      </a>
+    </td>
+    <td>
+      <button onclick="deleteDetail(${detail.kdtDetailId}, ${detail.kdtSessionEntity.kdtSessionId})">삭제</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- 등록 버튼 -->
+<div>
+  <a th:href="@{/admin/KDT/{sessionId}/detail(sessionId=${sessionId})}">
+    <button>상세 등록</button>
+  </a>
+</div>
+
+<script>
+  function deleteDetail(detailId, sessionId) {
+      if (!confirm('정말 삭제하시겠습니까?')) {
+          return;
+      }
+
+      $.ajax({
+          url: `/admin/KDT/${sessionId}/detail/delete/${detailId}`,
+          type: 'DELETE',
+          success: function () {
+              alert('삭제되었습니다.');
+              location.reload();
+          },
+          error: function () {
+              alert('삭제에 실패했습니다.');
+          }
+      });
+  }
+</script>
+</body>
+</html>

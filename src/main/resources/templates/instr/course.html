@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>메타러닝 강의 등록</title>
+  <link rel="icon" href="/static/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="/static/css/admindashboard.css">
+  <link rel="stylesheet" href="/static/css/header/instrsidebar.css">
+  <link rel="stylesheet" href="/static/css/header/instrheader.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="app-container">
+  <!-- Header -->
+  <div th:replace="~{fragments/instrheader :: instrheader}"></div>
+  <div class="content-container">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/instrsidebar :: instrsidebar}"></div>
+    <!-- Main Content -->
+    <div class="main-content container" style="max-width:800px;">
+      <form th:action="@{/instr/course}" method="post" enctype="multipart/form-data" class="p-4 rounded bg-light"
+            onsubmit="return validateForm()">
+        <h1 class="text-center mb-4">
+          <i class="bi bi-pencil-square"></i> 강의 등록
+        </h1>
+        <!-- CSRF Token -->
+        <input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <!-- 강의 상태를 항상 승인으로 설정 -->
+        <input type="hidden" name="courseStatus" th:value="${T(com.Meta_learning.course.courseentity.CourseStatus).APPROVED.name()}">
+
+        <!-- 강의 정보 입력 구역 -->
+        <fieldset class="border p-4 mb-4">
+          <legend class="h4 mb-4"><i class="bi bi-info-circle"></i> 강의 정보 입력</legend>
+          <!-- 강의 기본 정보 -->
+          <div class="mb-3">
+            <label for="courseThumbnail" class="form-label">
+              <i class="bi bi-image"></i> 강의 썸네일
+            </label>
+            <input type="file" id="courseThumbnail" name="courseThumbnail" class="form-control" accept="image/*">
+          </div>
+
+          <div class="mb-3">
+            <label for="courseTitle" class="form-label">
+              <i class="bi bi-card-text"></i> 강의 제목<span style="color:red;">*</span>
+            </label>
+            <input type="text" id="courseTitle" name="courseTitle" class="form-control" placeholder="강의 제목을 입력하세요" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="courseDescript" class="form-label">
+              <i class="bi bi-card-text"></i> 강의 한줄 설명
+            </label>
+            <textarea id="courseDescript" name="courseDescript" class="form-control" rows="3" placeholder="강의 설명을 입력하세요"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="courseDifficulty" class="form-label">
+              <i class="bi bi-bar-chart"></i> 강의 난이도<span style="color:red;">*</span>
+            </label>
+            <select id="courseDifficulty" name="courseDifficulty" class="form-select" required>
+              <option th:each="difficulty : ${courseDifficulties}"
+                      th:value="${difficulty.name()}"
+                      th:text="${difficulty.text}"></option>
+            </select>
+          </div>
+
+          <div class="mb-3 row" >
+            <div class="col-md-6 col-sm-12">
+              <label for="courseCategory" class="form-label">
+                <i class="bi bi-tag"></i> 강의 카테고리
+              </label>
+              <select id="courseCategory" name="courseCategory" class="form-control">
+                <option value="기타" selected>기타</option>
+                <option value="개발 프로그래밍">개발 프로그래밍</option>
+                <option value="게임 개발">게임 개발</option>
+                <option value="데이터 사이언스">데이터 사이언스</option>
+                <option value="인공지능">인공지능</option>
+                <option value="보안 네트워크">보안 네트워크</option>
+                <option value="하드웨어">하드웨어</option>
+                <option value="디자인 아트">디자인 아트</option>
+                <option value="기획 경영 마케팅">기획 경영 마케팅</option>
+                <option value="업무 생산성">업무 생산성</option>
+                <option value="커리어 자기계발">커리어 자기계발</option>
+                <option value="대학교육">대학교육</option>
+              </select>
+            </div>
+            <div class="col-md-6 col-sm-12">
+              <label for="coursePrice" class="form-label">
+                <i class="bi bi-cash"></i> 강의 가격<span style="color:red;">*</span>
+              </label>
+              <input type="number" id="coursePrice" name="coursePrice" class="form-control" placeholder="가격을 입력하세요" required>
+            </div>
+          </div>
+
+        </fieldset>
+
+        <fieldset class="border p-4 mb-4">
+          <legend class="h4 mb-4"><i class="bi bi-megaphone"></i> 홍보글 입력</legend>
+          <!-- 홍보글 상세 -->
+          <div class="mb-3">
+            <label for="courseDescriptContent" class="form-label">
+              <i class="bi bi-pencil"></i> 홍보글 상세 내용<span style="color:red;">*</span>
+            </label>
+            <textarea id="courseDescriptContent" name="courseDescriptContent" class="form-control" rows="4" placeholder="홍보글을 입력하세요"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="courseDescriptFiles" class="form-label">
+              <i class="bi bi-upload"></i> 이미지 업로드
+            </label>
+            <input type="file" id="courseDescriptFiles" name="courseDescriptFiles" class="form-control" multiple accept="image/*">
+          </div>
+        </fieldset>
+
+
+        <div class="mt-4 mb-4 border p-3 rounded detail-item" id="detail-0">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 name="detailNum">강의 자료 업로드</h5>
+            <span style="color:red;">* 온라인 강의에서는 강의자료를 필수로 입력해야 합니다.</span>
+            <!--            <span style="color:red;">* 강의영상은 1개 이상이 필수로 입려되어야합니다.</span>-->
+          </div>
+
+          <div class="mb-3" style="display:none;">
+            <label class="form-label">강의 목차<span style="color:red;">*</span> </label>
+            <input type="text" id="courseDetails[0].courseDetailOutline" name="courseDetails[0].courseDetailOutline" class="form-control" placeholder="상세 목차를 입력하세요">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">강의 자료 </label><span style="color:red;">*</span>
+            <input type="text" id="courseDetails[0].courseDetailTitle" name="courseDetails[0].courseDetailTitle" class="form-control" required>
+          </div>
+
+          <!-- 파일 업로드 영역 -->
+          <div class="mb-3 upload-section">
+            <label class="form-label">
+              <input type="radio" id="uploadFile-0" name="uploadType[0]" value="file" checked>
+              <i class="bi bi-upload"></i> 파일 업로드 <span style="color:red;">*</span><br>
+              (최대 용량: <span th:text="${maxFileSize}"></span>MB 지원)
+            </label>
+            <input type="file" id="courseDetails[0].courseDetailFile"
+                   name="courseDetails[0].courseDetailFile" class="form-control"
+                   accept=".txt,.ppt,.pptx,.pdf,.zip,.doc,.docx,.xls,.xlsx,.csv,.jpg,.jpeg,.png,.gif,.bmp,.svg,.html,.css,.js" required>
+          </div>
+
+        </div>
+
+
+        <div class="mt-4 mb-4 border p-3 rounded detail-item" id="detail-1">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 name="detailNum">강의 영상 업로드 1</h5>
+            <span style="color:red;">* 온라인 강의에서는 강의영상은 1개 이상을 필수로 입력해야 합니다.</span>
+          </div>
+          <div class="mb-3" style="display:none;">
+            <label for="courseDetails[1].courseDetailOutline" class="form-label">강의 목차<span style="color:red;">*</span> </label>
+            <input type="text" id="courseDetails[1].courseDetailOutline" name="courseDetails[1].courseDetailOutline" class="form-control" placeholder="상세 목차를 입력하세요">
+          </div>
+          <div class="mb-3">
+            <label for="courseDetails[1].courseDetailTitle" class="form-label">강의 영상 제목<span style="color:red;">*</span> </label>
+            <input type="text" id="courseDetails[1].courseDetailTitle" name="courseDetails[1].courseDetailTitle" class="form-control" required>
+          </div>
+          <div class="mb-3" style="display:none;">
+            <label for="courseDetails[1].courseDetailContent" class="form-label">강의 영상 내용 </label>
+            <textarea id="courseDetails[1].courseDetailContent" name="courseDetails[1].courseDetailContent" class="form-control" rows="3"></textarea>
+          </div>
+
+          <!-- 업로드 방식 선택 -->
+          <div class="mb-3">
+            <label class="form-label">업로드 방식 선택</label>
+            <div>
+              <input type="radio" id="uploadFile-1" name="uploadType[1]" value="file" checked>
+              <label for="uploadFile-1">파일 업로드</label>
+
+              <input type="radio" id="embedVideo-1" name="uploadType[1]" value="embed">
+              <label for="embedVideo-1">동영상 임베드</label>
+            </div>
+          </div>
+
+          <!-- 파일 업로드 영역 -->
+          <div class="mb-3 upload-section" id="fileUploadDiv-1">
+            <label for="courseDetails[1].courseDetailFile" class="form-label">
+              <i class="bi bi-upload"></i> 파일 업로드 <span style="color:red;">*</span><br>
+              (동영상 : .mp4, .avi, .mov, .mkv, .flv, .wmv / 최대 용량: <span th:text="${maxFileSize}"></span>MB 지원)
+            </label>
+            <input type="file" id="courseDetails[1].courseDetailFile"
+                   name="courseDetails[1].courseDetailFile" class="form-control"
+                   accept="video/*">
+          </div>
+
+          <!-- 동영상 URL 입력 영역 (기본 숨김) -->
+          <div class="mb-3 upload-section" id="videoEmbedDiv-1" style="display: none;">
+            <label for="courseDetails[1].videoUrl" class="form-label">
+              <i class="bi bi-youtube"></i> 유튜브 동영상 URL 입력 <span style="color:red;">*</span>
+            </label>
+            <input type="text" id="courseDetails[1].videoUrl"
+                   name="courseDetails[1].videoUrl" class="form-control"
+                   placeholder="youtube embed url 주소를 입력바랍니다.">
+          </div>
+        </div>
+
+        <!-- 강의 세부 정보 -->
+        <div id="detailsContainer" class="mt-4">
+
+        </div>
+
+        <!-- Submit -->
+        <div class="d-flex justify-content-between align-items-center">
+          <button type="button" id="addDetailButton" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> 강의 영상 추가
+          </button>
+          <button type="submit" class="btn btn-primary btn-lg" id="submitButton">
+            <i class="bi bi-check-circle"></i> 등록
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  let detailCount = 2;
+
+  $(document).ready(function () {
+      const maxFileSize = [[${maxFileSize}]]; // MB
+      $('#addDetailButton').click(function () {
+          const detailHtml = `
+              <div class="mt-4 mb-4 border p-3 rounded detail-item" id="detail-${detailCount}">
+                  <div class="d-flex justify-content-between align-items-center">
+                      <h5 name="detailNum">강의 영상 ${detailCount}</h5>
+                      <button type="button" class="btn btn-danger btn-sm mb-3 removeDetailButton" data-detail-id="${detailCount}">
+                          <i class="bi bi-trash"></i> 삭제
+                      </button>
+                  </div>
+                  <div class="mb-3" style="display:none;">
+                      <label for="courseDetails[${detailCount}].courseDetailOutline" class="form-label">강의 목차<span style="color:red;">*</span> </label>
+                      <input type="text" id="courseDetails[${detailCount}].courseDetailOutline" name="courseDetails[${detailCount}].courseDetailOutline" class="form-control" placeholder="상세 목차를 입력하세요">
+                  </div>
+                  <div class="mb-3">
+                      <label for="courseDetails[${detailCount}].courseDetailTitle" class="form-label">강의 영상 제목<span style="color:red;">*</span> </label>
+                      <input type="text" id="courseDetails[${detailCount}].courseDetailTitle" name="courseDetails[${detailCount}].courseDetailTitle" class="form-control" required>
+                  </div>
+                  <div class="mb-3" style="display:none;">
+                      <label for="courseDetails[${detailCount}].courseDetailContent" class="form-label">강의자료 내용 </label>
+                      <textarea id="courseDetails[${detailCount}].courseDetailContent" name="courseDetails[${detailCount}].courseDetailContent" class="form-control" rows="3"></textarea>
+                  </div>
+
+                  <!-- 업로드 방식 선택 -->
+                  <div class="mb-3">
+                      <label class="form-label">업로드 방식 선택</label>
+                      <div>
+                          <input type="radio" id="uploadFile-${detailCount}" name="uploadType[${detailCount}]" value="file" checked>
+                          <label for="uploadFile-${detailCount}">파일 업로드</label>
+
+                          <input type="radio" id="embedVideo-${detailCount}" name="uploadType[${detailCount}]" value="embed">
+                          <label for="embedVideo-${detailCount}">동영상 임베드</label>
+                      </div>
+                  </div>
+
+                  <!-- 파일 업로드 영역 -->
+                  <div class="mb-3 upload-section" id="fileUploadDiv-${detailCount}">
+                      <label for="courseDetails[0].courseDetailFile" class="form-label">
+                        <i class="bi bi-upload"></i> 파일 업로드 <span style="color:red;">*</span><br>
+                        (동영상 : .mp4, .avi, .mov, .mkv, .flv, .wmv / 최대 용량: ${maxFileSize}MB 지원)
+                    </label>
+                      <input type="file" id="courseDetails[${detailCount}].courseDetailFile"
+                          name="courseDetails[${detailCount}].courseDetailFile" class="form-control"
+                          accept="video/*">
+                  </div>
+
+                  <!-- 동영상 URL 입력 영역 (기본 숨김) -->
+                  <div class="mb-3 upload-section" id="videoEmbedDiv-${detailCount}" style="display: none;">
+                      <label for="courseDetails[${detailCount}].videoUrl" class="form-label">
+                          <i class="bi bi-youtube"></i> 유튜브 동영상 URL 입력 <span style="color:red;">*</span>
+                      </label>
+                      <input type="text" id="courseDetails[${detailCount}].videoUrl"
+                          name="courseDetails[${detailCount}].videoUrl" class="form-control"
+                          placeholder="youtube embed url 주소를 입력바랍니다.">
+                  </div>
+              </div>`;
+
+          $('#detailsContainer').append(detailHtml);
+          detailCount++;
+          resetIndices();
+      });
+
+    // 세부 정보 삭제 버튼 클릭 이벤트
+    $('#detailsContainer').on('click', '.removeDetailButton', function () {
+        $(this).closest('.detail-item').remove();
+        resetIndices();
+    });
+
+    // 인덱스 재설정 함수
+    function resetIndices() {
+        let index = 2;
+        $('#detailsContainer .detail-item').each(function () {
+            const newId = `detail-${index}`;
+            $(this).attr('id', newId);
+
+            // 제목 번호 업데이트
+            $(this).find('h5[name="detailNum"]').text(`강의 영상 업로드 ${index}`);
+
+            $(this).find('input, textarea, select').each(function () {
+                const name = $(this).attr('name');
+                const id = $(this).attr('id');
+                if (name) {
+                    const newName = name.replace(/\[\d+\]/, `[${index}]`);
+                    $(this).attr('name', newName);
+                }
+                if (id) {
+                    const newId = id.replace(/\[\d+\]/, `[${index}]`);
+                    $(this).attr('id', newId);
+                }
+            });
+
+            // 삭제 버튼의 data-detail-id 업데이트
+            $(this).find('.removeDetailButton').attr('data-detail-id', index);
+            index++;
+        });
+
+        detailCount = index;
+    }
+
+    // 업로드 타입 변경 시 UI 변경
+    function toggleUploadType() {
+        $('input[name^="uploadType"]').each(function () {
+            const detailIdx = $(this).attr('id').split('-')[1];
+            const fileUploadDiv = $(`#fileUploadDiv-${detailIdx}`);
+            const videoEmbedDiv = $(`#videoEmbedDiv-${detailIdx}`);
+
+            if ($(`#uploadFile-${detailIdx}`).is(':checked')) {
+                fileUploadDiv.show();
+                videoEmbedDiv.hide();
+            } else {
+                fileUploadDiv.hide();
+                videoEmbedDiv.show();
+            }
+        });
+    }
+
+    // 업로드 타입 변경 이벤트 적용
+    $(document).on("change", "input[name^='uploadType']", toggleUploadType);
+});
+  // 유효성 검사 함수
+  function validateForm() {
+      // 강의 세부 자료 검사
+      const detailItems = document.querySelectorAll(".detail-item");
+      if (detailItems.length ===0) {
+          alert("최소 한 개의 강의 영상을 추가해야 합니다.");
+          return false;
+      }
+
+      const maxFileSize = [[${maxFileSize}]] * 1024 * 1024; // MB -> Bytes로 변환
+      const maxRequestSize = [[${maxRequestSize}]] * 1024 * 1024; // MB -> Bytes로 변환
+
+      // 썸네일, 강의 홍보 이미지 확인
+      const courseThumbnail = document.getElementById("courseThumbnail");
+      const courseDescriptFiles = document.getElementById("courseDescriptFiles");
+      let sumFileSize=0;
+
+      if (courseThumbnail.files && courseThumbnail.files[0]) {
+        let fileSize = courseThumbnail.files[0].size
+        sumFileSize+= fileSize;
+        if (fileSize > maxFileSize) {
+            alert(`파일 크기는 ${maxFileSize / 1024 / 1024}MB를 초과할 수 없습니다.`);
+            courseThumbnail.focus();
+            return false;
+        }
+        if (sumFileSize > maxRequestSize) {
+            alert(`총 파일 크기는 ${maxRequestSize / 1024 / 1024}MB를 초과할 수 없습니다.`);
+            courseThumbnail.focus();
+            return false;
+        }
+      }
+
+      if (courseDescriptFiles.files && courseDescriptFiles.files.length > 0) {
+          // 여러 파일이 선택된 경우
+          for (let i = 0; i < courseDescriptFiles.files.length; i++) {
+              let fileSize = courseDescriptFiles.files[i].size;
+              sumFileSize += fileSize;
+
+              // 개별 파일 크기 제한 체크
+              if (fileSize > maxFileSize) {
+                  alert(`파일 크기는 ${maxFileSize / 1024 / 1024}MB를 초과할 수 없습니다.`);
+                  courseDescriptFiles.focus();
+                  return false;
+              }
+          }
+
+          // 전체 파일 크기 합산 제한 체크
+          if (sumFileSize > maxRequestSize) {
+              alert(`총 파일 크기는 ${maxRequestSize / 1024 / 1024}MB를 초과할 수 없습니다.`);
+              courseDescriptFiles.focus();
+              return false;
+          }
+      }
+
+      for (let i = 0; i < detailItems.length; i++) {
+          const detailTitle = document.getElementById(`courseDetails[${i}].courseDetailTitle`);
+          const uploadTypeFile = document.getElementById(`uploadFile-${i}`);
+          const uploadTypeEmbed = document.getElementById(`embedVideo-${i}`);
+          const detailFile = document.getElementById(`courseDetails[${i}].courseDetailFile`);
+          const videoUrl = document.getElementById(`courseDetails[${i}].videoUrl`);
+
+          if (!detailTitle || detailTitle.value.trim() === "") {
+              alert(`강의 영상 업로드 ${i}의 제목을 입력해주세요.`);
+              detailTitle.focus();
+              return false;
+          }
+
+          if (uploadTypeFile && uploadTypeFile.checked && (!detailFile || detailFile.value.trim() === "")) {
+              alert(`강의 영상 업로드 ${i}의 파일을 업로드해주세요.`);
+              detailFile.focus();
+              return false;
+          }
+
+          // 파일 크기 확인
+          if (uploadTypeFile && uploadTypeFile.checked && detailFile.files && detailFile.files[0]) {
+              let fileSize = detailFile.files[0].size
+              sumFileSize+= fileSize;
+              if (fileSize > maxFileSize) {
+                  alert(`파일 크기는 ${maxFileSize / 1024 / 1024}MB를 초과할 수 없습니다.`);
+                  detailFile.focus();
+                  return false;
+              }
+              if (sumFileSize > maxRequestSize) {
+                  alert(`총 파일 크기는 ${maxRequestSize / 1024 / 1024}MB를 초과할 수 없습니다.`);
+                  detailFile.focus();
+                  return false;
+              }
+          }
+
+          if (uploadTypeEmbed && uploadTypeEmbed.checked && (!videoUrl || videoUrl.value.trim() === "")) {
+              alert(`강의 영상 업로드 ${i}의 유튜브 동영상 URL을 입력해주세요.`);
+              videoUrl.focus();
+              return false;
+          }
+      }
+      const submitButton = document.getElementById('submitButton');
+      submitButton.disabled = true;  // 제출 버튼 비활성화
+
+      return true; // 모든 검사를 통과하면 폼 제출
+  }
+
+</script>
+</body>
+</html>
+

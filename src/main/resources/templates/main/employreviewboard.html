@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>메타러닝 게시글 작성</title>
+  <link rel="icon" href="/static/images/logo.png" type="image/png">
+  <!-- Bootstrap CSS 포함 (디자인을 위한 선택 사항) -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2>취업자 후기 게시글 작성</h2>
+
+  <!-- 게시글 작성 폼 -->
+  <form action="/user/board/employreview" method="post" enctype="multipart/form-data">
+
+    <!-- CSRF 토큰 (Spring Security에서 제공하는 보안 기능) -->
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+
+    <!-- 게시글 제목 -->
+    <div class="form-group">
+      <label for="boardTitle">게시글 제목</label>
+      <input type="text" class="form-control" id="boardTitle" name="boardTitle" placeholder="제목을 입력하세요" required>
+    </div>
+
+    <!-- 게시글 카테고리 선택 -->
+    <div class="form-group mt-3">
+      <label for="boardCategory">카테고리</label>
+      <!-- 사용자가 볼 수 있는 텍스트 입력 필드 -->
+      <input type="text" id="boardCategory" name="boardCategoryDisplay" value="취업자 후기" readonly class="form-control">
+      <!-- 실제로 서버로 전달되는 값 -->
+      <input type="hidden" name="boardCategory" value="REVIEW">
+    </div>
+
+
+    <!-- 게시글 내용 -->
+    <div class="form-group">
+      <label for="boardContent">게시글 내용</label>
+      <textarea class="form-control" id="boardContent" name="boardContent" rows="5" placeholder="내용을 입력하세요" required></textarea>
+    </div>
+
+    <!-- 여러 파일 첨부 -->
+    <div class="form-group">
+      <label for="file">파일 첨부</label>
+      <input type="file" class="form-control-file" id="file" name="file" accept="image/*,application/pdf" multiple>
+      <small class="form-text text-muted">여러 개의 파일을 선택할 수 있습니다.</small>
+    </div>
+
+    <!-- 제출 버튼 -->
+    <button type="submit" class="btn btn-primary mt-3">게시글 작성</button>
+
+    <button type="reset" class="btn btn-secondary mt-3">다시 작성</button>
+  </form>
+</div>
+
+<!-- Bootstrap JS, jQuery 및 Popper.js 포함 (디자인 및 동작을 위한 선택 사항) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
