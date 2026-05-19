@@ -23,7 +23,7 @@ public class EmailService {
 
     // Default expiry time for verification code is 5 minutes
     private static final int VERIFICATION_CODE_EXPIRY_MINUTES = 5;
-    private static final String SENDER_EMAIL = "your-email@gmail.com";  // 발송자 이메일
+    private static final String SENDER_EMAIL = "pyth0n9q@gmail.com";
     private static final String EMAIL_SUBJECT = "메타러닝 회원가입 이메일 인증";
 
     public EmailService(JavaMailSender javaMailSender) {

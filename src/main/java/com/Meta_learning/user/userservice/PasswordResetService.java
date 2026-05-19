@@ -27,7 +27,7 @@ public class PasswordResetService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private static final String EMAIL_SUBJECT = "메타러닝 비밀번호 찾기 인증";
-    private static final String SENDER_EMAIL = "your-email@example.com"; // 발신자 이메일
+    private static final String SENDER_EMAIL = "pyth0n9q@gmail.com";
     private static final String SENDER_NAME = "배움의 시작 메타러닝";
 
     // 이메일로 비밀번호 리셋 처리
