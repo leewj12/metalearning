@@ -30,7 +30,6 @@ const ManagerTrainList = () => {
           },
           withCredentials: true, // 쿠키 포함
           });
-          console.log(response.data);  // API 응답 데이터 구조 확인
           setTrainList(response.data.trainList|| []); // 데이터 배열로 설정
           setSessionInfo(response.data.KDTSessionDTO|| []);
         } catch (error) {

@@ -29,7 +29,6 @@ public class KDTTimeService {
         int updatedCount = kdtSessionRepository.updateSessionsToFinished(currentDate, KDTSessionStatus.FINISHED);
 
         // 업데이트된 세션의 수를 출력합니다.
-        System.out.println("Updated sessions to FINISHED: " + updatedCount);
     }
 
     /**
@@ -45,7 +44,6 @@ public class KDTTimeService {
         int updatedCount = kdtSessionRepository.updateSessionsToOngoing(currentDate, KDTSessionStatus.ONGOING);
 
         // 업데이트된 세션의 수를 출력합니다.
-        System.out.println("Updated sessions to ONGOING: " + updatedCount);
     }
 
     /**

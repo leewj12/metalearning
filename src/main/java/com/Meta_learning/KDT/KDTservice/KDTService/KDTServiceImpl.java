@@ -409,7 +409,6 @@ public class KDTServiceImpl implements KDTService {
 
             // 세션이 존재하지 않으면 false 반환
             if (kdtSessionEntity == null) {
-                System.out.println("세션이 존재하지 않습니다. 세션 ID: " + kdtAppConsultDTO.getKdtSessionId());
                 return false;  // 세션이 없으면 저장하지 않고 false 반환
             }
 

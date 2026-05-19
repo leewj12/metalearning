@@ -65,7 +65,6 @@ function ManagerDashboard() {
         // });
 
         // 데이터 상태 업데이트
-        console.log(userCountResponse.data,userGrowthResponse.data,uploadResponse.data);
         setUserCount(userCountResponse.data);
         setUserGrowth(userGrowthResponse.data);
         //setUpload(uploadResponse.data);

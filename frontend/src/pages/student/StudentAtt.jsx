@@ -12,7 +12,6 @@ dayjs.extend(timezone);
 
 const getKST = () => dayjs().tz("Asia/Seoul").format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
 const getKSTday = () =>dayjs().tz("Asia/Seoul").format("YYYY-MM-DD");
-console.log(getKSTday());
 const AttListDetail = () => {
   const { kdtSessionId } = useParams(); // URL 파라미터
   const navigate = useNavigate(); // useNavigate 훅 사용
@@ -86,7 +85,6 @@ const AttListDetail = () => {
           withCredentials: true,
         }
       );
-      console.log(getKST());
       alert("입실 처리가 완료되었습니다.");
 
        // 이벤트 데이터 새로 생성
@@ -148,7 +146,6 @@ const AttListDetail = () => {
       } else if (updatedStatus === "입실") {
         alertMessage = "복귀 완료.";
       }
-        console.log(updatedStatus);
       alert(alertMessage);
 
       setDetailInfo(response.data); // 상태 갱신

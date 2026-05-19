@@ -219,9 +219,7 @@ public class AdminController {
                 if (existingFile.exists()) {
                     boolean deleted = existingFile.delete();
                     if (deleted) {
-                        System.out.println("기존 이미지 파일이 삭제되었습니다.");
                     } else {
-                        System.out.println("기존 이미지 파일 삭제 실패.");
                     }
                 }
             }

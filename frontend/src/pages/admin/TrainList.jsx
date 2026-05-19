@@ -30,7 +30,6 @@ const TrainList = () => {
           },
           withCredentials: true, // 쿠키 포함
           });
-          console.log(response.data);  // API 응답 데이터 구조 확인
 
           // 날짜 기준으로 최신순 정렬 (내림차순)
           const sortedTrainList = response.data.trainList

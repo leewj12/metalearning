@@ -30,7 +30,6 @@ const InstrTestList = () => {
           },
           withCredentials: true, // 쿠키 포함
           });
-          console.log(response.data); // 응답 데이터 구조 확인
           setSessionInfo(response.data.KDTSessionDTO || {}); // 회차 정보
           setTestList(response.data.kdtTestListDTOs || []); // 시험 목록
         } catch (error) {

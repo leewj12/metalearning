@@ -29,9 +29,6 @@ public class PaymentRestController {
             @RequestParam String courseTitles) {
 
         // 요청 데이터 확인
-        System.out.println("User ID: " + userId);
-        System.out.println("Course IDs: " + courseIds);
-        System.out.println("Course Titles: " + courseTitles);
 
         // 예시로 반환할 결제 관련 데이터
         Map<String, Object> paymentData = new HashMap<>();

@@ -23,8 +23,6 @@ const ManagerSessionList = () => {
         });
         // console.log(response);
         const data = response.data; // 응답 데이터 추출
-        console.log("서버 응답 데이터:", data); // 데이터 로그 출력
-        console.log("응답 데이터:", response.data);
         
         
         // 세션 데이터가 정상일 경우 상태 업데이트

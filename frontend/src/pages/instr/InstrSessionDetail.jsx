@@ -29,7 +29,6 @@ const InstrSessionDetail = () => {
           axios.get(`/api/instr/KDT/${sessionId}/staff/list`, { withCredentials: true }),
         ]);
 
-        console.log(countRes.data.studentCount);
         // ✅ 데이터 저장
         setSessionDetail(sessionRes.data);
         setParticipantCount(countRes.data.studentCount || 0);

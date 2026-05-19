@@ -36,7 +36,6 @@ const ManagerAttListDetail = () => {
             withCredentials: true, // 쿠키 포함
           }
         );
-        console.log(response.data);
         setDetailInfo(response.data);
          // 이벤트 데이터 가공
          const eventData = (response.data.kdtAttDTOs || []).map((record) => ({
@@ -46,7 +45,6 @@ const ManagerAttListDetail = () => {
           backgroundColor: statusColorMap[record.kdtAttStatus] || "blue",
         }));
 
-        console.log(eventData);
         setEvents(eventData);
       } catch (error) {
         setErrorMessage("상세 데이터를 불러오는 데 실패했습니다.");

@@ -35,7 +35,6 @@ const UserList = () => {
           },
           withCredentials: true, // 쿠키 포함
           });
-          console.log(response.data);
           setUsers(response.data); // 데이터 배열로 설정
         } catch (error) {
    

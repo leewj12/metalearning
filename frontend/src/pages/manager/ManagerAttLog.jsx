@@ -116,7 +116,6 @@ const ManagerAttLog = () => {
       };
   
       // 디버깅용 로그
-      console.log("변환된 데이터:", formattedData);
 
       await axios.put(
         `/api/manager/KDT/${kdtSessionId}/att/update/${editRow}`,
@@ -149,7 +148,6 @@ const ManagerAttLog = () => {
     const handleEditChange = (e) => {
       const { name, value } = e.target;
       setEditData((prev) => ({ ...prev, [name]: value }));
-      console.log("Updated editData:", { ...editData, [name]: value });
     };
     
     const handleAddInputChange = (e) => {
@@ -198,7 +196,6 @@ const ManagerAttLog = () => {
           kdtAttStatus: "",
         });
       } catch (error) {
-        console.log(formattedData);
         console.error("추가 중 오류 발생:", error);
         alert("출석부 추가에 실패했습니다.");
       }

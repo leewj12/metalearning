@@ -23,7 +23,6 @@ function AreaChart() {
         });
 
         const apiData = response.data; // 서버로부터 가져온 데이터
-        console.log("API 데이터:", apiData);
 
         // 데이터 가공 (월별 데이터 생성)
         const months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];

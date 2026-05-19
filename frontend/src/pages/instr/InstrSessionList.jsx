@@ -22,8 +22,6 @@ const SessionList = () => {
           withCredentials: true, // 쿠키 포함
         });
         const data = response.data; // 응답 데이터 추출
-        console.log("서버 응답 데이터:", data); // 데이터 로그 출력
-        console.log("응답 데이터:", response.data);
         
         if (response.status === 403 && data.message === "회차에 등록된 매니저가 아닙니다.") {
           // 403 에러 발생 시 알림 표시 후 리다이렉트

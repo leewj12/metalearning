@@ -237,7 +237,6 @@ public class UserEntity implements UserDetails {
                 this.userStatus = UserStatus.valueOf(userSignUpDTO.getUserStatus());
             } catch (IllegalArgumentException e) {
                 // 잘못된 값이 들어온 경우 처리 (예: 유효하지 않은 상태 값)
-                System.out.println("유효하지 않은 userStatus 값: " + userSignUpDTO.getUserStatus());
             }
         }
 

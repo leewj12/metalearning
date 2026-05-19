@@ -28,7 +28,6 @@ const InstrTestSubmit = () => {
           },
           withCredentials: true, // 쿠키 포함
           });
-          console.log(response.data); // 응답 데이터 확인
           setSubmitList(response.data.kdtTestSubmitListDTOs || []); // 제출 목록 설정
           setSessionInfo(response.data.KDTSessionDTO || {}); // 회차 정보 설정
           setTestInfo(response.data.kdtTestListDTO || {}); // 시험 정보 설정

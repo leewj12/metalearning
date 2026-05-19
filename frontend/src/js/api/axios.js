@@ -15,11 +15,9 @@ const getCsrfToken = () => {
 apiClient.interceptors.request.use(
   (config) => {
     const csrfToken = getCsrfToken(); // CSRF 토큰 가져오기
-    console.log(csrfToken)
     if (csrfToken) {
       config.headers["X-XSRF-TOKEN"] = csrfToken; // 요청 헤더에 추가
     }
-    console.log(config);
     return config;
   },
   (error) => {

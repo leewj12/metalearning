@@ -21,8 +21,6 @@ const ManagerCourseList = () => {
         });
         setCourses(response.data); // 과정 데이터 설정
       } catch (error) {
-        console.log("Test1",error.response.data.message);
-        console.log("Test2",error.response.status);
         if (error.response) {
           if (error.response.status === 403 && error.response.data.message === "회차 정보가 없습니다.") {
             // 403 에러 발생 시 알림 표시 후 리다이렉트

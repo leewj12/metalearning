@@ -35,7 +35,6 @@ const ManagerUserList = () => {
           },
           withCredentials: true, // 쿠키 포함
           });
-          console.log(response.data);  // API 응답 데이터 구조 확인
           setUsers(response.data); // 데이터 배열로 설정
         } catch (error) {
           console.error("사용자 데이터를 불러오는 중 오류 발생:", error);

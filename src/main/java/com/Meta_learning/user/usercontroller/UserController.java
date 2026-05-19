@@ -300,7 +300,6 @@ public class UserController {
         model.addAttribute("instrUpRequest", new InstrUpRequest());
 
         if (model.containsAttribute("message")) {
-            System.out.println("Flash 메시지: " + model.getAttribute("message"));
         }
 
         return "users/up"; // 사용자 업로드 폼 페이지로 리턴
