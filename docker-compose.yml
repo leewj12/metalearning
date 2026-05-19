@@ -6,7 +6,7 @@ services:
       - "9091:9091"
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      DB_HOST: mysql          # P2 네트워크 내 MySQL 서비스명
+      DB_HOST: projects-mysql
       DB_PORT: 3306
       DB_NAME: ${DB_NAME}
       DB_USERNAME: ${DB_USERNAME}
