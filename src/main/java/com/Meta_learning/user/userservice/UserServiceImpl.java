@@ -350,7 +350,11 @@ public class UserServiceImpl implements UserService {
 
         // 인증번호 생성 및 이메일 전송
         String verificationCode = emailService.generateVerificationCode();
-        emailService.sendVerificationEmail(email, verificationCode);
+        try {
+            emailService.sendVerificationEmail(email, verificationCode);
+        } catch (Exception e) {
+            return false;
+        }
         return true;  // 인증 이메일이 전송되었으면 true 반환
     }
 

@@ -30,7 +30,7 @@ public class WebSecurityConfig {
     @Autowired
     private CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
-    private static final String[] WHITE_LIST = { "/", "/login", "/signup", "find/**","main/**",};
+    private static final String[] WHITE_LIST = { "/", "/login", "/signup", "/find/**", "/main/**" };
 
     // 스태틱 리소스는 인증 없이 접근할 수 있도록 설정
     @Bean

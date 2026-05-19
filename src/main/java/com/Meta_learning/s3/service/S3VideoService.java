@@ -212,40 +212,40 @@ public class S3VideoService {
                 long newVideoDuration = getVideoDuration(newFile);
                 // 기존 동영상 엔티티 업데이트
                 existingVideo.updateVideoDetails(
-                        request.getTitle(),
-                        request.getCategory(),
                         newFile.getOriginalFilename(),
                         newVideoUrl,
                         newFile.getSize(),
                         newFile.getContentType(),
                         newVideoDuration
                 );
+                existingVideo.updateKdtCourseVideoTitle(request.getTitle());
+                existingVideo.updateKdtCourseVideoCategory(request.getCategory());
             } // 기존 설정이 url인 경우
             else {
                 String newVideoUrl = request.getVideoUrl();
                 // 기존 동영상 엔티티 업데이트
                 existingVideo.updateVideoDetails(
-                        request.getTitle(),
-                        request.getCategory(),
                         newVideoUrl,
                         newVideoUrl,
                         0L,
                         "url",
                         0L
                 );
+                existingVideo.updateKdtCourseVideoTitle(request.getTitle());
+                existingVideo.updateKdtCourseVideoCategory(request.getCategory());
             }
 
         } else {
             // 새 파일이 없으면 제목과 카테고리만 업데이트
             existingVideo.updateVideoDetails(
-                    request.getTitle(),
-                    request.getCategory(),
                     existingVideo.getKdtCourseVideoFile(),
                     existingVideo.getKdtCourseVideoUUID(),
                     existingVideo.getKdtCourseVideoSize(),
                     existingVideo.getKdtCourseVideoType(),
                     existingVideo.getKdtCourseVideoTime()
             );
+            existingVideo.updateKdtCourseVideoTitle(request.getTitle());
+            existingVideo.updateKdtCourseVideoCategory(request.getCategory());
         }
 
         return existingVideo.getKdtCourseVideoId();

@@ -139,9 +139,9 @@
 <body>
 
 <div class="message">
-    <h2>현재 페이지는 공사 중입니다!</h2>
-    <p>아직 페이지가 구현 중입니다. 곧 서비스 진행 예정 입니다!</p>
-    <a href="/">홈으로 가기</a>
+    <h2 th:text="${errorTitle} ?: '오류가 발생했습니다'">오류가 발생했습니다</h2>
+    <p th:text="${errorMessage} ?: '요청을 처리하는 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.'">요청을 처리하는 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.</p>
+    <a th:href="${returnUrl} ?: '/'">홈으로 가기</a>
 </div>
 
 <!-- Bootstrap JS, Popper.js CDN -->
