@@ -66,9 +66,6 @@ tasks.named('test') {
 
 // Spring Boot WAR 설정
 bootWar {
-	mainClass = 'com.Meta_learning.MetaLearningApplication'  // WAR 파일에서 실행할 메인 클래스 설정
-}
-
-war {
-	archiveFileName = 'ROOT.war'  // 생성될 WAR 파일 이름을 'ROOT.war'로 설정
+	mainClass = 'com.Meta_learning.MetaLearningApplication'
+	archiveFileName = 'ROOT.war'
 }
