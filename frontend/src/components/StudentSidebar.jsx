@@ -1,6 +1,6 @@
 import React , { useEffect,useState } from "react";
 import axios from "axios";
-import styles from "../css/student/StudentSideBar.module.css";
+import styles from "../css/student/StudentSidebar.module.css";
 import ComingSoonToast from "./ComingSoonToast";
 
 const StudentSideBar = () => {

@@ -1,5 +1,5 @@
 import React , { useState } from "react";
-import styles from "../css/instr/InstrSideBar.module.css";
+import styles from "../css/instr/InstrSidebar.module.css";
 
 const InstrSideBar = () => {
   const [showSubMenu, setShowSubMenu] = useState(false);
