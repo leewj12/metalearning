@@ -106,10 +106,7 @@ public class PaymentRestController {
     @GetMapping("/api/admin/paylist")
     public ResponseEntity<List<PayListResponse>> getPayList() {
         List<PayListResponse> payList = paymentService.getAllPayList();
-        if (payList.isEmpty()) {
-            return ResponseEntity.noContent().build(); // 204 No Content
-        }
-        return ResponseEntity.ok(payList); // 200 OK
+        return ResponseEntity.ok(payList);
     }
 
     @PostMapping("/api/admin/paylist/refund/{payId}")
