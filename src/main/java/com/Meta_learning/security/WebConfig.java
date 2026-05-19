@@ -19,6 +19,9 @@ public class WebConfig implements WebMvcConfigurer {
                         "classpath:/course/"
                 );
 
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:tomcat/webapps/ROOT/WEB-INF/classes/static/uploads/");
+
 //// 카페24의 public_html 경로에 업로드된 이미지를 매핑
 //        registry.addResourceHandler("/static/images/course/**")
 //                .addResourceLocations("classpath:/static/images/course/");

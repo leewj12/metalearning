@@ -11,9 +11,11 @@ import com.Meta_learning.course.courseservice.requset.CourseCreateServiceRequest
 import com.Meta_learning.user.userentity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.services.s3.S3Client;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,8 +35,12 @@ public class CourseServiceImpl implements CourseService{
     private final CourseDescriptRepository courseDescriptRepository;
 
     private final OrderDetailRepository orderDetailRepository;
-    private final CartItemRepository cartItemRepository; // 장바구니 테이블
+    private final CartItemRepository cartItemRepository;
     private final InstrRepository instrRepository;
+    private final S3Client s3Client;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     @Override
     // 1. 강의 기본 정보 조회
@@ -275,7 +281,10 @@ public class CourseServiceImpl implements CourseService{
             List<CourseVideoEntity> courseVideos = courseVideoRepository.findByCourseDetailIn(List.of(detail));
             for (CourseVideoEntity video : courseVideos) {
                 if(!video.getCourseVideoType().equals("url")) {
-                    deleteFileFromServer("tomcat/webapps/ROOT/WEB-INF/classes/static/uploads/course_videos", video.getCourseVideoUUID());
+                    try {
+                        String key = extractS3Key(video.getCourseVideoUUID());
+                        s3Client.deleteObject(b -> b.bucket(bucket).key(key).build());
+                    } catch (Exception ignored) {}
                 }
             }
             courseVideoRepository.deleteAll(courseVideos);
@@ -310,7 +319,10 @@ public class CourseServiceImpl implements CourseService{
         CourseDetailEntity courseDetail = courseVideo.getCourseDetail();
 
         if(!courseVideo.getCourseVideoType().equals("url")){
-            deleteFileFromServer("tomcat/webapps/ROOT/WEB-INF/classes/static/uploads/course_videos", courseVideo.getCourseVideoUUID());
+            try {
+                String key = extractS3Key(courseVideo.getCourseVideoUUID());
+                s3Client.deleteObject(b -> b.bucket(bucket).key(key).build());
+            } catch (Exception ignored) {}
         }
 
         // 강의 영상 DB 삭제
@@ -320,6 +332,14 @@ public class CourseServiceImpl implements CourseService{
         courseDetailRepository.delete(courseDetail);
     }
 
+
+    private String extractS3Key(String s3Url) {
+        int startIndex = s3Url.indexOf("course/videos/");
+        if (startIndex == -1) {
+            throw new IllegalArgumentException("Invalid S3 URL: " + s3Url);
+        }
+        return s3Url.substring(startIndex);
+    }
 
     /**
      * 서버에서 파일 삭제

@@ -244,19 +244,14 @@ public class CourseDetailServiceImpl implements CourseDetailService {
 
 //                if (videoUrl.contains("youtube.com") || videoUrl.contains("youtu.be")) {
                 if (videoType.equals("url")) {
-                    // 유튜브 영상은 S3에서 삭제할 필요 없이 DB에서만 삭제
                     courseVideoRepository.delete(video);
                 } else {
-                    // S3에 저장된 파일 삭제 (유튜브가 아닌 경우만)
-//                    String s3Key = extractS3Key(videoUrl);
                     try {
-//                        s3Client.deleteObject(builder -> builder.bucket(bucket).key(s3Key).build());
-                        deleteFileFromServer(LOCAL_UPLOAD_VIDEO_DIR, video.getCourseVideoUUID());
+                        String s3Key = extractS3Key(videoUrl);
+                        s3Client.deleteObject(builder -> builder.bucket(bucket).key(s3Key).build());
                     } catch (Exception e) {
-//                        throw new IllegalStateException("S3 파일 삭제에 실패했습니다.", e);
-                        throw new IllegalStateException("강의 영상 삭제에 실패했습니다.", e);
+                        throw new IllegalStateException("S3 파일 삭제에 실패했습니다.", e);
                     }
-                    // DB에서도 삭제
                     courseVideoRepository.delete(video);
                 }
             }
@@ -337,12 +332,11 @@ public class CourseDetailServiceImpl implements CourseDetailService {
         // 새로운 영상을 추가하는 경우
         if (!request.getUploadType().equals("none")) {
             if(!courseVideo.getCourseVideoType().equals("url")){
-                Path filePath = Paths.get(LOCAL_UPLOAD_VIDEO_DIR, courseVideo.getCourseVideoUUID());
                 try {
-
-                    Files.deleteIfExists(filePath);
-                } catch (IOException e) {
-                    // 로깅 가능
+                    String s3Key = extractS3Key(courseVideo.getCourseVideoUUID());
+                    s3Client.deleteObject(builder -> builder.bucket(bucket).key(s3Key).build());
+                } catch (Exception e) {
+                    // S3 삭제 실패는 무시하고 계속 진행
                 }
             }
             if(request.getUploadType().equals("file")) {
@@ -362,18 +356,8 @@ public class CourseDetailServiceImpl implements CourseDetailService {
         String uuidFileName = UUID.randomUUID() + "_" + fileName;
 
         try {
-//            if (isVideoFile(fileExtension)) {
-//                // 동영상 파일 처리
-//                //String s3Url = uploadToS3(file, uuidFileName);
-//                //saveCourseVideoEntity(courseDetail, file, s3Url);
-//                String localPath = uploadVideoToLocal(file, uuidFileName);
-//
-//                saveCourseVideoEntity(courseDetail, file, uuidFileName);
-//            } else {
-            /// 기타 파일 처리
-            String localPath = uploadVideoToLocal(file, uuidFileName);
-            courseVideo.updateCourseVideo(file.getOriginalFilename(), uuidFileName, file.getSize(), file.getContentType());
-//            }
+            String s3Url = uploadToS3(file, uuidFileName);
+            courseVideo.updateCourseVideo(file.getOriginalFilename(), s3Url, file.getSize(), file.getContentType());
         } catch (IOException e) {
             throw new IllegalStateException("파일 업로드 중 오류가 발생했습니다.", e);
         }
@@ -413,11 +397,8 @@ public class CourseDetailServiceImpl implements CourseDetailService {
 
         try {
             if (isVideoFile(fileExtension)) {
-                // 동영상 파일 처리
-                //String s3Url = uploadToS3(file, uuidFileName);
-                //saveCourseVideoEntity(courseDetail, file, s3Url);
-                String localPath = uploadVideoToLocal(file, uuidFileName);
-                saveCourseVideoEntity(courseDetail, file, uuidFileName);
+                String s3Url = uploadToS3(file, uuidFileName);
+                saveCourseVideoEntity(courseDetail, file, s3Url);
             } else {
                 /// 기타 파일 처리
                 String localPath = uploadToLocal(file, uuidFileName);
@@ -586,7 +567,7 @@ public class CourseDetailServiceImpl implements CourseDetailService {
 
     // 헬퍼 메서드: S3 URL 키 추출
     private String extractS3Key(String s3Url) {
-        int startIndex = s3Url.indexOf("post/video/");
+        int startIndex = s3Url.indexOf("course/videos/");
         if (startIndex == -1) {
             throw new IllegalArgumentException("Invalid S3 URL: " + s3Url);
         }

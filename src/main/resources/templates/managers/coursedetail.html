@@ -95,7 +95,7 @@
             <div th:if="${detail.courseDetailFileUUID != null}">
               <h6>파일:</h6>
               <p>
-                <a th:href="'/uploads/course_files/' + ${detail.courseDetailFileUUID}" target="_blank" class="btn btn-success btn-sm">파일조회</a>
+                <a th:href="'/static/uploads/course_files/' + ${detail.courseDetailFileUUID}" th:download="${detail.courseDetailFileUUID}" target="_blank" class="btn btn-success btn-sm">파일조회</a>
               </p>
             </div>
 

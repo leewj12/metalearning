@@ -148,7 +148,7 @@
                 <p>
                   파일명:
                   <span th:text="${detail.courseDetailTitle}"></span></p>
-                <a th:href="'/uploads/course_files/' + ${detail.courseDetailFileUUID}" target="_blank" class="btn btn-success btn-sm">자료 다운로드</a>
+                <a th:href="'/static/uploads/course_files/' + ${detail.courseDetailFileUUID}" th:download="${detail.courseDetailFileUUID}" target="_blank" class="btn btn-success btn-sm">자료 다운로드</a>
                 </p>
               </div>
             </div>
