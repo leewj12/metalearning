@@ -394,22 +394,28 @@ public boolean kdtboardsave(KDTBoardDTO kdtboardDTO, List<KDTBoardFileDTO> fileL
     @Override
     public boolean boardDelete(Long postId) {
         try {
-            // 게시글이 존재하는지 확인
             Optional<KDTBoardEntity> optionalBoard = kdtBoardRepository.findById(postId);
 
-            // 게시글이 존재하지 않으면 삭제할 수 없음
             if (!optionalBoard.isPresent()) {
-                return false;  // 게시글이 없으면 false 반환
+                return false;
             }
 
-            // 게시글 삭제
+            // 첨부파일 물리 삭제
+            KDTBoardEntity board = optionalBoard.get();
+            if (board.getFiles() != null) {
+                Path uploadDir = Paths.get("tomcat/webapps/ROOT/WEB-INF/classes/KDT/course");
+                for (KDTBoardFileEntity file : board.getFiles()) {
+                    Path filePath = uploadDir.resolve(file.getKdtFileUUID() + "_" + file.getKdtFileName());
+                    Files.deleteIfExists(filePath);
+                }
+            }
+
             kdtBoardRepository.deleteById(postId);
 
-            return true;  // 삭제 성공 시 true 반환
+            return true;
         } catch (Exception e) {
-            // 예외가 발생한 경우
             e.printStackTrace();
-            return false;  // 예외 발생 시 false 반환
+            return false;
         }
     }
 
