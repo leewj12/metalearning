@@ -26,16 +26,16 @@ main, .page-main, .container-main {
 
 /* Top Bar */
 .topBar {
-    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+    background: #1a1a2e;
     color: #ffffff;
     padding: 7px 0;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     letter-spacing: 0.2px;
 }
 
 .topBar a {
-    font-size: 0.82rem;
-    opacity: 0.92;
+    font-size: 0.8rem;
+    opacity: 0.85;
     transition: opacity 0.2s;
 }
 
@@ -44,8 +44,8 @@ main, .page-main, .container-main {
 }
 
 .topBar button {
-    font-size: 0.82rem;
-    opacity: 0.92;
+    font-size: 0.8rem;
+    opacity: 0.85;
     transition: opacity 0.2s;
 }
 
@@ -55,41 +55,40 @@ main, .page-main, .container-main {
 
 /* Logo */
 .logoText {
-    color: #003366;
-    font-size: 1.5rem;
+    color: #1a1a2e;
+    font-size: 1.4rem;
     font-weight: 800;
     margin-bottom: 0;
     font-family: 'Poppins', sans-serif;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
 
 /* Navigation */
 .navbar {
     padding: 0;
-    border-bottom: 3px solid #FFA500;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid #e8ecf0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .navbar .nav-link {
-    color: #003366 !important;
-    font-size: 0.9rem;
+    color: #1a1a2e !important;
+    font-size: 0.88rem;
     font-weight: 600;
-    padding: 16px 15px !important;
+    padding: 16px 14px !important;
     text-decoration: none !important;
-    transition: all 0.25s ease;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -3px;
+    transition: all 0.2s ease;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
     position: relative;
 }
 
 .navbar .nav-link:hover {
-    color: #FF8C00 !important;
-    border-bottom-color: #FF8C00;
-    background-color: rgba(255, 140, 0, 0.04);
+    color: #FFA500 !important;
+    border-bottom-color: #FFA500;
 }
 
 .navbar .nav-link i {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
 }
 
 .nav-item {
@@ -103,7 +102,7 @@ main, .page-main, .container-main {
 }
 
 .navbar-brand-area img {
-    height: 36px;
+    height: 34px;
     transition: transform 0.2s;
 }
 
@@ -113,12 +112,12 @@ main, .page-main, .container-main {
 
 /* Toggler */
 .navbar-toggler {
-    border: 2px solid #FFA500;
+    border: 1.5px solid #e0e3e8;
     padding: 4px 8px;
 }
 
 .navbar-toggler:focus {
-    box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.25);
+    box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.15);
 }
 
 /* Responsive */
@@ -137,19 +136,19 @@ main, .page-main, .container-main {
 
     .navbar .nav-link {
         padding: 11px 16px !important;
-        font-size: 0.88rem;
+        font-size: 0.86rem;
         border-bottom: none;
         margin-bottom: 0;
-        border-left: 3px solid transparent;
+        border-left: 2px solid transparent;
     }
 
     .navbar .nav-link:hover {
-        border-left-color: #FF8C00;
+        border-left-color: #FFA500;
         border-bottom-color: transparent;
     }
 
     .navbar {
-        border-bottom: 3px solid #FFA500;
+        border-bottom: 1px solid #e8ecf0;
     }
 }
 

@@ -13,9 +13,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f5f5f9; }
+        body { background-color: #f5f7fa; }
 
-        h1 { color: #003366; font-weight: 800; }
+        h1 { color: #1a1a2e; font-weight: 800; }
 
         .search-bar {
             margin: 2rem auto;
@@ -26,26 +26,26 @@
         .input-group > .form-select { flex: 1 !important; }
 
         .form-control, .form-select {
-            border: 1.5px solid #e8e8e8;
+            border: 1.5px solid #e0e3e8;
             border-radius: 8px;
         }
         .form-control:focus, .form-select:focus {
             border-color: #FFA500;
-            box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.1);
+            box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.08);
         }
 
         .card {
-            border: 1px solid #f0f0f0;
-            border-radius: 16px;
+            border: 1px solid #e8ecf0;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            transition: all 0.25s ease;
         }
 
         .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 36px rgba(255, 165, 0, 0.1);
-            border-color: #FFA500;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            border-color: #d0d5dd;
         }
 
         .card img {
@@ -54,36 +54,37 @@
         }
 
         .card-body {
-            padding: 16px;
+            padding: 18px;
         }
 
         .card-title {
-            color: #003366;
+            color: #1a1a2e;
             font-weight: 700;
             font-size: 1rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            margin-bottom: 10px;
         }
 
         .card-text {
-            font-size: 0.88rem;
-            color: #777;
+            font-size: 0.85rem;
+            color: #667;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .card-container { margin-top: 2rem; }
+        .card-container { margin-top: 1.5rem; }
 
         .no-thumbnail {
-            background: linear-gradient(135deg, #FFF8EE 0%, #FFE0B2 100%);
-            color: #E67E00;
+            background: #f0f2f5;
+            color: #999;
             height: 180px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 0.92rem;
+            font-size: 0.88rem;
             font-weight: 600;
             text-align: center;
             padding: 20px;
@@ -91,28 +92,53 @@
             overflow: hidden;
         }
 
+        .difficulty-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: #f0f2f5;
+            color: #555;
+        }
+
+        .price-text {
+            font-weight: 700;
+            color: #1a1a2e;
+            font-size: 0.95rem;
+        }
+
+        .category-text {
+            font-size: 0.8rem;
+            color: #888;
+            font-weight: 500;
+        }
+
         .btn-primary {
-            background: linear-gradient(135deg, #FF8C00, #FFA500);
+            background: #1a1a2e;
             border: none;
             font-weight: 600;
             border-radius: 8px;
+            font-size: 0.85rem;
+            padding: 7px 16px;
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, #e67e00, #FF8C00);
-            transform: translateY(-1px);
+            background: #2d2d44;
         }
 
         .btn-outline-secondary {
-            border-color: #ddd;
-            color: #666;
+            border-color: #e0e3e8;
+            color: #555;
             border-radius: 8px;
+            font-size: 0.85rem;
+            padding: 7px 14px;
         }
 
         .btn-outline-secondary:hover {
-            background-color: #FFF3E0;
-            border-color: #FFA500;
-            color: #FF8C00;
+            background-color: #f5f5f5;
+            border-color: #ccc;
+            color: #1a1a2e;
         }
     </style>
 </head>
@@ -122,13 +148,10 @@
 <main class="container">
     <!-- 페이지 헤더 -->
     <div class="text-center py-4">
-        <h1><i class="bi bi-play-circle-fill"></i> 온라인 강의</h1>
-        <p class="text-muted">다양한 IT 강의를 온라인으로 수강하세요</p>
+        <h1>온라인 강의</h1>
+        <p class="text-muted">실무 중심의 IT 강의를 온라인으로 수강하세요</p>
     </div>
 
-    <div class="search-bar input-group mb-3">
-        <!-- 검색창 -->
-    </div>
 
     <!-- 강의 카드 목록 -->
     <div class="card-container row" th:if="${courseList != null and !courseList.isEmpty()}">
@@ -141,32 +164,20 @@
                 </div>
 
                 <div class="card-body">
+                    <div class="category-text mb-1" th:text="${course.courseCategory}">카테고리</div>
                     <h5 class="card-title" th:text="${course.courseTitle}">강의 제목</h5>
-                    <p class="card-text">
-                        카테고리: <span th:text="${course.courseCategory}"></span>
-                    </p>
-                    <p class="card-text d-flex justify-content-between">
-                    <span>
-                        난이도:
-                        <span th:switch="${course.courseDifficulty.name()}">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="difficulty-badge" th:switch="${course.courseDifficulty.name()}">
                             <span th:case="'ADVANCED'">고급</span>
                             <span th:case="'INTERMEDIATE'">중급</span>
                             <span th:case="'BASIC'">초급</span>
                             <span th:case="'BEGINNER'">입문</span>
                             <span th:case="*">알 수 없음</span>
                         </span>
-                    </span>
-                    <span>
-                        ₩<span class="course-price" th:text="${course.coursePrice}">0</span>
-                    </span>
-                    </p>
+                        <span class="price-text">₩<span class="course-price" th:text="${course.coursePrice}">0</span></span>
+                    </div>
                     <div class="d-flex justify-content-between">
                         <a th:href="@{/main/course/{id}(id=${course.courseId})}" class="btn btn-primary">상세 보기</a>
-                 <!--       <button class="btn btn-outline-secondary add-to-cart-button"
-                                th:data-course-id="${course.courseId}">
-                            <i class="bi bi-cart-plus"></i> 장바구니
-                        </button>-->
-                        <!-- 로그인 상태에 따라 버튼 표시 -->
                         <button class="btn btn-outline-secondary add-to-cart-button"
                                 th:data-course-id="${course.courseId}"
                                 th:if="${isAuthenticated and !purchasedCourseIds.contains(course.courseId) and userRole != 'ADMIN'}">
@@ -179,9 +190,9 @@
     </div>
 
     <!-- 강의가 없을 때 -->
-    <div th:if="${courseList == null or courseList.isEmpty()}" class="text-center py-5" style="min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <i class="bi bi-inbox" style="font-size: 3rem; color: #ddd;"></i>
-        <p class="text-muted mt-3 mb-0">등록된 강의가 없습니다.</p>
+    <div th:if="${courseList == null or courseList.isEmpty()}" class="text-center py-5" style="min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #fff; border-radius: 14px; border: 1px solid #e8ecf0; margin-top: 1.5rem;">
+        <i class="bi bi-play-circle" style="font-size: 2.5rem; color: #d0d5dd;"></i>
+        <p class="mt-3 mb-0" style="color: #999; font-size: 0.92rem;">등록된 강의가 없습니다.</p>
     </div>
 </main>
 

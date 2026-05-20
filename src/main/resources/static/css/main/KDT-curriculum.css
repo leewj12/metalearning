@@ -1,10 +1,10 @@
 /* ========== Page ========== */
 body {
-    background-color: #f5f5f9;
+    background-color: #f5f7fa;
 }
 
 h1 {
-    color: #003366;
+    color: #1a1a2e;
     font-weight: 800;
 }
 
@@ -12,104 +12,204 @@ h1 {
 .course-card {
     display: flex;
     border: none;
-    margin-bottom: 20px;
-    height: 340px;
+    margin-bottom: 24px;
+    min-height: 300px;
     overflow: hidden;
     background-color: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-    border: 1px solid #f5f5f5;
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    transition: all 0.25s ease;
+    border: 1px solid #e8ecf0;
 }
 
 .course-card:hover {
-    box-shadow: 0 8px 32px rgba(255, 165, 0, 0.12);
-    border-color: #FFA500;
-    transform: translateY(-2px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    transform: translateY(-3px);
+    border-color: #d0d5dd;
 }
 
 .course-card img {
-    width: 33%;
-    height: 100%;
+    width: 30%;
+    min-width: 240px;
+    height: auto;
     object-fit: cover;
 }
 
+/* ========== Details ========== */
 .details {
     flex: 1;
-    padding: 20px;
+    padding: 24px 28px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 10px;
 }
 
 .details h5 {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    color: #003366;
-    margin-bottom: 8px;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+    line-height: 1.4;
 }
 
-.details p {
-    margin: 3px 0;
-    color: #6c757d;
+.details .badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 6px;
+}
+
+.details .badge.bg-warning {
+    background-color: #FFF3E0 !important;
+    color: #E67E00 !important;
+    border: 1px solid #FFE0B2;
+}
+
+.details .badge.bg-primary {
+    background-color: #EBF5FF !important;
+    color: #1971C2 !important;
+    border: 1px solid #D0EBFF;
+}
+
+.details .badge.bg-light {
+    background-color: #f8f9fa !important;
+    color: #555 !important;
+    border: 1px solid #e8ecf0 !important;
+}
+
+.details .row {
     font-size: 0.88rem;
+    color: #555;
+    margin-bottom: 2px;
 }
 
 .details strong {
-    color: #444;
-    font-size: 0.88rem;
+    color: #1a1a2e;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.details span {
+    color: #667;
 }
 
 /* ========== Action Box ========== */
 .action-box {
-    width: 28%;
-    border-left: 3px solid #FFA500;
+    width: 220px;
+    min-width: 200px;
+    border-left: 1px solid #e8ecf0;
     padding: 24px 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    background: linear-gradient(180deg, #FFF8EE 0%, #FFF3E0 100%);
+    gap: 10px;
+    background: #fafbfc;
 }
 
 .action-box .btn {
+    width: 100%;
     border-radius: 8px;
     font-weight: 600;
-    font-size: 0.9rem;
-    padding: 8px 16px;
+    font-size: 0.88rem;
+    padding: 9px 16px;
+    transition: all 0.2s ease;
+}
+
+.action-box .btn-warning {
+    background-color: #1a1a2e;
+    border-color: #1a1a2e;
+    color: #fff;
+}
+
+.action-box .btn-warning:hover {
+    background-color: #2d2d44;
+    border-color: #2d2d44;
+}
+
+.action-box .btn-info {
+    background-color: #FFA500;
+    border-color: #FFA500;
+    color: #fff;
+}
+
+.action-box .btn-info:hover {
+    background-color: #e69500;
+    border-color: #e69500;
+}
+
+.action-box .btn-primary {
+    background: #fff;
+    border: 1.5px solid #d0d5dd;
+    color: #1a1a2e;
+}
+
+.action-box .btn-primary:hover {
+    background: #f5f5f5;
+    border-color: #aaa;
+}
+
+.action-box .text-danger {
+    color: #dc3545 !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+}
+
+.action-box .text-primary {
+    color: #1971C2 !important;
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+}
+
+.action-box .text-dark {
+    color: #1a1a2e !important;
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+}
+
+.action-box .text-success {
+    color: #2B8A3E !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    background: #EBFBEE;
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: 1px solid #B2F2BB;
 }
 
 /* ========== Search ========== */
 .form-select, .form-control {
-    border: 1.5px solid #e8e8e8;
+    border: 1.5px solid #e0e3e8;
     border-radius: 8px;
     transition: border-color 0.2s, box-shadow 0.2s;
+    font-size: 0.92rem;
 }
 
 .form-select:focus, .form-control:focus {
     border-color: #FFA500;
-    box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.1);
+    box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.08);
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #FF8C00, #FFA500);
+    background: #1a1a2e;
     border: none;
     font-weight: 600;
     border-radius: 8px;
+    padding: 8px 20px;
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, #e67e00, #FF8C00);
+    background: #2d2d44;
 }
 
 /* ========== Consultation ========== */
 .consultation-box {
-    margin: 36px 0;
-    padding: 32px;
-    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+    margin: 40px 0;
+    padding: 36px;
+    background: #1a1a2e;
     color: white;
     text-align: center;
-    border-radius: 16px;
+    border-radius: 14px;
     position: relative;
     overflow: hidden;
 }
@@ -117,16 +217,16 @@ h1 {
 .consultation-box::before {
     content: '';
     position: absolute;
-    top: -40px;
-    right: -40px;
-    width: 120px;
-    height: 120px;
+    top: -60px;
+    right: -60px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 165, 0, 0.08);
 }
 
 .consultation-box h5 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     margin-bottom: 16px;
     font-weight: 700;
     position: relative;
@@ -144,45 +244,47 @@ h1 {
 .contact-options div {
     display: flex;
     align-items: center;
-    background-color: white;
-    color: #E67E00;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #fff;
     padding: 10px 24px;
     border-radius: 10px;
-    font-weight: 600;
+    font-weight: 500;
     gap: 8px;
-    font-size: 0.92rem;
-    transition: transform 0.2s;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .contact-options div:hover {
-    transform: translateY(-2px);
-    background-color: #FFF8E1;
+    background-color: rgba(255, 165, 0, 0.15);
 }
 
 .contact-options div i {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    color: #FFA500;
 }
 
 /* ========== Pagination ========== */
 .pagination .page-link {
-    color: #003366;
+    color: #1a1a2e;
     border-radius: 8px;
     margin: 0 2px;
-    border: 1px solid #e8e8e8;
+    border: 1px solid #e0e3e8;
     font-weight: 500;
-    font-size: 0.88rem;
+    font-size: 0.85rem;
+    padding: 6px 12px;
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #FFA500;
-    border-color: #FFA500;
+    background-color: #1a1a2e;
+    border-color: #1a1a2e;
     color: #fff;
 }
 
 .pagination .page-link:hover {
-    background-color: #FFF3E0;
-    color: #FF8C00;
-    border-color: #FFA500;
+    background-color: #f5f5f5;
+    color: #1a1a2e;
+    border-color: #d0d5dd;
 }
 
 /* ========== No Results ========== */
@@ -192,8 +294,8 @@ h1 {
     align-items: center;
     height: 200px;
     color: #999;
-    font-weight: 600;
-    font-size: 1.1rem;
+    font-weight: 500;
+    font-size: 1rem;
     text-align: center;
 }
 
@@ -201,18 +303,20 @@ h1 {
 @media (max-width: 768px) {
     .course-card {
         flex-direction: column;
-        height: auto;
+        min-height: auto;
     }
 
     .course-card img {
         width: 100%;
+        min-width: auto;
         height: 200px;
     }
 
     .action-box {
         width: 100%;
+        min-width: auto;
         border-left: none;
-        border-top: 3px solid #FFA500;
+        border-top: 1px solid #e8ecf0;
         flex-direction: row;
         padding: 16px;
         gap: 8px;
@@ -223,7 +327,11 @@ h1 {
         font-size: 0.82rem;
     }
 
+    .details {
+        padding: 20px;
+    }
+
     .details h5 {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
     }
 }
