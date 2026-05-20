@@ -1,72 +1,100 @@
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-        }
-        .section-title {
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 40px 0 20px;
-            text-align: center;
-        }
-        .site-section {
-            margin-bottom: 50px;
-            padding: 20px;
-        }
-        .site-section p, .site-section ul {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            text-align: left;
-        }
-        .team-section {
-            text-align: center;
-        }
-        .team-header {
-            margin-bottom: 40px;
-        }
-        .team-card {
-            width: 260px;
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin: 0 auto 20px;
-            overflow: hidden;
-            text-align: center;
-        }
-        .team-card img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 15px;
-        }
-        .team-card h3 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 15px 0 10px;
-        }
-        .team-card p {
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-        .role {
-            font-weight: bold;
-            color: #007bff;
-        }
-        .dev-icons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-            padding: 20px 0;
-        }
-        .dev-icons .icon {
-            text-align: center;
-        }
-        .dev-icons .icon i {
-            font-size: 3rem;
-            color: #ffa500;
-        }
-        .dev-icons .icon p {
-            margin-top: 10px;
-            font-size: 1rem;
-        }
+body {
+    font-family: -apple-system, 'Segoe UI', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #003366;
+    margin: 40px 0 20px;
+    text-align: center;
+}
+
+.site-section {
+    margin-bottom: 40px;
+    padding: 24px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.site-section p, .site-section ul {
+    font-size: 1rem;
+    line-height: 1.8;
+    text-align: left;
+}
+
+.team-section {
+    text-align: center;
+}
+
+.team-header {
+    margin-bottom: 32px;
+}
+
+.team-card {
+    width: 240px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    margin: 0 auto 20px;
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.team-card:hover {
+    transform: translateY(-4px);
+}
+
+.team-card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.team-card h3 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 12px 0 8px;
+}
+
+.team-card p {
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+}
+
+.role {
+    font-weight: bold;
+    color: #FFA500;
+}
+
+.dev-section {
+    margin-bottom: 40px;
+}
+
+.dev-icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px;
+    padding: 20px 0;
+}
+
+.dev-icons .icon {
+    text-align: center;
+}
+
+.dev-icons .icon i {
+    font-size: 2.5rem;
+    color: #FFA500;
+}
+
+.dev-icons .icon p {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}

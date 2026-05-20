@@ -8,25 +8,22 @@
   <link rel="icon" href="/static/images/logo.png" type="image/png">
 </head>
 <body>
-<header>
+<header th:fragment="header">
   <!-- Top Bar -->
   <div class="topBar">
     <div class="container d-flex justify-content-between align-items-center">
-      <div>
-        <!-- Top Bar Empty Placeholder -->
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-headset"></i> <span>상담문의: 012-3456-7890</span>
       </div>
       <div class="d-flex align-items-center gap-3">
-        <!-- 로그인하지 않은 사용자만 보임 -->
         <a href="/login" sec:authorize="!isAuthenticated()" class="text-white text-decoration-none">
           <i class="bi bi-person"></i> 로그인
         </a>
         <a href="/signup" sec:authorize="!isAuthenticated()" class="text-white text-decoration-none">
           <i class="bi bi-person-add"></i> 회원가입
         </a>
-
-        <!-- 로그인한 사용자만 보임 -->
         <div sec:authorize="isAuthenticated()" class="text-white">
-          <span>환영합니다! <span th:text="${#authentication.name}"></span>님! <i class="bi bi-person-check"></i></span>
+          <span>환영합니다! <span th:text="${#authentication.name}"></span>님</span>
         </div>
         <form action="/logout" method="POST" sec:authorize="isAuthenticated()" style="display: inline;">
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -38,25 +35,13 @@
     </div>
   </div>
 
-
-
-  <!-- Main Header -->
-  <div class="container py-3 d-flex justify-content-between align-items-center">
-    <div class="d-flex align-items-center gap-3">
-      <a href="/"><img src="/static/images/logo.png" alt="Logo" style="height: 70px;"></a>
-      <a href="/" class="text-decoration-none"><h1 class="logoText">MetaLearning</h1></a>
-    </div>
-    <div class="d-flex align-items-center gap-3">
-      <div class="d-flex align-items-center gap-2">
-        <i class="bi bi-headset"></i> 상담문의:
-        <strong>012-3456-7890</strong>
-      </div>
-    </div>
-  </div>
-
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg bg-white border-top border-bottom">
+  <nav class="navbar navbar-expand-lg bg-white">
     <div class="container">
+      <a href="/" class="d-flex align-items-center gap-2 text-decoration-none">
+        <img src="/static/images/logo.png" alt="Logo" style="height: 40px;">
+        <span class="logoText">MetaLearning</span>
+      </a>
       <button
               class="navbar-toggler"
               type="button"
@@ -68,103 +53,41 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto">
+        <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="/">
-              <i class="bi bi-house-door"></i> 홈
-            </a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-                    class="nav-link dropdown-toggle"
-                    href="/main/about-metalearning"
-                    id="aboutDropdown"
-                    role="button">
-              <i class="bi bi-info-circle"></i> 소개
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
-              <li><a class="dropdown-item" href="/main/about-metalearning"><i class="bi bi-info-square"></i> 메타러닝 소개</a></li>
-              <li><a class="dropdown-item" href="/main/way-to-come"><i class="bi bi-geo-alt-fill"></i> 오시는 길</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-                    class="nav-link dropdown-toggle"
-                    href="/main/KDT-curriculum"
-                    id="kdtDropdown"
-                    role="button">
-              <i class="bi bi-book"></i> 국비지원과정
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="kdtDropdown">
-              <li><a class="dropdown-item" href="/main/KDT-curriculum"><i class="bi bi-arrow-return-right"></i> 국비지원과정 신청</a></li>
-              <li><a class="dropdown-item" href="/main/KDT-info"><i class="bi bi-question-circle"></i> 국비지원과정이란</a></li>
-            </ul>
+            <a class="nav-link" href="/"><i class="bi bi-house-door"></i> 홈</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/main/course">
-              <i class="bi bi-laptop"></i> 온라인강의
-            </a>
+            <a class="nav-link" href="/main/about-metalearning"><i class="bi bi-info-circle"></i> 소개</a>
           </li>
-
-<!--          <li class="nav-item dropdown">-->
-<!--&lt;!&ndash;            <a&ndash;&gt;-->
-<!--&lt;!&ndash;                    class="nav-link dropdown-toggle"&ndash;&gt;-->
-<!--&lt;!&ndash;                    href="/main/notice"&ndash;&gt;-->
-<!--&lt;!&ndash;                    id="noticeDropdown"&ndash;&gt;-->
-<!--&lt;!&ndash;                    role="button">&ndash;&gt;-->
-<!--              <a-->
-<!--                    class="nav-link dropdown-toggle"-->
-<!--                    href="#"-->
-<!--                    id="noticeDropdown"-->
-<!--                    role="button">-->
-<!--              <i class="bi bi-megaphone"></i> 공지사항-->
-<!--            </a>-->
-<!--            <ul class="dropdown-menu" aria-labelledby="aboutDropdown">-->
-<!--              <li><a class="dropdown-item" href="#"><i class="bi bi-calendar-event"></i> 이벤트</a></li>-->
-<!--            </ul>-->
-
-<!--          <li class="nav-item">-->
-<!--&lt;!&ndash;            <a class="nav-link" href="/main/employment-review">&ndash;&gt;-->
-<!--            <a class="nav-link" href="#">-->
-<!--              <i class="bi bi-chat-right-text"></i> 취업후기-->
-<!--            </a>-->
-<!--          </li>-->
-<!--          <li class="nav-item">-->
-<!--            <a class="nav-link" href="#">-->
-<!--              <i class="bi bi-envelope"></i> 상담/문의-->
-<!--            </a>-->
-<!--          </li>-->
+          <li class="nav-item">
+            <a class="nav-link" href="/main/way-to-come"><i class="bi bi-geo-alt"></i> 오시는 길</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/main/KDT-curriculum"><i class="bi bi-book"></i> 국비지원과정</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/main/KDT-info"><i class="bi bi-question-circle"></i> 국비지원이란</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/main/course"><i class="bi bi-laptop"></i> 온라인강의</a>
+          </li>
 
           <li class="nav-item" sec:authorize="hasAuthority('ROLE_STUDENT')">
-            <a class="nav-link" href="/student/main/mypage">
-              <i class="bi bi-person-circle"></i> 마이페이지
-            </a>
+            <a class="nav-link" href="/student/main/mypage"><i class="bi bi-person-circle"></i> 마이페이지</a>
           </li>
-
           <li class="nav-item" sec:authorize="hasAuthority('ROLE_INSTRUCTOR')">
-            <a class="nav-link" href="/instr/main/mypage">
-              <i class="bi bi-person-circle"></i> 강사 페이지
-            </a>
+            <a class="nav-link" href="/instr/main/mypage"><i class="bi bi-person-circle"></i> 강사 페이지</a>
           </li>
-
           <li class="nav-item" sec:authorize="hasAuthority('ROLE_MANAGER')">
-            <a class="nav-link" href="/managers/main/mypage">
-              <i class="bi bi-person-circle"></i> 매니저 페이지
-            </a>
+            <a class="nav-link" href="/managers/main/mypage"><i class="bi bi-person-circle"></i> 매니저 페이지</a>
           </li>
-
           <li class="nav-item" sec:authorize="hasAuthority('ROLE_ADMIN')">
-            <a class="nav-link" href="/view/admin/dashboard">
-              <i class="bi bi-shield-lock"></i> 관리자페이지
-            </a>
+            <a class="nav-link" href="/view/admin/dashboard"><i class="bi bi-shield-lock"></i> 관리자</a>
           </li>
-
           <li class="nav-item" sec:authorize="hasAuthority('ROLE_STUDENT')">
-            <a class="nav-link" href="/user/cart">
-              <i class="bi bi-cart-fill"></i> 장바구니
-            </a>
+            <a class="nav-link" href="/user/cart"><i class="bi bi-cart"></i> 장바구니</a>
           </li>
-
         </ul>
       </div>
     </div>

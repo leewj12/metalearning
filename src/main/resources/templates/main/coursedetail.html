@@ -17,30 +17,42 @@
         max-width: 200px;
         max-height: 200px;
         object-fit: cover;
+        border-radius: 8px;
     }
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
     .card-header {
-        background-color: #007bff;
+        background-color: #FFA500;
         color: white;
+        font-weight: 600;
     }
+
     .card-body h5, .card-body p {
         margin-bottom: 10px;
     }
 
-  .no-thumbnail .thumbnail-placeholder {
-    background-color: #add8e6;
-    color: #004085;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    word-wrap: break-word;  /* 긴 텍스트가 넘칠 경우 줄 바꿈 */
-    width: 220px;  /* 고정된 가로 크기 */
-    height: 180px; /* 고정된 세로 크기 */
-    box-sizing: border-box; /* padding을 포함하여 크기 계산 */
-    display: flex;
-    justify-content: center; /* 가로 중앙 정렬 */
-    align-items: center;     /* 세로 중앙 정렬 */
-    overflow: hidden;  /* 넘치는 텍스트가 있을 경우 잘라냄 */
-  }
+    .no-thumbnail .thumbnail-placeholder {
+        background-color: #FFF3E0;
+        color: #E67E00;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        word-wrap: break-word;
+        width: 200px;
+        height: 180px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        font-weight: 600;
+    }
   </style>
 </head>
 <body>

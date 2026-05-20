@@ -18,17 +18,24 @@
             max-width: 900px;
         }
 
-        /* 검색창과 셀렉트박스의 flex 비율 재정의 */
-        .input-group > .form-control {
-            flex: 3 !important; /* 검색창 비율 증가 */
+        .input-group > .form-control { flex: 3 !important; }
+        .input-group > .form-select { flex: 1 !important; }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .input-group > .form-select {
-            flex: 1 !important; /* 카테고리 선택 비율 축소 */
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         }
 
         .card img {
-            object-fit: fill;
+            object-fit: cover;
             height: 180px;
         }
 
@@ -39,22 +46,31 @@
             text-overflow: ellipsis;
         }
 
-        .card-container {
-            margin-top: 2rem;
-        }
+        .card-container { margin-top: 2rem; }
+
         .no-thumbnail {
-            background-color: #add8e6;
-            color: #004085;
+            background-color: #FFF3E0;
+            color: #E67E00;
             height: 180px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
             text-align: center;
-            word-wrap: break-word;  /* 긴 텍스트가 넘칠 경우 줄 바꿈 */
             padding: 20px;
-            box-sizing: border-box; /* padding을 포함하여 크기 계산 */
-            overflow: hidden;  /* 넘치는 텍스트가 있을 경우 잘라냄 */
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background-color: #FFA500;
+            border-color: #FFA500;
+        }
+
+        .btn-primary:hover {
+            background-color: #e69500;
+            border-color: #e69500;
         }
     </style>
 </head>

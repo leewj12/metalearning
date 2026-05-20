@@ -14,41 +14,12 @@
   <script src="/static/js/header/header.js"></script>
 
   <style>
-    .course-card {
-      border: 1px solid #ffa500;
-      margin-bottom: 20px;
-      overflow: hidden;
-      background-color: #fff;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
     .course-card img {
-      object-fit: fill;
+      object-fit: cover;
       max-height: 100%;
-    }
-    .details h5 {
-      font-size: 1.25rem;
-      font-weight: bold;
-      color: #212529;
-    }
-    .action-box {
-      border-left: 2px solid #ffa500;
     }
     .action-box .btn {
       width: 100%;
-    }
-    .no-results {
-      text-align: center;
-      color: red;
-      font-weight: bold;
-    }
-
-    .badge {
-    display: inline-block; /* 글자 길이에 맞게 크기 조정 */
-    padding: 0.25rem 0.5rem; /* 내부 여백 설정 */
-    border-radius: 0.25rem; /* 둥근 모서리 */
-    font-size: 0.875rem; /* 텍스트 크기 */
-    font-weight: 500; /* 텍스트 두께 */
-    background-color: #f8f9fa; /* 배경색 */
     }
   </style>
 
@@ -88,7 +59,7 @@
     <div class="col" th:each="sessionList : ${sessionLists}">
       <div class="course-card d-flex">
 
-        <img class="img-fluid" th:src="@{${sessionList.kdtSessionThumbnail} != null ? '/static/images/course/' + ${sessionList.kdtSessionThumbnail} : '/static/images/logo.png'}" alt="Course Image" style="width: 30%;">
+        <img class="img-fluid" th:src="@{${sessionList.kdtSessionThumbnail} != null ? '/static/images/course/' + ${sessionList.kdtSessionThumbnail} : '/static/images/logo.png'}" alt="Course Image">
 
         <!--        <img class="img-fluid"-->
         <!--             th:src="${sessionList.kdtSessionStatus != 'WAITING'}-->
@@ -157,7 +128,7 @@
           </div>
         </div>
 
-        <div class="action-box d-flex flex-column justify-content-around bg-light p-3" style="width: 33%;">
+        <div class="action-box d-flex flex-column justify-content-around p-3">
           <!-- D-Day 텍스트 -->
           <!--          <div class="text-center text-warning fw-bold fs-2" th:text="${sessionList.kdtSessionDday}">D-14</div>-->
           <div th:if="${sessionList.kdtSessionDday == '모집 마감'}" class="text-center text-danger fw-bold fs-1">
