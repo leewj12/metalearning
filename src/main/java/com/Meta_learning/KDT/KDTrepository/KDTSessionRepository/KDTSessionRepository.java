@@ -46,14 +46,22 @@ public interface KDTSessionRepository extends JpaRepository<KDTSessionEntity, Lo
     int updateSessionsToFinished(LocalDate currentDate, KDTSessionStatus status);
 
 
-    // 시작일이 오늘인 세션 상태를 'ONGOING'으로 업데이트
+    // 시작일이 오늘이거나 지났고 종료일이 안 지난 세션 상태를 'ONGOING'으로 업데이트
     @Modifying
     @Transactional
     @Query("UPDATE KDTSessionEntity s " +
             "SET s.kdtSessionStatus = :status " +
-            "WHERE s.kdtSessionStartDate >= :currentDate AND s.kdtSessionStatus != :status")
+            "WHERE s.kdtSessionStartDate <= :currentDate AND s.kdtSessionEndDate >= :currentDate AND s.kdtSessionStatus != :status")
     int updateSessionsToOngoing(LocalDate currentDate, KDTSessionStatus status);
 
+
+    // 시작일이 아직 안 온 세션(ONGOING으로 잘못 설정된 경우) 상태를 'WAITING'으로 복구
+    @Modifying
+    @Transactional
+    @Query("UPDATE KDTSessionEntity s " +
+            "SET s.kdtSessionStatus = :status " +
+            "WHERE s.kdtSessionStartDate > :currentDate AND s.kdtSessionStatus = com.Meta_learning.KDT.KDTentity.KDTSessionEntity.KDTSessionStatus.ONGOING")
+    int updateSessionsToWaiting(LocalDate currentDate, KDTSessionStatus status);
 
     // 제목과 카테고리가 모두 있을 경우 (검색 + 조인 + 시작 날짜 오름차순 + 상태 추가)
     @Query("SELECT s FROM KDTSessionEntity s JOIN FETCH s.kdtCourseEntity c WHERE s.kdtSessionTitle LIKE %:searchName% AND s.kdtSessionCategory LIKE %:searchCategory% AND s.kdtSessionStatus != com.Meta_learning.KDT.KDTentity.KDTSessionEntity.KDTSessionStatus.FINISHED ORDER BY CASE WHEN s.kdtSessionStatus = com.Meta_learning.KDT.KDTentity.KDTSessionEntity.KDTSessionStatus.ONGOING THEN 1 ELSE 0 END, s.kdtSessionStartDate ASC")

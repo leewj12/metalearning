@@ -32,18 +32,15 @@ public class KDTTimeService {
     }
 
     /**
-     * 매일 아침 6시마다 실행되는 메서드.
-     * 시작일이 오늘인 세션 상태를 'ONGOING'으로 업데이트합니다.
+     * 매일 자정에 실행되는 메서드.
+     * 시작일이 오늘이거나 지난 세션(종료 전)을 'ONGOING'으로 업데이트합니다.
      */
-    @Scheduled(cron = "0 0 0 * * *")  // 매일 아침 6시에 실행 -  초 분 시 일 월 요일 연도
-//@Scheduled(cron = "0 25 11 * * *")  // 매일 오전 11시 25분에 실행
+    @Scheduled(cron = "0 0 0 * * *")
+    @Transactional
     public void updateSessionsToOngoing() {
-        LocalDate currentDate = LocalDate.now();  // 현재 날짜를 가져옵니다.
-
-        // 시작일이 오늘인 세션 상태를 'ONGOING'으로 업데이트
-        int updatedCount = kdtSessionRepository.updateSessionsToOngoing(currentDate, KDTSessionStatus.ONGOING);
-
-        // 업데이트된 세션의 수를 출력합니다.
+        LocalDate currentDate = LocalDate.now();
+        kdtSessionRepository.updateSessionsToOngoing(currentDate, KDTSessionStatus.ONGOING);
+        kdtSessionRepository.updateSessionsToWaiting(currentDate, KDTSessionStatus.WAITING);
     }
 
     /**
