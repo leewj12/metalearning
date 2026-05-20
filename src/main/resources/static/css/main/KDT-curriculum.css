@@ -1,4 +1,14 @@
-/* Course Card */
+/* ========== Page ========== */
+body {
+    background-color: #f5f5f9;
+}
+
+h1 {
+    color: #003366;
+    font-weight: 800;
+}
+
+/* ========== Course Card ========== */
 .course-card {
     display: flex;
     border: none;
@@ -6,13 +16,16 @@
     height: 340px;
     overflow: hidden;
     background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    transition: box-shadow 0.2s;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #f5f5f5;
 }
 
 .course-card:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 32px rgba(255, 165, 0, 0.12);
+    border-color: #FFA500;
+    transform: translateY(-2px);
 }
 
 .course-card img {
@@ -23,15 +36,15 @@
 
 .details {
     flex: 1;
-    padding: 16px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
 .details h5 {
-    font-size: 1.3rem;
-    font-weight: bold;
+    font-size: 1.25rem;
+    font-weight: 700;
     color: #003366;
     margin-bottom: 8px;
 }
@@ -39,51 +52,93 @@
 .details p {
     margin: 3px 0;
     color: #6c757d;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
 }
 
+.details strong {
+    color: #444;
+    font-size: 0.88rem;
+}
+
+/* ========== Action Box ========== */
 .action-box {
-    width: 30%;
-    border-left: 2px solid #FFA500;
-    padding: 24px;
+    width: 28%;
+    border-left: 3px solid #FFA500;
+    padding: 24px 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-color: #FFF8E1;
+    background: linear-gradient(180deg, #FFF8EE 0%, #FFF3E0 100%);
 }
 
-/* Search Bar */
-.search-bar {
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+.action-box .btn {
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 8px 16px;
 }
 
-/* Consultation Box */
+/* ========== Search ========== */
+.form-select, .form-control {
+    border: 1.5px solid #e8e8e8;
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-select:focus, .form-control:focus {
+    border-color: #FFA500;
+    box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.1);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #FF8C00, #FFA500);
+    border: none;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #e67e00, #FF8C00);
+}
+
+/* ========== Consultation ========== */
 .consultation-box {
-    margin: 30px 0;
-    padding: 24px;
-    background-color: #FFA500;
+    margin: 36px 0;
+    padding: 32px;
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
     color: white;
     text-align: center;
-    border-radius: 12px;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.consultation-box::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .consultation-box h5 {
-    font-size: 1.5rem;
-    margin-bottom: 12px;
-    font-weight: bold;
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+    font-weight: 700;
+    position: relative;
 }
 
 .consultation-box .contact-options {
     display: flex;
     justify-content: center;
     gap: 16px;
-    margin-top: 12px;
+    margin-top: 16px;
     flex-wrap: wrap;
+    position: relative;
 }
 
 .contact-options div {
@@ -91,32 +146,58 @@
     align-items: center;
     background-color: white;
     color: #E67E00;
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 10px 24px;
+    border-radius: 10px;
     font-weight: 600;
     gap: 8px;
-    font-size: 0.95rem;
-}
-
-.contact-options div i {
-    font-size: 1.3rem;
+    font-size: 0.92rem;
+    transition: transform 0.2s;
 }
 
 .contact-options div:hover {
+    transform: translateY(-2px);
     background-color: #FFF8E1;
 }
 
+.contact-options div i {
+    font-size: 1.2rem;
+}
+
+/* ========== Pagination ========== */
+.pagination .page-link {
+    color: #003366;
+    border-radius: 8px;
+    margin: 0 2px;
+    border: 1px solid #e8e8e8;
+    font-weight: 500;
+    font-size: 0.88rem;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #FFA500;
+    border-color: #FFA500;
+    color: #fff;
+}
+
+.pagination .page-link:hover {
+    background-color: #FFF3E0;
+    color: #FF8C00;
+    border-color: #FFA500;
+}
+
+/* ========== No Results ========== */
 .no-results {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 200px;
-    color: #dc3545;
-    font-weight: bold;
-    font-size: 1.3rem;
+    color: #999;
+    font-weight: 600;
+    font-size: 1.1rem;
     text-align: center;
 }
 
+/* ========== Responsive ========== */
 @media (max-width: 768px) {
     .course-card {
         flex-direction: column;
@@ -131,7 +212,7 @@
     .action-box {
         width: 100%;
         border-left: none;
-        border-top: 2px solid #FFA500;
+        border-top: 3px solid #FFA500;
         flex-direction: row;
         padding: 16px;
         gap: 8px;
@@ -139,5 +220,10 @@
 
     .action-box .btn {
         flex: 1;
+        font-size: 0.82rem;
+    }
+
+    .details h5 {
+        font-size: 1.1rem;
     }
 }

@@ -1,52 +1,173 @@
 body {
-    background: linear-gradient(135deg, #FFA500 0%, #FFD280 100%);
+    background: #f5f5f9;
     min-height: 100vh;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    font-family: -apple-system, 'Segoe UI', sans-serif;
 }
 
-.card {
+.login-wrapper {
+    display: flex;
     width: 100%;
-    max-width: 440px;
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 36px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    max-width: 860px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.1);
 }
 
-.card h2 {
+.login-brand {
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FFB833 100%);
+    flex: 1;
+    padding: 48px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-brand::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.login-brand::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: -30px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.login-brand img {
+    height: 56px;
+    margin-bottom: 20px;
+    filter: brightness(0) invert(1);
+    position: relative;
+    z-index: 1;
+}
+
+.login-brand h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+}
+
+.login-brand p {
+    opacity: 0.9;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+}
+
+.login-form {
+    flex: 1;
+    background-color: #fff;
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-form h2 {
     color: #003366;
     font-weight: 800;
+    font-size: 1.5rem;
+    margin-bottom: 28px;
+}
+
+.login-form .form-label {
+    font-weight: 600;
+    color: #444;
+    font-size: 0.88rem;
+}
+
+.login-form .form-control {
+    border: 1.5px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 10px 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.login-form .form-control:focus {
+    border-color: #FFA500;
+    box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.1);
+}
+
+.login-form .input-group-text {
+    background-color: #FFF8EE;
+    border: 1.5px solid #e8e8e8;
+    border-right: none;
+    color: #FFA500;
 }
 
 .btn-login {
-    background-color: #FFA500;
-    border-color: #FFA500;
+    background: linear-gradient(135deg, #FF8C00, #FFA500);
+    border: none;
     color: #fff;
-    font-weight: 600;
+    font-weight: 700;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.25s ease;
 }
 
 .btn-login:hover {
-    background-color: #e69500;
-    border-color: #e69500;
+    background: linear-gradient(135deg, #e67e00, #FF8C00);
     color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3);
 }
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: #bbb;
+    font-size: 0.82rem;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+
+.divider::before { margin-right: 12px; }
+.divider::after { margin-left: 12px; }
 
 .action-links {
     display: flex;
     justify-content: center;
-    gap: 16px;
-    margin-top: 20px;
+    gap: 20px;
     flex-wrap: wrap;
 }
 
 .action-links a {
-    color: #003366;
+    color: #666;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -59,7 +180,20 @@ body {
 }
 
 @media (max-width: 768px) {
-    .card {
-        padding: 24px;
+    .login-wrapper {
+        flex-direction: column;
+        max-width: 440px;
+    }
+
+    .login-brand {
+        padding: 32px 24px;
+    }
+
+    .login-brand h1 {
+        font-size: 1.5rem;
+    }
+
+    .login-form {
+        padding: 32px 24px;
     }
 }

@@ -1,31 +1,53 @@
 .footer {
     font-family: -apple-system, 'Segoe UI', sans-serif;
-    font-size: 0.9rem;
-    line-height: 1.5;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    border-top: 4px solid #FFA500;
+    background-color: #1a1a2e !important;
 }
 
 .footer-logo {
     color: #FFA500;
     font-weight: 800;
+    font-size: 1.3rem;
     font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.5px;
 }
 
 .footer p {
     margin: 0;
-    color: #aaa;
+    color: #999;
 }
 
 .footer a {
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
+    transition: color 0.2s;
 }
 
 .footer a:hover {
-    color: #FFA500;
+    color: #FFA500 !important;
 }
 
 .footer img {
     background-color: #ffffff;
     padding: 4px;
     border-radius: 6px;
+}
+
+.footer .btn-outline-light {
+    border-color: rgba(255,255,255,0.2);
+    font-size: 0.82rem;
+    padding: 6px 16px;
+    transition: all 0.2s;
+}
+
+.footer .btn-outline-light:hover {
+    background-color: #FFA500;
+    border-color: #FFA500;
+}
+
+.footer-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 16px 0;
 }
