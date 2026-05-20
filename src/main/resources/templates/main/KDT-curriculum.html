@@ -48,115 +48,64 @@
   </form>
 
   <!-- 과정 카드 -->
-  <div class="row row-cols-1 g-3">
-    <div class="col" th:each="sessionList : ${sessionLists}">
-      <div class="course-card d-flex">
-
-        <img class="img-fluid" th:src="@{${sessionList.kdtSessionThumbnail} != null ? '/static/images/course/' + ${sessionList.kdtSessionThumbnail} : '/static/images/logo.png'}" alt="Course Image">
-
-        <!--        <img class="img-fluid"-->
-        <!--             th:src="${sessionList.kdtSessionStatus != 'WAITING'}-->
-        <!--              ? '/static/images/black.png'-->
-        <!--              : (${sessionList.kdtSessionThumbnail != null}-->
-        <!--                 ? '/static/images/course/' + sessionList.kdtSessionThumbnail-->
-        <!--                 : '/static/images/logo.png')"-->
-        <!--             alt="Course Image"-->
-        <!--             style="width: 30%;">-->
-
-        <div class="details flex-grow-1 p-3">
-          <!--          <h5 th:text="${sessionList.kdtSessionTitle}">빅데이터 서비스 구현 과정</h5>-->
-          <h5 th:text="${sessionList.kdtSessionTitle + ' (' + sessionList.kdtSessionNum} +'회차)'">빅데이터 서비스 구현 과정</h5>
-          <div>
-            <span class="badge bg-warning text-dark me-2">국민내일배움카드</span>
-            <span class="badge bg-primary" th:text="${sessionList.kdtCourseType}"></span>
+  <div class="course-list">
+    <div th:each="sessionList : ${sessionLists}" class="course-card">
+      <!-- 상단: 썸네일 + 정보 -->
+      <div class="card-top">
+        <div class="card-thumb">
+          <img th:src="@{${sessionList.kdtSessionThumbnail} != null ? '/static/images/course/' + ${sessionList.kdtSessionThumbnail} : '/static/images/logo.png'}" alt="Course Image">
+        </div>
+        <div class="card-info">
+          <div class="card-meta">
+            <span class="tag" th:text="${sessionList.kdtSessionCategory}">앱 개발</span>
+            <span class="tag" th:text="${sessionList.kdtCourseType}">K-디지털</span>
+            <span class="tag tag-free">전액 지원</span>
           </div>
-          <div>
-            <span class="badge bg-light text-dark border">
-              <strong>카테고리:</strong> <span th:text="${sessionList.kdtSessionCategory}">앱 개발</span>
-            </span>
-          </div>
-          <div class="row">
-            <div class="col-md-6 d-flex">
-              <strong>시작 일정:</strong>
-              <span th:text="${sessionList.kdtSessionStartDate}" class="ms-2">시작 일</span>
+          <h3 class="card-title" th:text="${sessionList.kdtSessionTitle + ' (' + sessionList.kdtSessionNum + '회차)'}">빅데이터 서비스 구현 과정</h3>
+          <div class="card-details">
+            <div class="detail-row">
+              <span class="detail-label">교육 기간</span>
+              <span class="detail-value">
+                <span th:text="${sessionList.kdtSessionStartDate}">2025-06-01</span> ~ <span th:text="${sessionList.kdtSessionEndDate}">2025-12-01</span>
+              </span>
             </div>
-            <div class="col-md-6 d-flex">
-              <strong>종료 일정:</strong>
-              <span th:text="${sessionList.kdtSessionEndDate}" class="ms-2">종료 일</span>
+            <div class="detail-row">
+              <span class="detail-label">수업 시간</span>
+              <span class="detail-value">
+                <span th:text="${sessionList.kdtSessionStartTime}">09:00</span> ~ <span th:text="${sessionList.kdtSessionEndTime}">18:00</span>
+              </span>
             </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6 d-flex">
-              <strong>시작 시간:</strong>
-              <span th:text="${sessionList.kdtSessionStartTime}" class="ms-2">수업 시작 시간</span>
-            </div>
-            <div class="col-md-6 d-flex">
-              <strong>종료 시간:</strong>
-              <span th:text="${sessionList.kdtSessionEndTime}" class="ms-2">수업 종료 시간</span>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6 d-flex">
-              <strong>교육일수:</strong>
-              <span th:text="${sessionList.kdtSessionTotalDay} + ' 일'" class="ms-2">교육일</span>
-            </div>
-            <div class="col-md-6 d-flex">
-              <strong>교육시간 합계:</strong>
-              <span th:text="${sessionList.kdtSessionTotalTime} + ' 시간'" class="ms-2">교육시간</span>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <strong>상태:</strong>
-              <span th:if="${sessionList.kdtSessionStatus == 'FINISHED'}">종료</span>
-              <span th:if="${sessionList.kdtSessionStatus == 'ONGOING'}">진행중</span>
-              <span th:if="${sessionList.kdtSessionStatus == 'WAITING'}">대기</span>
-            </div>
-            <div class="col-md-6">
-              <strong>교육비용:</strong> 100% 전액 지원
+            <div class="detail-row">
+              <span class="detail-label">총 교육</span>
+              <span class="detail-value">
+                <span th:text="${sessionList.kdtSessionTotalDay}">120</span>일 / <span th:text="${sessionList.kdtSessionTotalTime}">960</span>시간
+              </span>
             </div>
           </div>
         </div>
-
-        <div class="action-box d-flex flex-column justify-content-around p-3">
-          <!-- D-Day 텍스트 -->
-          <!--          <div class="text-center text-warning fw-bold fs-2" th:text="${sessionList.kdtSessionDday}">D-14</div>-->
-          <div th:if="${sessionList.kdtSessionDday == '모집 마감'}" class="text-center text-danger fw-bold fs-1">
-            모집 마감
-          </div>
-          <div th:if="${#strings.startsWith(sessionList.kdtSessionDday, 'D-D')}" class="text-center text-primary fw-bold fs-1" th:text="${sessionList.kdtSessionDday}">
-            D-14
-          </div>
-          <div th:unless="${sessionList.kdtSessionDday == '모집 마감' or #strings.startsWith(sessionList.kdtSessionDday, 'D-D')}"
-               class="text-center text-dark fw-bold fs-1" th:text="${sessionList.kdtSessionDday}">
-            나머지 텍스트
-          </div>
-
-          <!-- D-Day가 아니고 D-로 시작하는 날짜일 때만 "수강생 모집중" 표시 -->
-          <div th:if="${sessionList.kdtSessionDday != null and sessionList.kdtSessionDday.startsWith('D-') and not sessionList.kdtSessionDday.equals('D-Day 수강 시작')}">
-            <span class="text-success fs-3">수강생 모집중</span>
-          </div>
-
-          <!-- 버튼들 (FINISHED 제외) -->
-          <a class="btn btn-warning text-white"
-             th:href="@{/main/KDT/{kdtSessionId}/detail/detail(kdtSessionId=${sessionList.kdtSessionId})}"
-             th:if="${sessionList.kdtSessionStatus != 'FINISHED'}">상세 보기</a>
-
-          <a class="btn btn-info text-white"
-             th:href="@{/main/KDT-app-consult/{sessionList.kdtSessionId}(sessionList.kdtSessionId=${sessionList.kdtSessionId})}"
-             th:if="${sessionList.kdtSessionStatus != 'FINISHED'}">수강 신청</a>
-
-          <a class="btn btn-primary text-white"
-             th:href="@{/main/KDT-app-consult/{sessionList.kdtSessionId}(sessionList.kdtSessionId=${sessionList.kdtSessionId})}"
-             th:if="${sessionList.kdtSessionStatus != 'FINISHED'}">상담 신청</a>
+      </div>
+      <!-- 하단: D-Day + 버튼 -->
+      <div class="card-bottom">
+        <div class="card-status">
+          <!-- D-Day 뱃지 -->
+          <span th:if="${sessionList.kdtSessionDday.startsWith('D-') and sessionList.kdtSessionDday != 'D-Day'}"
+                class="dday-badge dday-recruiting" th:text="${sessionList.kdtSessionDday}">D-14</span>
+          <span th:if="${sessionList.kdtSessionDday == 'D-Day'}"
+                class="dday-badge dday-today">D-Day</span>
+          <span th:if="${sessionList.kdtSessionDday == '진행중'}"
+                class="dday-badge dday-ongoing">진행중</span>
+          <span th:if="${sessionList.kdtSessionDday == '교육 종료'}"
+                class="dday-badge dday-finished">종료</span>
+          <!-- 모집중 텍스트 -->
+          <span th:if="${sessionList.kdtSessionDday.startsWith('D-')}" class="recruit-text">모집중</span>
+          <span th:if="${sessionList.kdtSessionDday == '진행중'}" class="recruit-text ongoing-text">수강 가능</span>
         </div>
-
-
-
-
+        <div class="card-actions" th:if="${sessionList.kdtSessionStatus != 'FINISHED'}">
+          <a class="btn-detail"
+             th:href="@{/main/KDT/{kdtSessionId}/detail/detail(kdtSessionId=${sessionList.kdtSessionId})}">상세 보기</a>
+          <a class="btn-apply"
+             th:href="@{/main/KDT-app-consult/{sessionList.kdtSessionId}(sessionList.kdtSessionId=${sessionList.kdtSessionId})}">신청하기</a>
+        </div>
       </div>
     </div>
   </div>

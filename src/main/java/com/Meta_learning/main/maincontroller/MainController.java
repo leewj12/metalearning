@@ -107,33 +107,24 @@ public class MainController {
         // 세션 목록을 처리하면서 D-Day 계산
         List<KDTSessionViewDTO> sessionList = sessionPage.getContent();
 
-        // D-Day 계산
-        // D-Day 계산
         for (KDTSessionViewDTO session : sessionList) {
-            // 시작일시 만들기
-            LocalDateTime startDateTime = LocalDateTime.of(session.getKdtSessionStartDate(), session.getKdtSessionStartTime());
-            LocalDateTime now = LocalDateTime.now();
+            LocalDate startDate = session.getKdtSessionStartDate();
+            LocalDate endDate = session.getKdtSessionEndDate();
+            LocalDate today = LocalDate.now();
 
-            // 날짜만 비교하도록 수정
-            LocalDate startDate = startDateTime.toLocalDate();
-            LocalDate today = now.toLocalDate();
-
-            // D-Day 계산
-            String dDay = "";
-            if (startDate.isAfter(today)) {
-                // 시작일이 아직 오지 않은 경우
-                long daysBetween = java.time.Duration.between(now, startDateTime).toDays();
-                dDay = "D-" + (daysBetween);  // 시작일까지 남은 일수, D-0을 피하기 위해 1 추가
+            String dDay;
+            if (endDate.isBefore(today)) {
+                dDay = "교육 종료";
+            } else if (startDate.isAfter(today)) {
+                long daysBetween = java.time.temporal.ChronoUnit.DAYS.between(today, startDate);
+                dDay = "D-" + daysBetween;
             } else if (startDate.isEqual(today)) {
-                // 오늘 시작하는 경우
-                dDay = "D-Day 수강 시작";
+                dDay = "D-Day";
             } else {
-                // 이미 종료된 경우
-                dDay = "모집 마감";
+                dDay = "진행중";
             }
 
-            // D-Day 값을 session 객체에 추가
-            session.setKdtSessionDday(dDay); // D-Day 값을 세션에 추가
+            session.setKdtSessionDday(dDay);
         }
 
         //카테고리 db에서 꺼내와서 보내서 목록 만들어주는 거임
