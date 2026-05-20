@@ -120,12 +120,18 @@
 <div th:replace="~{fragments/header :: header}"></div>
 
 <main class="container">
+    <!-- 페이지 헤더 -->
+    <div class="text-center py-4">
+        <h1><i class="bi bi-play-circle-fill"></i> 온라인 강의</h1>
+        <p class="text-muted">다양한 IT 강의를 온라인으로 수강하세요</p>
+    </div>
+
     <div class="search-bar input-group mb-3">
         <!-- 검색창 -->
     </div>
 
     <!-- 강의 카드 목록 -->
-    <div class="card-container row">
+    <div class="card-container row" th:if="${courseList != null and !courseList.isEmpty()}">
         <div th:each="course : ${courseList}" class="col-12 col-sm-6 col-md-4 mb-4">
             <div class="card">
                 <img th:if="${course.courseThumbnail != null}" th:src="@{'/static/uploads/course/' + ${course.courseThumbnail}}"
@@ -170,6 +176,12 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- 강의가 없을 때 -->
+    <div th:if="${courseList == null or courseList.isEmpty()}" class="text-center py-5" style="min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <i class="bi bi-inbox" style="font-size: 3rem; color: #ddd;"></i>
+        <p class="text-muted mt-3 mb-0">등록된 강의가 없습니다.</p>
     </div>
 </main>
 
