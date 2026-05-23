@@ -1,6 +1,6 @@
 services:
   app:
-    build: .
+    image: ghcr.io/leewj12/metalearning:latest
     container_name: p3-metalearning
     ports:
       - "9091:9091"
