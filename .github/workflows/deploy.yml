@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   deploy:
+    if: false  # 2026-09 데모 서비스 종료로 배포 비활성화 (재개 시 이 줄 삭제)
     runs-on: ubuntu-latest
 
     steps:

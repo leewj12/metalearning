@@ -3,6 +3,8 @@
 Spring Boot 기반의 KDT(국비지원 디지털 훈련) 교육 관리 팀 프로젝트입니다.  
 수강생·강사·매니저·관리자 역할을 구분하고, 수강 신청부터 출석·테스트·수료까지 전 과정을 지원합니다.
 
+> ⚠️ **라이브 데모 종료 (2026-09)** — 포트폴리오 인프라(AWS) 비용 정리로 배포 서비스를 종료했습니다. 아래 배포 주소는 더 이상 정상 동작하지 않으며, 코드·구성 문서는 참고용으로 유지됩니다.
+
 ---
 
 ## 목차
@@ -25,7 +27,7 @@ Spring Boot 기반의 KDT(국비지원 디지털 훈련) 교육 관리 팀 프�
 | 개발 기간 | 2024.12 ~ 2025.01 |
 | 서버 포트 | 9091 |
 | 데이터베이스 | MySQL 8.0 |
-| 배포 주소 | https://metalearning.wonjae.cloud |
+| 배포 주소 | ~~https://metalearning.wonjae.cloud~~ (서비스 종료 2026-09) |
 
 ---
 
@@ -172,7 +174,7 @@ EC2에서는 이미지를 Pull만 하므로 서버 리소스를 절약하고 배
 ## EC2 배포
 
 - **서버**: AWS EC2 t3.small (서울 리전)
-- **도메인**: [metalearning.wonjae.cloud](https://metalearning.wonjae.cloud)
+- **도메인**: ~~metalearning.wonjae.cloud~~ (서비스 종료 2026-09)
 - **Elastic IP**: 3.37.108.102
 - **SSL**: Let's Encrypt (Certbot)
 - **리버스 프록시**: Nginx (443 → 9091)
